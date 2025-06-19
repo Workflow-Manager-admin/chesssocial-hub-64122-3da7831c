@@ -3,68 +3,82 @@ import { loadFeed, saveFeed, loadLikes, saveLikes, sanitizeCaption } from "./uti
 import EmojiBurst from "./EmojiBurst";
 import ConfettiBurst from "./Confetti";
 
-// 10 creative and chess-themed default posts, with images
+/**
+ * NEW: Meme-style placeholder feed posts (9) + glowing chess invite post (special at index 4).
+ * All images are meme/viral style, fit for a chess social app.
+ */
+const MEME_URLS = [
+  "https://i.imgflip.com/30b1gx.jpg", // Distracted boyfriend
+  "https://i.imgflip.com/1bij.jpg",   // Drake "hotline bling"
+  "https://i.imgflip.com/2fm6x.jpg",  // Expanding brain
+  "https://i.imgflip.com/26am.jpg",   // Grumpy cat
+  "https://i.imgur.com/ekZt1T1.jpg",  // Chessboard meme custom
+  "https://i.imgflip.com/3si4.jpg",   // Success Kid
+  "https://i.imgflip.com/9ehk.jpg",   // Futurama Fry
+  "https://i.imgur.com/vxFjEcR.png",  // Surprised Pikachu
+  "https://i.imgflip.com/5h7in9.jpg"  // Cat at computer
+];
 const DEFAULT_POSTS = [
   {
-    img: "https://images.pexels.com/photos/260024/pexels-photo-260024.jpeg?auto=compress&w=500",
-    caption: "Just played the Queen's Gambit… feeling bold! ♕🏁",
-    by: "Alex",
+    img: MEME_URLS[0],
+    caption: "When you blunder your queen but act like it was all part of the plan.",
+    by: "Chess Bro",
+    time: Date.now() - 1000 * 60 * 60 * 1
+  },
+  {
+    img: MEME_URLS[1],
+    caption: "Drake says no to studying openings, yes to YOLO pawn pushes.",
+    by: "Tactics Only",
     time: Date.now() - 1000 * 60 * 60 * 2
   },
   {
-    img: "https://images.pexels.com/photos/277124/pexels-photo-277124.jpeg?auto=compress&w=500",
-    caption: "Finals tomorrow, but first: blitz with Pawny. Who needs sleep?",
-    by: "Chris",
-    time: Date.now() - 1000 * 60 * 60 * 6
+    img: MEME_URLS[2],
+    caption: "Me: Sees mate in 1 // My brain: What if I move my king instead?",
+    by: "Big Brain",
+    time: Date.now() - 1000 * 60 * 60 * 5
   },
   {
-    img: "https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&w=500",
-    caption: "Check out my new wooden set! Smells like strategy. 😌",
-    by: "Rena",
+    img: MEME_URLS[3],
+    caption: "When Stockfish says +0.0 after you sacrifice everything. Grumpy resigned.",
+    by: "Purrplexed",
+    time: Date.now() - 1000 * 60 * 60 * 8
+  },
+  // Special Chess Invite Post (index 4)
+  {
+    img: "__CHESS_INVITE__",
+    caption: "✨ Ready for your next challenge? Enter the Chess Arena! ✨",
+    by: "CheckMates",
     time: Date.now() - 1000 * 60 * 60 * 10
   },
   {
-    img: "https://images.pexels.com/photos/6001857/pexels-photo-6001857.jpeg?auto=compress&w=500",
-    caption: "Tried the Bongcloud. 🤡 The results were… dazzlingly bad.",
-    by: "Lev",
-    time: Date.now() - 1000 * 60 * 60 * 22
+    img: MEME_URLS[4],
+    caption: "When your opponent thinks they're winning but you see the fork coming.",
+    by: "ForkLover",
+    time: Date.now() - 1000 * 60 * 60 * 13
   },
   {
-    img: "https://images.pexels.com/photos/1003264/pexels-photo-1003264.jpeg?auto=compress&w=500",
-    caption: "Endgame puzzle has me STUCK. Bishop or bust?!",
-    by: "Flo",
-    time: Date.now() - 1000 * 60 * 60 * 25
+    img: MEME_URLS[5],
+    caption: "Success Kid after not blundering for an entire blitz game.",
+    by: "BlitzMaster",
+    time: Date.now() - 1000 * 60 * 60 * 15
   },
-  // Invite post, placeholder — will be replaced with glowing card
   {
-    img: "__INVITE_PORTAL__",
-    caption: "You're deeper into the void… but can you think ahead?",
-    by: "Portal",
+    img: MEME_URLS[6],
+    caption: "\"Not sure if opponent is a genius or just mouse-slipped.\"",
+    by: "FryMorales",
+    time: Date.now() - 1000 * 60 * 60 * 20
+  },
+  {
+    img: MEME_URLS[7],
+    caption: "My face when I realize I played the opening as black—with the white pieces.",
+    by: "PikaPlays",
+    time: Date.now() - 1000 * 60 * 60 * 24
+  },
+  {
+    img: MEME_URLS[8],
+    caption: "Cat at computer reviewing your terrible chess blunders.",
+    by: "Coach Mittens",
     time: Date.now() - 1000 * 60 * 60 * 28
-  },
-  {
-    img: "https://images.pexels.com/photos/5412070/pexels-photo-5412070.jpeg?auto=compress&w=500",
-    caption: "Sir Blunderlot blundered his queen… again. 🤦 #Relatable",
-    by: "Milo",
-    time: Date.now() - 1000 * 60 * 60 * 33
-  },
-  {
-    img: "https://images.pexels.com/photos/207924/pexels-photo-207924.jpeg?auto=compress&w=500",
-    caption: "Stayed up till 2AM with Knightmare. Ruthless machine.",
-    by: "Sierra",
-    time: Date.now() - 1000 * 60 * 60 * 40
-  },
-  {
-    img: "https://images.pexels.com/photos/45170/pexels-photo-45170.jpeg?auto=compress&w=500",
-    caption: "First game for my little sibling 🥺 They beat me...",
-    by: "Jamie",
-    time: Date.now() - 1000 * 60 * 60 * 50
-  },
-  {
-    img: "https://images.pexels.com/photos/277013/pexels-photo-277013.jpeg?auto=compress&w=500",
-    caption: "Anyone want a puzzle challenge?? #Checkmates",
-    by: "Ada",
-    time: Date.now() - 1000 * 60 * 60 * 60
   }
 ];
 
@@ -80,7 +94,84 @@ function timeAgo(time) {
   return `${Math.floor(delta / 3600 / 24)}d ago`;
 }
 
-// Generate a glowing portal card UI
+/**
+ * ChessInvitePost: Memey glowing, featured, visual stand-out card for Chess Arena.
+ * - Shows a '✨ Featured' label with crown
+ * - Has a glow effect always
+ * - Calls parent's onArenaPortal and notifyArenaPortal prop on click
+ */
+function ChessInvitePost({ onInvite, glitch }) {
+  return (
+    <div
+      tabIndex="0"
+      className={
+        "social-feed-card social-feed-invite" +
+        (glitch ? " social-feed-invite-glitch" : "")
+      }
+      title="Enter the Chess Arena"
+      onClick={onInvite}
+      onKeyDown={e => ["Enter", " "].includes(e.key) && onInvite()}
+      style={{
+        boxShadow:
+          "0 0 48px 8px var(--accent), 0 0 16px 2px var(--primary)",
+        border: "2.7px solid var(--accent)",
+        minHeight: 144,
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "center",
+        position: "relative",
+        cursor: "pointer",
+        overflow: "visible"
+      }}
+    >
+      {/* Featured badge */}
+      <div
+        style={{
+          position: "absolute",
+          top: 12,
+          left: 16,
+          background: "rgba(255,245,205,0.92)",
+          color: "#db880a",
+          fontWeight: "bold",
+          fontSize: "1.02em",
+          borderRadius: 8,
+          padding: "3px 10px 3px 7px",
+          boxShadow: "0 2px 8px -3px #f6c760",
+          zIndex: 10,
+          display: "flex",
+          alignItems: "center",
+          gap: 6
+        }}
+      >
+        <span role="img" aria-label="crown" style={{marginRight:2}}>👑</span>
+        <span>Featured</span>
+      </div>
+      <div style={{ width: "100%", textAlign: "center" }}>
+        <div style={{ fontSize: "2.2em", marginBottom: 0 }}>
+          <span role="img" aria-label="portal">🌀</span>
+        </div>
+        <span style={{ fontWeight: "800", fontSize: "1.25em", letterSpacing: "0.01em" }}>
+          Enter the Chess Arena!
+        </span>
+        <div
+          style={{
+            marginTop: 12,
+            fontSize: "1.07em",
+            fontWeight: 500,
+            opacity: 0.96,
+            padding: 1
+          }}
+        >
+          <span role="img" aria-label="sparkles">✨</span>
+          {" "}Step up your game. Challenge minds, not just pawns!{" "}
+          <span role="img" aria-label="sparkles">✨</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Retain original PortalPost for any future use or narrative (infinite scroll)
 function PortalPost({ onEnterArena, glitch }) {
   return (
     <div
@@ -308,7 +399,16 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
 
       <div className="social-feed-grid">
         {visiblePosts.map((p, idx) => {
-          // Special portal invite post: glowing, clickable, with glitch reveal after scroll
+          // Render the special ChessInvitePost at post 5 (index 4)
+          if (p.img === "__CHESS_INVITE__")
+            return (
+              <ChessInvitePost
+                key="chess-invite"
+                glitch={portalGlitch}
+                onInvite={handlePortalClick}
+              />
+            );
+          // For any old narrative portal post fallback (not typical in new meme feed, but preserved for narrative effect)
           if (p.img === "__INVITE_PORTAL__")
             return (
               <PortalPost
