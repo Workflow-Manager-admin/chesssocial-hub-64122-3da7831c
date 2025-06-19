@@ -451,15 +451,19 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       </form>
 
       {/* Insta-style centered column feed */}
+      {/* Begin: Insta-style vertical centered card feed */}
       <div className="insta-feed-col">
         {visiblePosts.map((p, idx) => {
+          // Portal invite card: center it and style like a card (already is)
           if (p.img === "__CHESS_INVITE__") {
             return (
-              <ChessInvitePost
-                key="chess-invite"
-                glitch={portalGlitch}
-                onInvite={handlePortalClick}
-              />
+              <React.Fragment key="chess-invite">
+                <ChessInvitePost
+                  glitch={portalGlitch}
+                  onInvite={handlePortalClick}
+                />
+                {visiblePosts.length > 1 && <hr className="insta-feed-hr-divider" />}
+              </React.Fragment>
             );
           }
           // Animation drop-in for new post
@@ -468,20 +472,27 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
               ? (feedAnimIdx === -1 && idx === 0) ||
                 (feedAnimIdx === 0 && idx === 0)
               : false;
+          // Render each post as a "card", insert <hr> (soft border) between cards
           return (
-            <CardContent
-              key={idx}
-              p={p}
-              idx={idx}
-              animateDrop={animateDrop}
-              cardRef={idx === visiblePosts.length - 1 ? lastPostRef : undefined}
-            />
+            <React.Fragment key={idx}>
+              <CardContent
+                p={p}
+                idx={idx}
+                animateDrop={animateDrop}
+                cardRef={idx === visiblePosts.length - 1 ? lastPostRef : undefined}
+              />
+              {/* Show divider after every post except last */}
+              {idx < visiblePosts.length - 1 && (
+                <hr className="insta-feed-hr-divider" />
+              )}
+            </React.Fragment>
           );
         })}
         {loadingMore && (
           <div className="insta-feed-loadmore">Loading more posts…</div>
         )}
       </div>
+      {/* End: Insta-style card feed */}
     </div>
   );
 }

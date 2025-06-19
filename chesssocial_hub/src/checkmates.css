@@ -221,6 +221,93 @@ body {
   background: none;
   opacity: 0.48;
 }
+
+/* New: HR divider for post cards */
+.insta-feed-hr-divider {
+  border: none;
+  border-top: 1.5px solid rgba(100,100,180,0.15);
+  width: 87%;
+  margin: 0 auto 18px auto;
+  opacity: 0.37;
+  background: none;
+  /* Visual fallback for some browsers */
+  box-shadow: 0 1px 0 0 #f7f8fa;
+  height: 1px;
+}
+
+.insta-feed-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 478px;
+  margin: 0 auto;
+  /* Add centering for vertical feed if height is enough */
+  justify-content: flex-start;
+  min-height: 75vh;
+}
+
+.insta-feed-outer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: min(100vh, 600px);
+  padding-top: 30px;
+  margin: 0 auto 0 auto;
+  background: none;
+  position: relative;
+  /* Vertically center feed in viewport if not enough content */
+  justify-content: flex-start;
+}
+
+.insta-feed-card,
+.social-feed-card {
+  width: 100%;
+  background: var(--cardBg);
+  border-radius: 17px;
+  box-shadow: 0 10px 48px -22px rgba(47,34,104,0.12), 0 1px 6px -1px var(--dropGlow);
+  border: 1.7px solid rgba(100,100,180,0.13);
+  padding: 10px 8px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 160px;
+  max-width: 430px;
+  position: relative;
+  margin-bottom: 24px;
+  align-items: stretch;
+  transition: box-shadow 0.22s, background 0.3s;
+  overflow: visible;
+  /* Center card in the column */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 599px) {
+  .insta-feed-form-bar,
+  .insta-feed-form,
+  .insta-feed-card,
+  .social-feed-card {
+    max-width: 99vw;
+    min-width: unset;
+    width: 99vw;
+    margin: 0 auto 15px auto;
+    padding-left: 3vw;
+    padding-right: 4vw;
+  }
+  .insta-feed-modal {
+    min-width: 0;
+    padding: 16vw 3vw 10vw 4vw;
+    max-width: 97vw;
+  }
+  .insta-feed-col {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 99vw;
+  }
+}
+
 .insta-feed-badge {
   position: absolute;
   top: 12px;
