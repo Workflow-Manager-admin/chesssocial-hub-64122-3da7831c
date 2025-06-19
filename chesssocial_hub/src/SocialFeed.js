@@ -8,76 +8,72 @@ import ConfettiBurst from "./Confetti";
  * All images are meme/viral style, fit for a chess social app.
  */
 const MEME_URLS = [
-  "https://i.imgflip.com/30b1gx.jpg", // Distracted boyfriend
-  "https://i.imgflip.com/1bij.jpg",   // Drake "hotline bling"
-  "https://i.imgflip.com/2fm6x.jpg",  // Expanding brain
-  "https://i.imgflip.com/26am.jpg",   // Grumpy cat
-  "https://i.imgur.com/ekZt1T1.jpg",  // Chessboard meme custom
-  "https://i.imgflip.com/3si4.jpg",   // Success Kid
-  "https://i.imgflip.com/9ehk.jpg",   // Futurama Fry
-  "https://i.imgur.com/vxFjEcR.png",  // Surprised Pikachu
-  "https://i.imgflip.com/5h7in9.jpg"  // Cat at computer
+  "https://i.imgflip.com/30b1gx.jpg",   // Distracted boyfriend
+  "https://i.imgflip.com/1bij.jpg",     // Drake hotline bling
+  "https://i.imgflip.com/2fm6x.jpg",    // Expanding brain
+  "https://i.imgflip.com/26am.jpg",     // Grumpy cat
+  "https://i.imgur.com/0vYyRFn.jpg",    // Chessboard: "He blundered a piece!"
+  "https://i.imgflip.com/3si4.jpg",     // Success Kid
+  "https://i.imgflip.com/9ehk.jpg",     // Futurama Fry
+  "https://i.imgur.com/vxFjEcR.png",    // Surprised Pikachu
+  "https://i.imgflip.com/5h7in9.jpg"    // Cat at computer
 ];
+
+// 9 meme posts; index 4 is special chess invite
 const DEFAULT_POSTS = [
   {
     img: MEME_URLS[0],
-    caption: "When you blunder your queen but act like it was all part of the plan.",
-    by: "Chess Bro",
+    caption: "Trying the London System for the 10th time today.",
+    by: "ChessBeginner",
     time: Date.now() - 1000 * 60 * 60 * 1
   },
   {
     img: MEME_URLS[1],
-    caption: "Drake says no to studying openings, yes to YOLO pawn pushes.",
-    by: "Tactics Only",
-    time: Date.now() - 1000 * 60 * 60 * 2
+    caption: "Me ignoring all principles to trap a queen on move 5.",
+    by: "GambitFan",
+    time: Date.now() - 1000 * 60 * 60 * 2.8
   },
   {
     img: MEME_URLS[2],
-    caption: "Me: Sees mate in 1 // My brain: What if I move my king instead?",
-    by: "Big Brain",
-    time: Date.now() - 1000 * 60 * 60 * 5
+    caption: "Expanding brain: Opening, Middle, Endgame, Blundering in all three.",
+    by: "Brainiac",
+    time: Date.now() - 1000 * 60 * 60 * 5.1
   },
   {
     img: MEME_URLS[3],
-    caption: "When Stockfish says +0.0 after you sacrifice everything. Grumpy resigned.",
-    by: "Purrplexed",
-    time: Date.now() - 1000 * 60 * 60 * 8
+    caption: "Opponent: 'You there?' // Me: Deep in a puzzle battle.",
+    by: "CatNapper",
+    time: Date.now() - 1000 * 60 * 60 * 8.2
   },
-  // Special Chess Invite Post (index 4)
+  // Special: Chess Arena Invite with Featured/🏆 marker (index 4)
   {
     img: "__CHESS_INVITE__",
-    caption: "✨ Ready for your next challenge? Enter the Chess Arena! ✨",
+    caption: "👑 Enter the Chess Arena! A new challenger approaches…",
     by: "CheckMates",
-    time: Date.now() - 1000 * 60 * 60 * 10
+    time: Date.now() - 1000 * 60 * 60 * 12
   },
   {
     img: MEME_URLS[4],
-    caption: "When your opponent thinks they're winning but you see the fork coming.",
-    by: "ForkLover",
-    time: Date.now() - 1000 * 60 * 60 * 13
+    caption: "He blundered a piece! — So, I celebrated too early.",
+    by: "Underpromoted",
+    time: Date.now() - 1000 * 60 * 60 * 14.7
   },
   {
     img: MEME_URLS[5],
-    caption: "Success Kid after not blundering for an entire blitz game.",
-    by: "BlitzMaster",
-    time: Date.now() - 1000 * 60 * 60 * 15
+    caption: "Success Kid: Finally checkmated someone with a pawn promotion.",
+    by: "PawnStar",
+    time: Date.now() - 1000 * 60 * 60 * 18
   },
   {
     img: MEME_URLS[6],
-    caption: "\"Not sure if opponent is a genius or just mouse-slipped.\"",
+    caption: "Not sure if opponent is a genius or just mouse-slipped.",
     by: "FryMorales",
-    time: Date.now() - 1000 * 60 * 60 * 20
+    time: Date.now() - 1000 * 60 * 60 * 22
   },
   {
     img: MEME_URLS[7],
-    caption: "My face when I realize I played the opening as black—with the white pieces.",
-    by: "PikaPlays",
-    time: Date.now() - 1000 * 60 * 60 * 24
-  },
-  {
-    img: MEME_URLS[8],
-    caption: "Cat at computer reviewing your terrible chess blunders.",
-    by: "Coach Mittens",
+    caption: "When you memorize an opening, forget the next 25 moves.",
+    by: "SurprisedPikachu",
     time: Date.now() - 1000 * 60 * 60 * 28
   }
 ];
