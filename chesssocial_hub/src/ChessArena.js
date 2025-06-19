@@ -1,7 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 
-// Minimal chess.js - assume loaded via npm or CDN
-import Chess from "chess.js";
+/**
+ * Minimal chess.js - assume loaded via npm or CDN
+ * Updated to use named import since chess.js no longer exports default.
+ */
+import { Chess } from "chess.js";
 // Use dynamic import for chessboardjsx if not globally installed
 // eslint-disable-next-line
 import('chessboardjsx').then();
