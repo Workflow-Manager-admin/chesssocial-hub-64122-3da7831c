@@ -12,68 +12,67 @@ const MEME_URLS = [
   "https://i.imgflip.com/1bij.jpg",     // Drake hotline bling
   "https://i.imgflip.com/2fm6x.jpg",    // Expanding brain
   "https://i.imgflip.com/26am.jpg",     // Grumpy cat
-  "https://i.imgur.com/0vYyRFn.jpg",    // Chessboard: "He blundered a piece!"
+  "https://i.imgflip.com/6w2np6.jpg",   // Memedog "Much wow"
+  "https://i.imgur.com/0vYyRFn.jpg",    // Chessboard meme "He blundered a piece!"
   "https://i.imgflip.com/3si4.jpg",     // Success Kid
   "https://i.imgflip.com/9ehk.jpg",     // Futurama Fry
   "https://i.imgur.com/vxFjEcR.png",    // Surprised Pikachu
-  "https://i.imgflip.com/5h7in9.jpg"    // Cat at computer
 ];
-
-// 9 meme posts; index 4 is special chess invite
+// 9 meme posts; #5 is a glowing, featured Chess Arena invite
 const DEFAULT_POSTS = [
   {
     img: MEME_URLS[0],
-    caption: "Trying the London System for the 10th time today.",
-    by: "ChessBeginner",
-    time: Date.now() - 1000 * 60 * 60 * 1
+    caption: "Opponent: Resigns miserably.\nMe: Still blunders mate in 1 anyway.",
+    by: "ChessNoob420",
+    time: Date.now() - 1000 * 60 * 60 * 1.8
   },
   {
     img: MEME_URLS[1],
-    caption: "Me ignoring all principles to trap a queen on move 5.",
-    by: "GambitFan",
-    time: Date.now() - 1000 * 60 * 60 * 2.8
+    caption: "Drake: Developing pieces? Nah. Scholars' Mate? YES.",
+    by: "TacticFanboy",
+    time: Date.now() - 1000 * 60 * 60 * 3.2
   },
   {
     img: MEME_URLS[2],
-    caption: "Expanding brain: Opening, Middle, Endgame, Blundering in all three.",
-    by: "Brainiac",
-    time: Date.now() - 1000 * 60 * 60 * 5.1
+    caption: "My coach: Control the center!\nMe: Fianchettos both bishops and prays.",
+    by: "BlunderBeast",
+    time: Date.now() - 1000 * 60 * 60 * 5
   },
   {
     img: MEME_URLS[3],
-    caption: "Opponent: 'You there?' // Me: Deep in a puzzle battle.",
+    caption: "Grumpy cat hates endgames — and so do I.",
     by: "CatNapper",
-    time: Date.now() - 1000 * 60 * 60 * 8.2
+    time: Date.now() - 1000 * 60 * 60 * 7.9
   },
-  // Special: Chess Arena Invite with Featured/🏆 marker (index 4)
+  // ---- Glowing chess invite (#5) ----
   {
     img: "__CHESS_INVITE__",
-    caption: "👑 Enter the Chess Arena! A new challenger approaches…",
+    caption: "👑 Enter the Chess Arena! A new challenger appears…",
     by: "CheckMates",
     time: Date.now() - 1000 * 60 * 60 * 12
   },
   {
     img: MEME_URLS[4],
-    caption: "He blundered a piece! — So, I celebrated too early.",
-    by: "Underpromoted",
-    time: Date.now() - 1000 * 60 * 60 * 14.7
+    caption: "Much wow, such gambit. Lost on time tho.",
+    by: "DoggoChess",
+    time: Date.now() - 1000 * 60 * 60 * 16.2
   },
   {
     img: MEME_URLS[5],
-    caption: "Success Kid: Finally checkmated someone with a pawn promotion.",
-    by: "PawnStar",
-    time: Date.now() - 1000 * 60 * 60 * 18
+    caption: "He blundered a piece, so I celebrated with a queen sacrifice.",
+    by: "Underpromoted",
+    time: Date.now() - 1000 * 60 * 60 * 19.6
   },
   {
     img: MEME_URLS[6],
-    caption: "Not sure if opponent is a genius or just mouse-slipped.",
-    by: "FryMorales",
-    time: Date.now() - 1000 * 60 * 60 * 22
+    caption: "Finally checkmated someone by underpromoting to a knight.",
+    by: "PawnStar",
+    time: Date.now() - 1000 * 60 * 60 * 22.5
   },
   {
     img: MEME_URLS[7],
-    caption: "When you memorize an opening, forget the next 25 moves.",
-    by: "SurprisedPikachu",
+    caption: "Not sure if opponent is a genius or just mouse-slipped.",
+    by: "FryMorales",
     time: Date.now() - 1000 * 60 * 60 * 28
   }
 ];
