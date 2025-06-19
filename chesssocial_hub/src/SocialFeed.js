@@ -3,10 +3,7 @@ import { loadFeed, saveFeed, loadLikes, saveLikes, sanitizeCaption } from "./uti
 import EmojiBurst from "./EmojiBurst";
 import ConfettiBurst from "./Confetti";
 
-/**
- * NEW: Meme-style placeholder feed posts (9) + glowing chess invite post (special at index 4).
- * All images are meme/viral style, fit for a chess social app.
- */
+// Meme post images and default posts as before
 const MEME_URLS = [
   "https://i.imgflip.com/30b1gx.jpg",   // Distracted boyfriend
   "https://i.imgflip.com/1bij.jpg",     // Drake hotline bling
@@ -77,10 +74,7 @@ const DEFAULT_POSTS = [
   }
 ];
 
-// Easter egg settings
-const EASTER_EGG_KEYWORD = "chess";
-const CHECKMATE_KEYWORD = "checkmate";
-
+// Time ago utility
 function timeAgo(time) {
   const delta = Math.floor((Date.now() - time) / 1000);
   if (delta < 60) return "just now";
@@ -89,12 +83,7 @@ function timeAgo(time) {
   return `${Math.floor(delta / 3600 / 24)}d ago`;
 }
 
-/**
- * ChessInvitePost: Memey glowing, featured, visual stand-out card for Chess Arena.
- * - Shows a '✨ Featured' label with crown
- * - Has a glow effect always
- * - Calls parent's onArenaPortal and notifyArenaPortal prop on click
- */
+// Chess Arena invite special card component
 function ChessInvitePost({ onInvite, glitch }) {
   return (
     <div
@@ -116,10 +105,10 @@ function ChessInvitePost({ onInvite, glitch }) {
         justifyContent: "center",
         position: "relative",
         cursor: "pointer",
-        overflow: "visible"
+        overflow: "visible",
+        marginBottom: 28
       }}
     >
-      {/* Featured badge */}
       <div
         style={{
           position: "absolute",
@@ -166,56 +155,10 @@ function ChessInvitePost({ onInvite, glitch }) {
   );
 }
 
-// Retain original PortalPost for any future use or narrative (infinite scroll)
-function PortalPost({ onEnterArena, glitch }) {
-  return (
-    <div
-      tabIndex="0"
-      className={
-        "social-feed-card social-feed-invite" +
-        (glitch ? " social-feed-invite-glitch" : "")
-      }
-      title="Enter the Chess Arena"
-      onClick={onEnterArena}
-      onKeyDown={e => ["Enter", " "].includes(e.key) && onEnterArena()}
-      style={{
-        boxShadow: glitch
-          ? "0 0 33px 0 var(--accent), 0 0 18px 2px var(--primary)"
-          : undefined,
-        cursor: "pointer",
-        minHeight: 110,
-        alignItems: "center",
-        display: "flex",
-        justifyContent: "center"
-      }}
-    >
-      <div style={{ width: "100%", textAlign: "center" }}>
-        <span style={{ fontSize: "1.13rem" }}>
-          <span role="img" aria-label="portal" style={{ marginRight: 5 }}>
-            🌀{" "}
-          </span>
-          <span style={{ fontWeight: "700" }}>
-            {glitch ? "🪐 Welcome to CheckMates Arena 🪐"
-              : "Chess Portal: Click to enter the Arena" }
-          </span>
-        </span>
-        <div
-          style={{
-            marginTop: 7,
-            opacity: 0.85,
-            fontSize: "0.96rem",
-            letterSpacing: "0.02em"
-          }}
-        >
-          {glitch ? "You're deeper into the void… but can you think ahead?" : "Step through and challenge the AI bots"}
-        </div>
-      </div>
-    </div>
-  );
-}
-
+// Main Social Feed export
 // PUBLIC_INTERFACE
 export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
+  // Local state and logic
   const [posts, setPosts] = useState(() => loadFeed() || [...DEFAULT_POSTS]);
   const [likes, setLikes] = useState(() => loadLikes());
   const [caption, setCaption] = useState("");
@@ -229,7 +172,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   const [portalGlitch, setPortalGlitch] = useState(false);
   const lastPostRef = useRef();
 
-  // Infinite scroll behavior
+  // Infinite scroll - trigger next posts as user scrolls
   useEffect(() => {
     function onScroll() {
       if (
@@ -245,39 +188,36 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   }, [feedOffset, posts, checkmateFilter]);
 
   useEffect(() => {
-    // Easter egg: if the user posts a caption with "chess", trigger confetti and filter
+    // Easter egg: "chess" in post confetti + filter
     if (
-      caption.toLowerCase().includes(EASTER_EGG_KEYWORD) &&
+      caption.toLowerCase().includes("chess") &&
       confetti === false
     ) {
       setConfetti(true);
       setTimeout(() => setConfetti(false), 1200);
     }
-    // Checkmate easter egg: monochrome swirl form background
-    if (caption.toLowerCase().includes(CHECKMATE_KEYWORD)) {
+    // Easter egg: "checkmate" for swirl effect
+    if (caption.toLowerCase().includes("checkmate")) {
       setCheckmateFilter(true);
     } else {
       setCheckmateFilter(false);
     }
   }, [caption, confetti]);
 
-  // Glitch the portal invite after user scrolls past the feed (narrative effect)
+  // Portal invite glitch after scrolling deep
   useEffect(() => {
     if (feedOffset > DEFAULT_POSTS.length * 0.7 && !portalGlitch) {
-      // After the user scrolls/feed-more, "glitch" the portal card
       setTimeout(() => setPortalGlitch(true), 330);
     }
   }, [feedOffset, portalGlitch]);
-
-  // Animated drop-in effect on new posts
+  // Animate new post drop-in
   useEffect(() => {
     if (feedAnimIdx !== null) {
       const t = setTimeout(() => setFeedAnimIdx(null), 700);
       return () => clearTimeout(t);
     }
   }, [feedAnimIdx]);
-
-  // Save posts/likes on change
+  // Persist posts/likes to localStorage
   useEffect(() => {
     saveFeed(posts);
     saveLikes(likes);
@@ -285,52 +225,42 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
 
   function submitPost(e) {
     e.preventDefault();
-    if (!caption.trim()) {
-      return;
-    }
-    const isEgg = caption.toLowerCase().includes(EASTER_EGG_KEYWORD);
-    const isMate = caption.toLowerCase().includes(CHECKMATE_KEYWORD);
+    if (!caption.trim()) return;
+    const egg = caption.toLowerCase().includes("chess");
+    const mate = caption.toLowerCase().includes("checkmate");
     const newPost = {
       img: imgUrl ||
         "https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&w=500",
       caption: sanitizeCaption(caption),
       by: "You",
       time: Date.now(),
-      egg: isEgg,
-      mate: isMate
+      egg, mate
     };
     setPosts([newPost, ...posts]);
-    setFeedAnimIdx(-1); // for your own new post animation
+    setFeedAnimIdx(-1);
     setTimeout(() => setFeedAnimIdx(0), 18);
     setCaption("");
     setImgUrl("");
-    // Easter egg confetti!
-    if (isEgg) setConfetti(true);
+    if (egg) setConfetti(true);
     setTimeout(() => setConfetti(false), 1533);
   }
 
-  // Show only up to N posts for "infinite" scroll
+  // Easy: only show N posts for infinite scroll
   const visiblePosts = posts
-    .filter((p) => !(p.img === "__INVITE_PORTAL__")) // hide portal for sort
+    .filter((p) => !(p.img === "__INVITE_PORTAL__"))
     .concat(posts.find((p) => p.img === "__INVITE_PORTAL__") ? [posts.find((p) => p.img === "__INVITE_PORTAL__")] : [])
     .slice(0, feedOffset)
     .filter(p =>
       checkmateFilter
-        ? p.caption.toLowerCase().includes(CHECKMATE_KEYWORD)
+        ? p.caption.toLowerCase().includes("checkmate")
         : true
     );
 
-  // Like button interaction
   function handleLike(idx) {
-    setLikes((old) => {
-      const newer = { ...old, [idx]: !old[idx] };
-      return newer;
-    });
+    setLikes((old) => ({ ...old, [idx]: !old[idx] }));
     setEmojiBurstIdx(idx);
     setTimeout(() => setEmojiBurstIdx(-1), 620);
   }
-
-  // Infinite scroll - simulate load more
   function loadMorePosts() {
     if (!loadingMore && feedOffset < posts.length) {
       setLoadingMore(true);
@@ -340,36 +270,164 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       }, 650);
     }
   }
-
-  // Portal post triggers Chess Arena tab
   function handlePortalClick() {
     if (typeof notifyArenaPortal === "function") notifyArenaPortal();
     if (typeof onArenaPortal === "function") onArenaPortal();
   }
 
-  return (
-    <div>
-      <ConfettiBurst trigger={confetti} />
-      <form
+  // Add vertical floating "+" button for mobile
+  const [showModal, setShowModal] = useState(false);
+
+  // Modal auto-closes on post submit
+  useEffect(() => {
+    if (showModal && caption === "" && imgUrl === "") setShowModal(false);
+    // eslint-disable-next-line
+  }, [posts]);
+
+  // Card content with badge for default posts
+  function CardContent({p, idx, animateDrop, cardRef}) {
+    const isDefault = DEFAULT_POSTS.some(
+      d => d.caption === p.caption && d.by === p.by
+    );
+    // Tooltip for default post badge
+    return (
+      <div
         className={
-          "social-feed-form " +
-          (checkmateFilter ? "social-feed-form-easteregg" : "")
+          "insta-feed-card " +
+          (p.mate || checkmateFilter ? "social-feed-monochrome " : "") +
+          (animateDrop ? "social-feed-dropin " : "")
         }
+        ref={cardRef}
+        style={{
+          margin: "0 auto",
+          marginBottom: 24,
+          maxWidth: 430,
+        }}
+      >
+        {/* Badge */}
+        {isDefault && (
+          <div
+            className="insta-feed-badge"
+            tabIndex={0}
+            title="Default viral meme post (examples only)"
+          >
+            <span role="img" aria-label="badge">🥈</span>
+            <span className="insta-feed-badge-tip">Meme Example</span>
+          </div>
+        )}
+        <img
+          className="insta-feed-img"
+          src={p.img}
+          alt={p.caption}
+          style={{ userSelect: "none", pointerEvents: "none" }}
+          draggable={false}
+        />
+        <div className="insta-feed-caption">{p.caption}</div>
+        <div className="insta-feed-meta">
+          {p.by} &middot; {timeAgo(p.time)}
+        </div>
+        <button
+          className={
+            "insta-feed-like-btn" +
+            (likes[idx] ? " liked" : "")
+          }
+          aria-label={
+            likes[idx]
+              ? "Unlike post"
+              : "Like post"
+          }
+          onClick={() => handleLike(idx)}
+          type="button"
+          tabIndex={0}
+        >
+          <span style={{marginRight:2}} role="img" aria-label="heart">
+            {likes[idx] ? "💚" : "🤍"}
+          </span>
+          <EmojiBurst
+            emoji="💖"
+            show={emojiBurstIdx === idx}
+          />
+        </button>
+        {/* Divider */}
+        <div className="insta-feed-divider" />
+      </div>
+    );
+  }
+
+  // Render main social feed
+  return (
+    <div className="insta-feed-outer">
+      <ConfettiBurst trigger={confetti} />
+
+      {/* Floating action button for new post (mobile/desktop style) */}
+      <button
+        className="insta-feed-fab"
+        tabIndex={0}
+        title="Create new post"
+        aria-label="Create new post"
+        onClick={() => setShowModal(true)}
+        style={{display: showModal ? "none" : undefined}}
+      >
+        <span className="insta-feed-fab-icon">+</span>
+      </button>
+
+      {/* Modal overlay for new post */}
+      {showModal && (
+        <div className="insta-feed-modal-overlay" onClick={() => setShowModal(false)}>
+          <div
+            className="insta-feed-modal"
+            tabIndex={-1}
+            onClick={e => e.stopPropagation()}
+          >
+            <form
+              className="insta-feed-form"
+              onSubmit={e => {submitPost(e); setShowModal(false);}}
+              autoComplete="off"
+              style={{
+                boxShadow: confetti
+                  ? "0 0 23px 0 var(--highlight)"
+                  : undefined,
+                transition: "box-shadow 0.2s"
+              }}
+            >
+              <input
+                className={"insta-feed-input" + (checkmateFilter ? " social-feed-input-easteregg" : "")}
+                placeholder={
+                  checkmateFilter
+                    ? "🖤 'checkmate' detected! The void expands... Post anyway?"
+                    : "Write your move, share your mood (type 'chess' or 'checkmate' for a surprise)"
+                }
+                maxLength={350}
+                value={caption}
+                onChange={e => setCaption(e.target.value)}
+              />
+              <input
+                className="insta-feed-input"
+                placeholder="Paste an image URL (optional)..."
+                type="url"
+                value={imgUrl}
+                onChange={e => setImgUrl(e.target.value)}
+                style={{ marginTop: 0, marginBottom: 10 }}
+              />
+              <button className="insta-feed-submit" type="submit" tabIndex={0}>
+                Post
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile-friendly: fallback form visible for desktop only */}
+      <form
+        className={"insta-feed-form-bar" + (checkmateFilter ? " social-feed-form-easteregg" : "")}
         onSubmit={submitPost}
         autoComplete="off"
         style={{
-          marginTop: 16,
-          boxShadow: confetti
-            ? "0 0 23px 0 var(--highlight)"
-            : undefined,
-          transition: "box-shadow 0.2s"
+          display: showModal ? "none" : undefined
         }}
       >
         <input
-          className={
-            "social-feed-input-caption" +
-            (checkmateFilter ? " social-feed-input-easteregg" : "")
-          }
+          className={"insta-feed-input" + (checkmateFilter ? " social-feed-input-easteregg" : "")}
           placeholder={
             checkmateFilter
               ? "🖤 'checkmate' detected! The void expands... Post anyway?"
@@ -380,22 +438,22 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
           onChange={e => setCaption(e.target.value)}
         />
         <input
-          className="social-feed-input-caption"
+          className="insta-feed-input"
           placeholder="Paste an image URL (optional)..."
           type="url"
           value={imgUrl}
           onChange={e => setImgUrl(e.target.value)}
-          style={{ marginTop: 0, marginBottom: 9 }}
+          style={{ marginTop: 0, marginBottom: 10 }}
         />
-        <button className="social-feed-button" type="submit">
+        <button className="insta-feed-submit" type="submit" tabIndex={0}>
           Post
         </button>
       </form>
 
-      <div className="social-feed-grid">
+      {/* Insta-style centered column feed */}
+      <div className="insta-feed-col">
         {visiblePosts.map((p, idx) => {
-          // Render the special ChessInvitePost at post 5 (index 4)
-          if (p.img === "__CHESS_INVITE__")
+          if (p.img === "__CHESS_INVITE__") {
             return (
               <ChessInvitePost
                 key="chess-invite"
@@ -403,79 +461,27 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
                 onInvite={handlePortalClick}
               />
             );
-          // For any old narrative portal post fallback (not typical in new meme feed, but preserved for narrative effect)
-          if (p.img === "__INVITE_PORTAL__")
-            return (
-              <PortalPost
-                key="portal-invite"
-                glitch={portalGlitch}
-                onEnterArena={handlePortalClick}
-              />
-            );
-          // Card animation/easter eggs
+          }
+          // Animation drop-in for new post
           const animateDrop =
             feedAnimIdx !== null
               ? (feedAnimIdx === -1 && idx === 0) ||
                 (feedAnimIdx === 0 && idx === 0)
               : false;
           return (
-            <div
+            <CardContent
               key={idx}
-              className={
-                "social-feed-card " +
-                (p.mate || checkmateFilter ? "social-feed-monochrome " : "") +
-                (animateDrop
-                  ? "social-feed-dropin"
-                  : "")
-              }
-              ref={
-                idx === visiblePosts.length - 1
-                  ? lastPostRef
-                  : undefined
-              }
-            >
-              <img
-                className="social-feed-img"
-                src={p.img}
-                alt={p.caption}
-                style={{ userSelect: "none", pointerEvents: "none" }}
-                draggable={false}
-              />
-              <div className="social-feed-card-caption">
-                {p.caption}
-              </div>
-              <div className="social-feed-meta">
-                {p.by} &middot; {timeAgo(p.time)}
-              </div>
-              <button
-                className={
-                  "social-feed-like-btn" +
-                  (likes[idx] ? " liked" : "")
-                }
-                aria-label={
-                  likes[idx]
-                    ? "Unlike post"
-                    : "Like post"
-                }
-                onClick={() => handleLike(idx)}
-                type="button"
-                tabIndex={0}
-              >
-                <span role="img" aria-label="heart">
-                  {likes[idx] ? "💚" : "🤍"}
-                </span>
-                <EmojiBurst
-                  emoji="💖"
-                  show={emojiBurstIdx === idx}
-                />
-              </button>
-            </div>
+              p={p}
+              idx={idx}
+              animateDrop={animateDrop}
+              cardRef={idx === visiblePosts.length - 1 ? lastPostRef : undefined}
+            />
           );
         })}
+        {loadingMore && (
+          <div className="insta-feed-loadmore">Loading more posts…</div>
+        )}
       </div>
-      {loadingMore && (
-        <div className="social-feed-loadmore">Loading more posts…</div>
-      )}
     </div>
   );
 }

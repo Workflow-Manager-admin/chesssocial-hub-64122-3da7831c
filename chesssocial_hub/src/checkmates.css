@@ -122,42 +122,287 @@ body {
 
 /* --------------------------------------------- */
 /* SOCIAL FEED STYLES */
-.social-feed-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(270px,1fr));
-  gap: 28px;
-  margin-top: 20px;
-  margin-bottom: 40px;
-  padding-bottom: 8px;
-}
-.social-feed-form {
-  background: var(--cardBg);
-  padding: 22px 16px 16px 16px;
-  border-radius: 18px;
-  box-shadow: 0 8px 38px -12px rgba(42,35,68,0.08);
+/* --- Insta-style Social Feed: Single Column & FAB button --- */
+.insta-feed-outer {
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
-  position: relative;
-  overflow: hidden;
-  border: 1.5px solid rgba(79,70,229,0.11);
-}
-.social-feed-input-caption {
+  align-items: center;
   width: 100%;
-  padding: 11px 12px;
-  font-size: 1.02rem;
-  border-radius: 10px;
-  border: 1.2px solid #dcdff7;
-  margin-top: 6px;
-  margin-bottom: 8px;
-  background: var(--secondary);
+  min-height: min(100vh, 600px);
+  padding-top: 30px;
+  margin: 0 auto 0 auto;
+  background: none;
+  position: relative;
+}
+
+.insta-feed-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 478px;
+  margin: 0 auto;
+}
+
+.insta-feed-card {
+  width: 100%;
+  background: var(--cardBg);
+  border-radius: 17px;
+  box-shadow: 0 10px 48px -22px rgba(47,34,104,0.12), 0 1px 6px -1px var(--dropGlow);
+  border: 1.7px solid rgba(100,100,180,0.13);
+  padding: 10px 8px 14px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-height: 160px;
+  max-width: 430px;
+  position: relative;
+  margin-bottom: 24px;
+  align-items: stretch;
+  transition: box-shadow 0.22s, background 0.3s;
+  overflow: visible;
+}
+
+.insta-feed-img {
+  width: 100%;
+  aspect-ratio: 1.6/1;
+  object-fit: cover;
+  border-radius: 14px;
+  background: var(--boardBg);
+  margin-bottom: 5px;
+  user-select: none;
+  min-height: 137px;
+  max-height: 234px;
+}
+.insta-feed-caption {
+  font-size: 1.09rem;
   color: var(--text);
-  transition: border-color 0.23s;
+  font-weight: 500;
+  margin-bottom: 7px;
+  margin-top: 0;
+  line-height: 1.43;
+  white-space: pre-line;
 }
-.social-feed-input-caption:focus {
-  border-color: var(--primary);
+.insta-feed-meta {
+  font-size: 0.92rem;
+  color: #8681a8;
+  margin-bottom: 3px;
+  margin-top: 1px;
+}
+.insta-feed-like-btn {
   outline: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.26rem;
+  color: #aaa;
+  position: absolute;
+  right: 16px;
+  top: 13px;
+  padding: 4px 7px;
+  display: flex;
+  align-items: center;
+  vertical-align: middle;
+  transition: transform 0.13s, color 0.13s;
+  z-index: 6;
 }
+.insta-feed-like-btn.liked {
+  color: var(--highlight);
+  filter: drop-shadow(0 0 8px var(--highlight));
+  transform: scale(1.18);
+  animation: like-btn-pop 0.48s;
+}
+.insta-feed-divider {
+  border: none;
+  border-top: 1.1px dashed var(--border-color, #DDE0FA);
+  margin: 18px auto 0 auto;
+  width: 77%;
+  height: 1px;
+  background: none;
+  opacity: 0.48;
+}
+.insta-feed-badge {
+  position: absolute;
+  top: 12px;
+  left: 13px;
+  background: linear-gradient(115deg,#f4f4f6 85%,#fbe7be 100%);
+  color: #a09cc3;
+  border-radius: 7px;
+  font-size: 0.96rem;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+  padding: 3.5px 12px 3.5px 8px;
+  box-shadow: 0 1.7px 9px -2px #eedcc0;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  z-index: 10;
+  cursor: pointer;
+  border: 1px solid #ededed;
+}
+.insta-feed-badge-tip {
+  font-size: 0.91em;
+  font-weight: 400;
+  color: #8681a8;
+  padding-left: 3px;
+}
+.insta-feed-form-bar,
+.insta-feed-form {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto 20px auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--secondary);
+  padding: 17px 18px 13px 15px;
+  border-radius: 17px;
+  box-shadow: 0 5px 29px -13px var(--dropGlow);
+  border: 1.5px solid rgba(79,70,229,0.13);
+  gap: 9px;
+  position: relative;
+}
+.insta-feed-input {
+  width: 100%;
+  padding: 11px 13px;
+  font-size: 1.05rem;
+  border-radius: 10px;
+  border: 1.3px solid #dbdaf7;
+  background: var(--cardBg);
+  color: var(--text);
+  outline: none;
+  margin-top: 2px;
+  margin-bottom: 7px;
+  box-sizing: border-box;
+  transition: border-color 0.19s, background 0.19s;
+}
+.insta-feed-input:focus {
+  border-color: var(--primary);
+  background: #F4F8FF;
+}
+.insta-feed-submit {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 24px;
+  font-size: 1.04rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin-top: 2px;
+  cursor: pointer;
+  box-shadow: 0 2px 14px -7px var(--accent);
+  align-self: flex-end;
+  transition: background 0.15s, box-shadow 0.18s, transform 0.09s;
+  position: relative;
+}
+.insta-feed-submit:active {
+  background: var(--highlight);
+  transform: scale(0.96);
+}
+
+/* Floating Action Button (FAB) for new post */
+.insta-feed-fab {
+  position: fixed;
+  right: 31px;
+  bottom: 34px;
+  z-index: 37;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(120deg,var(--accent),var(--primary) 65%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 25px -5px var(--accent), 0 0 7px 1px var(--primary);
+  font-size: 2.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: box-shadow 0.2s, background 0.22s, transform 0.12s;
+}
+.insta-feed-fab:hover {
+  background: linear-gradient(138deg,var(--primary),var(--accent) 80%);
+  box-shadow: 0 2px 30px -3px var(--primary);
+  transform: scale(1.11);
+}
+.insta-feed-fab-icon {
+  display: block;
+  font-size: 2.1rem;
+  margin-top: -1px;
+}
+
+/* Modal overlay for FAB new post */
+.insta-feed-modal-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  z-index: 250;
+  background: rgba(42, 38, 60, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeInInstaModal 0.24s;
+}
+@keyframes fadeInInstaModal {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.insta-feed-modal {
+  background: var(--cardBg);
+  border-radius: 17px;
+  box-shadow: 0 15px 64px -11px var(--primary);
+  padding: 28px 30px 23px 28px;
+  z-index: 400;
+  min-width: 320px;
+  max-width: 460px;
+  width: 99vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.insta-feed-loadmore {
+  text-align: center;
+  margin: 16px 0 4px 0;
+  color: var(--primary);
+  font-weight: 500;
+  font-size: 1.12rem;
+  opacity: 0.82;
+  animation: feed-loadanim 2.2s infinite alternate;
+}
+
+/* Responsive/mobile tweaks for centered feed */
+@media (max-width: 599px) {
+  .insta-feed-form-bar,
+  .insta-feed-form,
+  .insta-feed-card {
+    max-width: 99vw;
+    min-width: unset;
+    width: 99vw;
+    margin: 0 auto 15px auto;
+    padding-left: 3vw;
+    padding-right: 4vw;
+  }
+  .insta-feed-modal {
+    min-width: 0;
+    padding: 16vw 3vw 10vw 4vw;
+    max-width: 97vw;
+  }
+  .insta-feed-col {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: 99vw;
+  }
+  .insta-feed-img {
+    min-height: 97px;
+    max-height: 40vw;
+    border-radius: 10px;
+  }
+  .insta-feed-badge,
+  .insta-feed-like-btn { left: 7vw !important; }
+}
+
 
 .social-feed-input-easteregg {
   animation: swirl-in-bg 0.7s;

@@ -43,3 +43,23 @@ javascript modules 49.9 KiB
     ./.ve/EditorOverlay.jsx 1.58 KiB [built]
     ./.ve/SidePanel.js 7.93 KiB [built]
 webpack 5.99.9 compiled successfully in 214 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.76 MiB
+  asset bundle.js 1.74 MiB [emitted] (name: main)
+  asset main.1632142dca2c06530fcf.hot-update.js 23.6 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.1632142dca2c06530fcf.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.76 MiB = bundle.js 1.74 MiB main.1632142dca2c06530fcf.hot-update.js 23.6 KiB
+cached modules 1.56 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./src/SocialFeed.js 17.7 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 171 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.77 MiB
+  asset bundle.js 1.75 MiB [emitted] (name: main)
+  asset main.2e605d48fe529537a528.hot-update.js 21.7 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.2e605d48fe529537a528.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.77 MiB = bundle.js 1.75 MiB main.2e605d48fe529537a528.hot-update.js 21.7 KiB
+cached modules 1.57 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./node_modules/css-loader/dist/cjs.js!./src/checkmates.css 18.5 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 62 ms
