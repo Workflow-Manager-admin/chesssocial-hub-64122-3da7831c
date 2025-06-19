@@ -7,13 +7,13 @@
 <i> [webpack-dev-server] On Your Network (IPv4): http://172.17.0.2:3000/
 <i> [webpack-dev-server] Content not from webpack is served from './public' directory
 Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
-asset bundle.js 1.75 MiB [emitted] (name: main)
+asset bundle.js 1.76 MiB [emitted] (name: main)
 asset index.html 1.98 KiB [emitted]
 runtime modules 27.5 KiB 14 modules
-cacheable modules 1.59 MiB
+cacheable modules 1.6 MiB
   modules by path ./node_modules/ 1.51 MiB 33 modules
-  modules by path ./src/ 70.1 KiB
-    modules by path ./src/*.js 40 KiB 10 modules
+  modules by path ./src/ 75.7 KiB
+    modules by path ./src/*.js 45.5 KiB 10 modules
     modules by path ./src/*.css 30.1 KiB
       ./src/index.css 2.23 KiB [built] [code generated]
       + 5 modules
@@ -23,229 +23,221 @@ cacheable modules 1.59 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1540 ms
+webpack 5.99.9 compiled successfully in 1671 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by status 1.76 MiB [cached] 1 asset
+asset index.html 1.98 KiB [emitted]
+cached modules 1.54 MiB (javascript) 27.5 KiB (runtime) [cached] 55 modules
+javascript modules 57.7 KiB
+  modules by path ./src/*.js 45.5 KiB
+    ./src/index.js 530 bytes [built]
+    ./src/App.js 3.27 KiB [built]
+    ./src/ThemeToggle.js 1.37 KiB [built]
+    ./src/theme.js 1.76 KiB [built]
+    ./src/SocialFeed.js 24.8 KiB [built]
+    ./src/ChessArena.js 9.45 KiB [built]
+    ./src/ChessTutorLoader.js 1.48 KiB [built]
+    + 3 modules
+  modules by path ./.ve/ 12.2 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built]
+    ./.ve/EditorOverlay.jsx 1.58 KiB [built]
+    ./.ve/SidePanel.js 7.93 KiB [built]
+webpack 5.99.9 compiled successfully in 385 ms
 assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.75 MiB
-  asset bundle.js 1.75 MiB [emitted] (name: main)
-  asset main.1703ddd98b3a247fb0b6.hot-update.js 854 bytes [emitted] [immutable] [hmr] (name: main)
-asset main.1703ddd98b3a247fb0b6.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.75 MiB = bundle.js 1.75 MiB main.1703ddd98b3a247fb0b6.hot-update.js 854 bytes
+assets by path *.js 1.8 MiB
+  asset bundle.js 1.76 MiB [emitted] (name: main)
+  asset main.b9e7aed841348a75f50a.hot-update.js 36.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.b9e7aed841348a75f50a.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.8 MiB = bundle.js 1.76 MiB main.b9e7aed841348a75f50a.hot-update.js 36.3 KiB
 cached modules 1.57 MiB [cached] 53 modules
 runtime modules 27.5 KiB 14 modules
-./src/SocialFeed.js 19.2 KiB [built]
-webpack 5.99.9 compiled successfully in 127 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.74 MiB
-  asset bundle.js 1.73 MiB [emitted] (name: main)
-  asset main.2a2c95404abd97db8ffa.hot-update.js 8.37 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.2a2c95404abd97db8ffa.hot-update.json 86 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.74 MiB = bundle.js 1.73 MiB main.2a2c95404abd97db8ffa.hot-update.js 8.37 KiB
-cached modules 1.57 MiB [cached] 49 modules
-runtime modules 27.5 KiB 14 modules
-javascript modules 3.31 KiB
-  ./src/App.js 3.27 KiB [code generated]
-  ./src/SocialFeed.js 39 bytes [built] [code generated] [1 error]
-
-ERROR in ./src/SocialFeed.js
-Module build failed (from ./node_modules/babel-loader/lib/index.js):
-SyntaxError: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/SocialFeed.js: Identifier 'showModal' has already been declared. (306:9)
-
-  304 |
-  305 |   // Add vertical floating "+" button for mobile
-> 306 |   const [showModal, setShowModal] = useState(false);
-      |          ^
-  307 |
-  308 |   // Modal auto-closes on post submit
-  309 |   useEffect(() => {
-    at constructor (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:363:19)
-    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:6609:19)
-    at ScopeHandler.checkRedeclarationInScope (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:1626:19)
-    at ScopeHandler.declareName (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:1592:12)
-    at JSXParserMixin.declareNameFromIdentifier (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7538:16)
-    at JSXParserMixin.checkIdentifier (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7534:12)
-    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7475:12)
-    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7511:16)
-    at JSXParserMixin.parseVarId (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13327:10)
-    at JSXParserMixin.parseVar (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13302:12)
-    at JSXParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13149:10)
-    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12770:23)
-    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12685:17)
-    at JSXParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12665:17)
-    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13235:61)
-    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13228:10)
-    at JSXParserMixin.parseBlock (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13216:10)
-    at JSXParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12035:24)
-    at JSXParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12021:10)
-    at /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13360:12
-    at JSXParserMixin.withSmartMixTopicForbiddingContext (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12338:14)
-    at JSXParserMixin.parseFunction (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13359:10)
-    at JSXParserMixin.parseExportDefaultExpression (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13822:19)
-    at JSXParserMixin.parseExport (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13743:25)
-    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12797:27)
-    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12685:17)
-    at JSXParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12662:17)
-    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13235:36)
-    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13228:10)
-    at JSXParserMixin.parseProgram (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12541:10)
-    at JSXParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12531:25)
-    at JSXParserMixin.parse (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:14410:10)
-    at parse (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:14444:38)
-    at parser (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/parser/index.js:41:34)
-    at parser.next (<anonymous>)
-    at normalizeFile (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
-    at normalizeFile.next (<anonymous>)
-    at run (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transformation/index.js:22:50)
-    at run.next (<anonymous>)
-    at transform (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transform.js:22:33)
-    at transform.next (<anonymous>)
-    at step (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:261:32)
-    at /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:273:13
-    at async.call.result.err.err (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:223:11)
- @ ./src/App.js 5:0-38 85:55-65
- @ ./src/index.js 5:0-24 11:32-35
-
-webpack 5.99.9 compiled with 1 error in 76 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.73 MiB
-  asset bundle.js 1.73 MiB [emitted] (name: main)
-  asset main.0a581b933eb4b1a67046.hot-update.js 854 bytes [emitted] [immutable] [hmr] (name: main)
-asset main.0a581b933eb4b1a67046.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.73 MiB = bundle.js 1.73 MiB main.0a581b933eb4b1a67046.hot-update.js 854 bytes
-cached modules 1.57 MiB [cached] 50 modules
-runtime modules 27.5 KiB 14 modules
-./src/SocialFeed.js 39 bytes [built] [1 error]
-
-ERROR in ./src/SocialFeed.js
-Module build failed (from ./node_modules/babel-loader/lib/index.js):
-SyntaxError: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/SocialFeed.js: Identifier 'showModal' has already been declared. (306:9)
-
-  304 |
-  305 |   // Add vertical floating "+" button for mobile
-> 306 |   const [showModal, setShowModal] = useState(false);
-      |          ^
-  307 |
-  308 |   // Modal auto-closes on post submit (for legacy entry only)
-  309 |   useEffect(() => {
-    at constructor (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:363:19)
-    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:6609:19)
-    at ScopeHandler.checkRedeclarationInScope (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:1626:19)
-    at ScopeHandler.declareName (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:1592:12)
-    at JSXParserMixin.declareNameFromIdentifier (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7538:16)
-    at JSXParserMixin.checkIdentifier (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7534:12)
-    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7475:12)
-    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7511:16)
-    at JSXParserMixin.parseVarId (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13327:10)
-    at JSXParserMixin.parseVar (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13302:12)
-    at JSXParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13149:10)
-    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12770:23)
-    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12685:17)
-    at JSXParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12665:17)
-    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13235:61)
-    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13228:10)
-    at JSXParserMixin.parseBlock (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13216:10)
-    at JSXParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12035:24)
-    at JSXParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12021:10)
-    at /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13360:12
-    at JSXParserMixin.withSmartMixTopicForbiddingContext (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12338:14)
-    at JSXParserMixin.parseFunction (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13359:10)
-    at JSXParserMixin.parseExportDefaultExpression (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13822:19)
-    at JSXParserMixin.parseExport (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13743:25)
-    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12797:27)
-    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12685:17)
-    at JSXParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12662:17)
-    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13235:36)
-    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13228:10)
-    at JSXParserMixin.parseProgram (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12541:10)
-    at JSXParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12531:25)
-    at JSXParserMixin.parse (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:14410:10)
-    at parse (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:14444:38)
-    at parser (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/parser/index.js:41:34)
-    at parser.next (<anonymous>)
-    at normalizeFile (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
-    at normalizeFile.next (<anonymous>)
-    at run (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transformation/index.js:22:50)
-    at run.next (<anonymous>)
-    at transform (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transform.js:22:33)
-    at transform.next (<anonymous>)
-    at step (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:261:32)
-    at /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:273:13
-    at async.call.result.err.err (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:223:11)
- @ ./src/App.js 5:0-38 85:55-65
- @ ./src/index.js 5:0-24 11:32-35
-
-webpack 5.99.9 compiled with 1 error in 63 ms
-assets by status 1.73 MiB [cached] 2 assets
-cached modules 1.57 MiB (javascript) 27.5 KiB (runtime) [cached] 64 modules
-./src/SocialFeed.js 39 bytes [built] [1 error]
-
-ERROR in ./src/SocialFeed.js
-Module build failed (from ./node_modules/babel-loader/lib/index.js):
-SyntaxError: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/SocialFeed.js: Identifier 'showModal' has already been declared. (306:9)
-
-  304 |
-  305 |   // Add vertical floating "+" button for mobile
-> 306 |   const [showModal, setShowModal] = useState(false);
-      |          ^
-  307 |
-  308 |   // Modal auto-closes on post submit (for legacy entry only)
-  309 |   useEffect(() => {
-    at constructor (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:363:19)
-    at JSXParserMixin.raise (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:6609:19)
-    at ScopeHandler.checkRedeclarationInScope (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:1626:19)
-    at ScopeHandler.declareName (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:1592:12)
-    at JSXParserMixin.declareNameFromIdentifier (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7538:16)
-    at JSXParserMixin.checkIdentifier (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7534:12)
-    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7475:12)
-    at JSXParserMixin.checkLVal (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:7511:16)
-    at JSXParserMixin.parseVarId (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13327:10)
-    at JSXParserMixin.parseVar (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13302:12)
-    at JSXParserMixin.parseVarStatement (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13149:10)
-    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12770:23)
-    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12685:17)
-    at JSXParserMixin.parseStatementListItem (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12665:17)
-    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13235:61)
-    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13228:10)
-    at JSXParserMixin.parseBlock (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13216:10)
-    at JSXParserMixin.parseFunctionBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12035:24)
-    at JSXParserMixin.parseFunctionBodyAndFinish (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12021:10)
-    at /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13360:12
-    at JSXParserMixin.withSmartMixTopicForbiddingContext (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12338:14)
-    at JSXParserMixin.parseFunction (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13359:10)
-    at JSXParserMixin.parseExportDefaultExpression (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13822:19)
-    at JSXParserMixin.parseExport (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13743:25)
-    at JSXParserMixin.parseStatementContent (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12797:27)
-    at JSXParserMixin.parseStatementLike (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12685:17)
-    at JSXParserMixin.parseModuleItem (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12662:17)
-    at JSXParserMixin.parseBlockOrModuleBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13235:36)
-    at JSXParserMixin.parseBlockBody (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:13228:10)
-    at JSXParserMixin.parseProgram (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12541:10)
-    at JSXParserMixin.parseTopLevel (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:12531:25)
-    at JSXParserMixin.parse (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:14410:10)
-    at parse (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/parser/lib/index.js:14444:38)
-    at parser (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/parser/index.js:41:34)
-    at parser.next (<anonymous>)
-    at normalizeFile (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transformation/normalize-file.js:64:37)
-    at normalizeFile.next (<anonymous>)
-    at run (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transformation/index.js:22:50)
-    at run.next (<anonymous>)
-    at transform (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@babel/core/lib/transform.js:22:33)
-    at transform.next (<anonymous>)
-    at step (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:261:32)
-    at /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:273:13
-    at async.call.result.err.err (/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/gensync/index.js:223:11)
- @ ./src/App.js 5:0-38 85:55-65
- @ ./src/index.js 5:0-24 11:32-35
-
-webpack 5.99.9 compiled with 1 error in 43 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.79 MiB
-  asset bundle.js 1.76 MiB [emitted] (name: main)
-  asset main.8fa94f87b3446bcfc7ae.hot-update.js 37.6 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.8fa94f87b3446bcfc7ae.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.79 MiB = bundle.js 1.76 MiB main.8fa94f87b3446bcfc7ae.hot-update.js 37.6 KiB
-cached modules 1.57 MiB [cached] 52 modules
-runtime modules 27.5 KiB 14 modules
-javascript modules 28 KiB
-  ./src/App.js 3.27 KiB [code generated]
+javascript modules 27.1 KiB
   ./src/SocialFeed.js 24.8 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 184 ms
+  ./src/supabasePosts.js 1.85 KiB [built] [code generated]
+  ./src/supabaseClient.js 500 bytes [built] [code generated]
+
+ERROR in ./src/supabaseClient.js 1:0-53
+Module not found: Error: Can't resolve '@supabase/supabase-js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve '@supabase/supabase-js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.jsx doesn't exist
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/supabasePosts.js 5:0-44 18:12-25 33:12-25 50:18-34
+ @ ./src/SocialFeed.js 5:0-72
+ @ ./src/App.js 5:0-38 85:55-65
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 112 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.8 MiB
+  asset bundle.js 1.76 MiB [emitted] (name: main)
+  asset main.7ff60ff2e55ab459f060.hot-update.js 34.2 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.7ff60ff2e55ab459f060.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.8 MiB = bundle.js 1.76 MiB main.7ff60ff2e55ab459f060.hot-update.js 34.2 KiB
+cached modules 1.57 MiB [cached] 55 modules
+runtime modules 27.5 KiB 14 modules
+./src/SocialFeed.js 26.5 KiB [built] [code generated]
+
+ERROR in ./src/supabaseClient.js 1:0-53
+Module not found: Error: Can't resolve '@supabase/supabase-js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve '@supabase/supabase-js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.jsx doesn't exist
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/supabasePosts.js 5:0-44 18:12-25 33:12-25 50:18-34
+ @ ./src/SocialFeed.js 5:0-72 226:33-43 240:10-26 329:12-19 383:12-19
+ @ ./src/App.js 5:0-38 85:55-65
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 226 ms
+assets by status 1.76 MiB [cached] 2 assets
+cached modules 1.6 MiB (javascript) 27.5 KiB (runtime) [cached] 70 modules
+
+LOG from webpack.FileSystemInfo
+<w> Managed item /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
++ 13 hidden lines
+
+ERROR in ./src/supabaseClient.js 1:0-53
+Module not found: Error: Can't resolve '@supabase/supabase-js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve '@supabase/supabase-js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js is not a file
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.jsx doesn't exist
+        existing directory /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js)
+            using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js)
+              no extension
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js is not a file
+              .js
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.js doesn't exist
+              .jsx
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js.jsx doesn't exist
+              as directory
+                existing directory /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js
+                  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js)
+                    using path: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js/index
+                      using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/@supabase/supabase-js/index)
+                        no extension
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js/index doesn't exist
+                        .js
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js/index.js doesn't exist
+                        .jsx
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/@supabase/supabase-js/index.jsx doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/supabasePosts.js 5:0-44 18:12-25 33:12-25 50:18-34
+ @ ./src/SocialFeed.js 5:0-72 226:33-43 240:10-26 329:12-19 383:12-19
+ @ ./src/App.js 5:0-38 85:55-65
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 29 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 2.57 MiB
+  asset bundle.js 2.17 MiB [emitted] (name: main)
+  asset main.3075654aa7e6d90aa54a.hot-update.js 416 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.3075654aa7e6d90aa54a.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 2.57 MiB = bundle.js 2.17 MiB main.3075654aa7e6d90aa54a.hot-update.js 416 KiB
+cached modules 1.6 MiB [cached] 55 modules
+runtime modules 27.5 KiB 14 modules
+orphan modules 409 bytes [orphan] 3 modules
+javascript modules 325 KiB
+  modules by path ./node_modules/@supabase/auth-js/dist/module/ 151 KiB 15 modules
+  modules by path ./node_modules/@supabase/realtime-js/ 63.4 KiB 12 modules
+  modules by path ./node_modules/@supabase/postgrest-js/dist/ 48 KiB 10 modules
+  modules by path ./node_modules/@supabase/storage-js/dist/module/ 37.5 KiB 8 modules
+  modules by path ./node_modules/@supabase/supabase-js/dist/module/ 16.3 KiB 7 modules
+  modules by path ./node_modules/@supabase/functions-js/dist/module/*.js 7.25 KiB
+    ./node_modules/@supabase/functions-js/dist/module/types.js 1.61 KiB [built] [code generated]
+    + 2 modules
+  ./src/supabaseClient.js 500 bytes [code generated]
+  ./node_modules/@supabase/node-fetch/browser.js 740 bytes [built] [code generated]
+webpack 5.99.9 compiled successfully in 325 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by path *.js 2.17 MiB
+  asset bundle.js 2.17 MiB [emitted] (name: main)
+  asset main.ef2d8a65ace81049b2ba.hot-update.js 854 bytes [emitted] [immutable] [hmr] (name: main)
+asset index.html 1.98 KiB [emitted]
+asset main.ef2d8a65ace81049b2ba.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 2.17 MiB = bundle.js 2.17 MiB main.ef2d8a65ace81049b2ba.hot-update.js 854 bytes
+cached modules 1.86 MiB [cached] 100 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 61.8 KiB
+  modules by path ./src/*.js 49.6 KiB
+    ./src/index.js 530 bytes [built]
+    ./src/App.js 3.27 KiB [built]
+    ./src/ThemeToggle.js 1.37 KiB [built]
+    ./src/theme.js 1.76 KiB [built]
+    ./src/SocialFeed.js 26.5 KiB [built]
+    ./src/ChessArena.js 9.45 KiB [built]
+    + 6 modules
+  modules by path ./.ve/ 12.2 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built]
+    ./.ve/EditorOverlay.jsx 1.58 KiB [built]
+    ./.ve/SidePanel.js 7.93 KiB [built]
+webpack 5.99.9 compiled successfully in 307 ms

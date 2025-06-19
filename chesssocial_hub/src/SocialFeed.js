@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import { loadFeed, saveFeed, loadLikes, saveLikes, sanitizeCaption } from "./utils";
+import { loadLikes, saveLikes, sanitizeCaption } from "./utils";
 import EmojiBurst from "./EmojiBurst";
 import ConfettiBurst from "./Confetti";
+import { fetchPosts, addPost, subscribeToPosts } from "./supabasePosts";
 
 // Meme post images and default posts as before
 const MEME_URLS = [
@@ -155,10 +156,9 @@ function ChessInvitePost({ onInvite, glitch }) {
   );
 }
 
-// PUBLIC_INTERFACE
 export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
-  // Local state and logic
-  const [posts, setPosts] = useState(() => loadFeed() || [...DEFAULT_POSTS]);
+  // Posts: fetched/shared via Supabase (not localStorage)
+  const [posts, setPosts] = useState([...DEFAULT_POSTS]);
   const [likes, setLikes] = useState(() => loadLikes());
   const [caption, setCaption] = useState("");
   const [imgUrl, setImgUrl] = useState("");
@@ -171,7 +171,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   const [portalGlitch, setPortalGlitch] = useState(false);
   const lastPostRef = useRef();
 
-  // New: FAB modal for new post
+  // Modal/fab state
   const [showModal, setShowModal] = useState(false);
   const [fabName, setFabName] = useState("");
   const [fabCaption, setFabCaption] = useState("");
@@ -179,6 +179,50 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   const [fabImageUpload, setFabImageUpload] = useState(null);
   const [fabUploadingUrl, setFabUploadingUrl] = useState("");
   const [fabError, setFabError] = useState({});
+
+  // Fetch posts from Supabase on mount, set up real-time subscription to changes
+  useEffect(() => {
+    let ignore = false;
+    let sub;
+    const initFeed = async () => {
+      try {
+        // Get latest posts (with fallback to DEFAULT_POSTS if table is empty)
+        const cloudPosts = await fetchPosts({ limit: 40 });
+        if (!ignore && cloudPosts?.length > 0) {
+          setPosts(cloudPosts);
+          setFeedOffset(7); // reset offset on full reload
+        }
+      } catch (_) {
+        // fallback: leave DEFAULT_POSTS
+      }
+    };
+    initFeed();
+
+    // Subscribe to real-time post inserts from Supabase
+    sub = subscribeToPosts({
+      onInsert: (newPost) => {
+        setPosts((prev) => {
+          // Prevent duplicate posts (if manually inserted or our own quickly appears)
+          if (prev.some((p) => p.time === newPost.time && p.img === newPost.img && p.caption === newPost.caption && p.by === newPost.by)) {
+            return prev;
+          }
+          return [newPost, ...prev];
+        });
+        setFeedAnimIdx(-1);
+        setTimeout(() => setFeedAnimIdx(0), 18);
+      }
+    });
+
+    return () => {
+      ignore = true;
+      try {
+        // Unsubscribe if channel exists
+        if (sub && typeof sub.unsubscribe === "function") {
+          sub.unsubscribe();
+        }
+      } catch (_) {}
+    };
+  }, []);
 
   // Infinite scroll - trigger next posts as user scrolls
   useEffect(() => {
@@ -196,7 +240,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   }, [feedOffset, posts, checkmateFilter]);
 
   useEffect(() => {
-    // Easter egg: "chess" in post confetti + filter
+    // "chess" in post confetti + filter
     if (
       caption.toLowerCase().includes("chess") &&
       confetti === false
@@ -204,7 +248,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       setConfetti(true);
       setTimeout(() => setConfetti(false), 1200);
     }
-    // Easter egg: "checkmate" for swirl effect
+    // "checkmate" for swirl effect
     if (caption.toLowerCase().includes("checkmate")) {
       setCheckmateFilter(true);
     } else {
@@ -225,13 +269,12 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       return () => clearTimeout(t);
     }
   }, [feedAnimIdx]);
-  // Persist posts/likes to localStorage
+  // Persist likes to localStorage only
   useEffect(() => {
-    saveFeed(posts);
     saveLikes(likes);
-  }, [posts, likes]);
+  }, [likes]);
 
-  // Modal auto-closes on post submit (for legacy entry only and also for new FAB modal)
+  // Modal auto-closes on post submit (legacy behavior)
   useEffect(() => {
     if (
       showModal &&
@@ -245,7 +288,8 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     // eslint-disable-next-line
   }, [posts]);
 
-  function submitPost(e) {
+  // Submit new post (desktop form)
+  async function submitPost(e) {
     e.preventDefault();
     if (!caption.trim()) return;
     const egg = caption.toLowerCase().includes("chess");
@@ -256,15 +300,22 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       caption: sanitizeCaption(caption),
       by: "You",
       time: Date.now(),
-      egg, mate
+      egg,
+      mate,
     };
-    setPosts([newPost, ...posts]);
-    setFeedAnimIdx(-1);
-    setTimeout(() => setFeedAnimIdx(0), 18);
-    setCaption("");
-    setImgUrl("");
-    if (egg) setConfetti(true);
-    setTimeout(() => setConfetti(false), 1533);
+    // Add to Supabase (persists for all users, triggers real-time)
+    try {
+      await addPost(newPost);
+      setCaption("");
+      setImgUrl("");
+      if (egg) setConfetti(true);
+      setTimeout(() => setConfetti(false), 1533);
+    } catch (err) {
+      // fallback: still display locally for demo (not persistent)
+      setPosts((prev) => [newPost, ...prev]);
+      setCaption("");
+      setImgUrl("");
+    }
   }
 
   // New FAB modal handlers
@@ -286,7 +337,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     if (fabImageUrl && fabImageUpload) err.img = "Choose either Image URL or upload a file, not both.";
     return err;
   }
-  function handleFabSubmit(e) {
+  async function handleFabSubmit(e) {
     e.preventDefault();
     const err = validateFab();
     if (Object.keys(err).length > 0) {
@@ -307,7 +358,12 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       by: fabName.trim(),
       time: Date.now()
     };
-    setPosts([newPost, ...posts]);
+    try {
+      await addPost(newPost);
+    } catch (err) {
+      // fallback (local only)
+      setPosts((prev) => [newPost, ...prev]);
+    }
     setFeedAnimIdx(-1);
     setTimeout(() => setFeedAnimIdx(0), 18);
     setShowModal(false);
@@ -335,6 +391,8 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     setEmojiBurstIdx(idx);
     setTimeout(() => setEmojiBurstIdx(-1), 620);
   }
+
+  // Infinite scroll offset changes based ONLY on how many posts are loaded; doesn't fetch more from supabase, since we read upfront
   function loadMorePosts() {
     if (!loadingMore && feedOffset < posts.length) {
       setLoadingMore(true);

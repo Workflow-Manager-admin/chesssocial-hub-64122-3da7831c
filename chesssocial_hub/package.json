@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@supabase/supabase-js": "^2.50.0",
     "chess.js": "^1.4.0",
     "chessboardjsx": "^2.4.7",
     "react": "^18.2.0",
