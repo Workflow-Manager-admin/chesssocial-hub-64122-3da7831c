@@ -354,19 +354,19 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     );
   }
 
-  // Render main social feed
+    // Render main social feed in a single vertical centered column with card UI, divider <hr>, and viewport centering
   return (
-    <div className="insta-feed-outer">
+    <div className="insta-feed-outer" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start" }}>
       <ConfettiBurst trigger={confetti} />
 
-      {/* Floating action button for new post (mobile/desktop style) */}
+      {/* Floating action button for new post, always bottom right, hidden if modal open */}
       <button
         className="insta-feed-fab"
         tabIndex={0}
         title="Create new post"
         aria-label="Create new post"
         onClick={() => setShowModal(true)}
-        style={{display: showModal ? "none" : undefined}}
+        style={{ display: showModal ? "none" : undefined }}
       >
         <span className="insta-feed-fab-icon">+</span>
       </button>
@@ -381,7 +381,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
           >
             <form
               className="insta-feed-form"
-              onSubmit={e => {submitPost(e); setShowModal(false);}}
+              onSubmit={e => { submitPost(e); setShowModal(false); }}
               autoComplete="off"
               style={{
                 boxShadow: confetti
@@ -417,7 +417,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
         </div>
       )}
 
-      {/* Mobile-friendly: fallback form visible for desktop only */}
+      {/* Desktop post entry bar, hidden if modal open or on mobile */}
       <form
         className={"insta-feed-form-bar" + (checkmateFilter ? " social-feed-form-easteregg" : "")}
         onSubmit={submitPost}
@@ -450,11 +450,22 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
         </button>
       </form>
 
-      {/* Insta-style centered column feed */}
-      {/* Begin: Insta-style vertical centered card feed */}
-      <div className="insta-feed-col">
+      {/* Feed: vertical, centered card layout with <hr> dividers and responsive styling */}
+      <div
+        className="insta-feed-col"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          width: "100%",
+          maxWidth: 478,
+          margin: "0 auto",
+          justifyContent: "flex-start",
+          minHeight: "75vh"
+        }}
+      >
         {visiblePosts.map((p, idx) => {
-          // Portal invite card: center it and style like a card (already is)
+          // Special invite post
           if (p.img === "__CHESS_INVITE__") {
             return (
               <React.Fragment key="chess-invite">
@@ -472,16 +483,23 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
               ? (feedAnimIdx === -1 && idx === 0) ||
                 (feedAnimIdx === 0 && idx === 0)
               : false;
-          // Render each post as a "card", insert <hr> (soft border) between cards
+          // Render each post as a "card" (white background, border, shadow, with divider below)
           return (
             <React.Fragment key={idx}>
-              <CardContent
-                p={p}
-                idx={idx}
-                animateDrop={animateDrop}
-                cardRef={idx === visiblePosts.length - 1 ? lastPostRef : undefined}
-              />
-              {/* Show divider after every post except last */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  width: "100%"
+                }}
+              >
+                <CardContent
+                  p={p}
+                  idx={idx}
+                  animateDrop={animateDrop}
+                  cardRef={idx === visiblePosts.length - 1 ? lastPostRef : undefined}
+                />
+              </div>
               {idx < visiblePosts.length - 1 && (
                 <hr className="insta-feed-hr-divider" />
               )}
@@ -492,7 +510,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
           <div className="insta-feed-loadmore">Loading more posts…</div>
         )}
       </div>
-      {/* End: Insta-style card feed */}
     </div>
   );
 }
