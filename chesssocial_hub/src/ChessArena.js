@@ -5,9 +5,8 @@ import React, { useState, useEffect, useRef } from "react";
  * Updated to use named import since chess.js no longer exports default.
  */
 import { Chess } from "chess.js";
-// Use dynamic import for chessboardjsx if not globally installed
-// eslint-disable-next-line
-import('chessboardjsx').then();
+// PUBLIC_INTERFACE
+import Chessboard from "chessboardjsx";
 
 const BOTS = [
   {
@@ -178,11 +177,8 @@ export default function ChessArena() {
   }
 
   function renderBoard() {
-    // Use window.Chessboardjsx if available globally
-    // eslint-disable-next-line
-    const Board = window.Chessboardjsx || (() => <div style={{height:340, background:"#eee", borderRadius:12}} />);
     return (
-      <Board
+      <Chessboard
         key={side}
         id="checkmates-board"
         position={fen}
