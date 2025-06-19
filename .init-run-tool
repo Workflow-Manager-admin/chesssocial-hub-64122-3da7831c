@@ -1,0 +1,4 @@
+{
+    "command": "PORT=<port> BROWSER=none npm start",
+    "working_directory": "/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub"
+}

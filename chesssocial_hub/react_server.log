@@ -1,0 +1,265 @@
+
+> react-kavia@0.1.0 start
+> cross-env EDIT_MODE=true webpack serve --config .ve/webpack.config.js --mode development
+
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://localhost:3000/, http://[::1]:3000/
+<i> [webpack-dev-server] On Your Network (IPv4): http://172.17.0.2:3000/
+<i> [webpack-dev-server] Content not from webpack is served from './public' directory
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+asset bundle.js 1.39 MiB [emitted] (name: main)
+asset index.html 1.98 KiB [emitted]
+runtime modules 27.5 KiB 14 modules
+modules by path ./node_modules/ 1.24 MiB 31 modules
+modules by path ./src/ 10.2 KiB
+  modules by path ./src/*.css 7.49 KiB 4 modules
+  modules by path ./src/*.js 2.75 KiB
+    ./src/index.js 530 bytes [built] [code generated]
+    ./src/App.js 2.24 KiB [built] [code generated]
+modules by path ./.ve/ 15.1 KiB
+  modules by path ./.ve/*.js 10.6 KiB 2 modules
+  modules by path ./.ve/*.css 2.93 KiB
+    ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
+    ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
+  ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 1223 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.53 MiB
+  asset bundle.js 1.46 MiB [emitted] (name: main)
+  asset main.65fa2fe91515dbd89a3d.hot-update.js 73.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.65fa2fe91515dbd89a3d.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.53 MiB = bundle.js 1.46 MiB main.65fa2fe91515dbd89a3d.hot-update.js 73.3 KiB
+cached modules 1.26 MiB [cached] 41 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 49.4 KiB
+  modules by path ./src/*.js 33.9 KiB
+    ./src/App.js 3.27 KiB [built] [code generated]
+    ./src/ThemeToggle.js 1.37 KiB [built] [code generated]
+    ./src/theme.js 1.76 KiB [built] [code generated]
+    ./src/SocialFeed.js 13.3 KiB [built] [code generated]
+    ./src/ChessArena.js 9.74 KiB [built] [code generated]
+    ./src/ChessTutorLoader.js 1.48 KiB [built] [code generated]
+    ./src/utils.js 887 bytes [built] [code generated]
+    + 2 modules
+  modules by path ./src/*.css 15.5 KiB
+    ./src/checkmates.css 2.24 KiB [built] [code generated]
+    ./node_modules/css-loader/dist/cjs.js!./src/checkmates.css 13.3 KiB [built] [code generated]
+
+ERROR in ./src/ChessArena.js 4:0-29
+Module not found: Error: Can't resolve 'chess.js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve 'chess.js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chess.js)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js.jsx doesn't exist
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/ChessArena.js 8:0-23
+Module not found: Error: Can't resolve 'chessboardjsx' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve 'chessboardjsx' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chessboardjsx)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx.jsx doesn't exist
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 2 errors in 305 ms
+assets by status 1.46 MiB [cached] 2 assets
+cached modules 1.31 MiB (javascript) 27.5 KiB (runtime) [cached] 66 modules
+
+LOG from webpack.FileSystemInfo
+<w> Managed item /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js isn't a directory or doesn't contain a package.json (see snapshot.managedPaths option)
++ 13 hidden lines
+
+ERROR in ./src/ChessArena.js 4:0-29
+Module not found: Error: Can't resolve 'chess.js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve 'chess.js' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chess.js)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js is not a file
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js.jsx doesn't exist
+        existing directory /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chess.js)
+            using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chess.js)
+              no extension
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js is not a file
+              .js
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js.js doesn't exist
+              .jsx
+                Field 'browser' doesn't contain a valid alias configuration
+                /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js.jsx doesn't exist
+              as directory
+                existing directory /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js
+                  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chess.js)
+                    using path: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js/index
+                      using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chess.js/index)
+                        no extension
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js/index doesn't exist
+                        .js
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js/index.js doesn't exist
+                        .jsx
+                          Field 'browser' doesn't contain a valid alias configuration
+                          /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chess.js/index.jsx doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/ChessArena.js 8:0-23
+Module not found: Error: Can't resolve 'chessboardjsx' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve 'chessboardjsx' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chessboardjsx)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx.jsx doesn't exist
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 2 errors in 32 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by path *.js 1.69 MiB
+  asset bundle.js 1.57 MiB [emitted] (name: main)
+  asset main.ea1dc05d6ede58d6ba4a.hot-update.js 123 KiB [emitted] [immutable] [hmr] (name: main)
+asset index.html 1.98 KiB [emitted]
+asset main.ea1dc05d6ede58d6ba4a.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.69 MiB = bundle.js 1.57 MiB main.ea1dc05d6ede58d6ba4a.hot-update.js 123 KiB
+cached modules 1.26 MiB [cached] 39 modules
+runtime modules 27.5 KiB 14 modules
+javascript modules 151 KiB
+  modules by path ./src/*.js 34.4 KiB
+    ./src/index.js 530 bytes [built]
+    ./src/App.js 3.27 KiB [built]
+    ./src/ThemeToggle.js 1.37 KiB [built]
+    ./src/theme.js 1.76 KiB [built]
+    ./src/SocialFeed.js 13.3 KiB [built]
+    + 5 modules
+  modules by path ./.ve/ 12.2 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built]
+    ./.ve/EditorOverlay.jsx 1.58 KiB [built]
+    ./.ve/SidePanel.js 7.93 KiB [built]
+  ./node_modules/chess.js/dist/esm/chess.js 105 KiB [built] [code generated]
+
+WARNING in ./src/ChessArena.js 77:47-52
+export 'default' (imported as 'Chess') was not found in 'chess.js' (possible exports: BISHOP, BLACK, Chess, DEFAULT_POSITION, KING, KNIGHT, Move, PAWN, QUEEN, ROOK, SEVEN_TAG_ROSTER, SQUARES, WHITE, validateFen, xoroshiro128)
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+WARNING in ./src/ChessArena.js 121:21-26
+export 'default' (imported as 'Chess') was not found in 'chess.js' (possible exports: BISHOP, BLACK, Chess, DEFAULT_POSITION, KING, KNIGHT, Move, PAWN, QUEEN, ROOK, SEVEN_TAG_ROSTER, SQUARES, WHITE, validateFen, xoroshiro128)
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+ERROR in ./src/ChessArena.js 8:0-23
+Module not found: Error: Can't resolve 'chessboardjsx' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve 'chessboardjsx' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  Parsed request is a module
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    resolve as module
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/node_modules doesn't exist or is not a directory
+      looking for modules in /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules
+        single file module
+          using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./node_modules/chessboardjsx)
+            no extension
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx doesn't exist
+            .js
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx.js doesn't exist
+            .jsx
+              Field 'browser' doesn't contain a valid alias configuration
+              /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx.jsx doesn't exist
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/node_modules/chessboardjsx doesn't exist
+      /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/code-generation/node_modules doesn't exist or is not a directory
+      /home/kavia/workspace/node_modules doesn't exist or is not a directory
+      /home/kavia/node_modules doesn't exist or is not a directory
+      /home/node_modules doesn't exist or is not a directory
+      /node_modules doesn't exist or is not a directory
+ @ ./src/App.js 6:0-38 89:49-59
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error and 2 warnings in 303 ms
