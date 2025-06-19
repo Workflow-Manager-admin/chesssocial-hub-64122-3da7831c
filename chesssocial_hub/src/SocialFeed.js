@@ -155,7 +155,6 @@ function ChessInvitePost({ onInvite, glitch }) {
   );
 }
 
-// Main Social Feed export
 // PUBLIC_INTERFACE
 export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   // Local state and logic
@@ -171,6 +170,15 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   const [checkmateFilter, setCheckmateFilter] = useState(false);
   const [portalGlitch, setPortalGlitch] = useState(false);
   const lastPostRef = useRef();
+
+  // New: FAB modal for new post
+  const [showModal, setShowModal] = useState(false);
+  const [fabName, setFabName] = useState("");
+  const [fabCaption, setFabCaption] = useState("");
+  const [fabImageUrl, setFabImageUrl] = useState("");
+  const [fabImageUpload, setFabImageUpload] = useState(null);
+  const [fabUploadingUrl, setFabUploadingUrl] = useState("");
+  const [fabError, setFabError] = useState({});
 
   // Infinite scroll - trigger next posts as user scrolls
   useEffect(() => {
@@ -223,6 +231,20 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     saveLikes(likes);
   }, [posts, likes]);
 
+  // Modal auto-closes on post submit (for legacy entry only and also for new FAB modal)
+  useEffect(() => {
+    if (
+      showModal &&
+      caption === "" &&
+      imgUrl === "" &&
+      fabName === "" &&
+      fabCaption === "" &&
+      fabImageUrl === "" &&
+      !fabImageUpload
+    ) setShowModal(false);
+    // eslint-disable-next-line
+  }, [posts]);
+
   function submitPost(e) {
     e.preventDefault();
     if (!caption.trim()) return;
@@ -245,6 +267,58 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     setTimeout(() => setConfetti(false), 1533);
   }
 
+  // New FAB modal handlers
+  function handleFabFileChange(e) {
+    const f = e.target.files && e.target.files[0];
+    if (f) {
+      setFabImageUpload(f);
+      setFabUploadingUrl(URL.createObjectURL(f));
+      setFabImageUrl("");
+    } else {
+      setFabImageUpload(null);
+      setFabUploadingUrl("");
+    }
+  }
+  function validateFab() {
+    const err = {};
+    if (!fabName.trim()) err.name = "Name is required!";
+    if (fabImageUrl && fabImageUrl.trim() && !/^https?:\/\/.+/.test(fabImageUrl.trim())) err.img = "Enter a valid image URL (must start http/https)";
+    if (fabImageUrl && fabImageUpload) err.img = "Choose either Image URL or upload a file, not both.";
+    return err;
+  }
+  function handleFabSubmit(e) {
+    e.preventDefault();
+    const err = validateFab();
+    if (Object.keys(err).length > 0) {
+      setFabError(err);
+      return;
+    }
+    let imageToUse = "";
+    if (fabImageUpload) {
+      imageToUse = fabUploadingUrl;
+    } else if (fabImageUrl && fabImageUrl.trim()) {
+      imageToUse = fabImageUrl.trim();
+    } else {
+      imageToUse = "https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&w=500";
+    }
+    const newPost = {
+      img: imageToUse,
+      caption: fabCaption ? sanitizeCaption(fabCaption) : "",
+      by: fabName.trim(),
+      time: Date.now()
+    };
+    setPosts([newPost, ...posts]);
+    setFeedAnimIdx(-1);
+    setTimeout(() => setFeedAnimIdx(0), 18);
+    setShowModal(false);
+    setFabName("");
+    setFabCaption("");
+    setFabImageUrl("");
+    setFabImageUpload(null);
+    setFabUploadingUrl("");
+    setFabError({});
+  }
+
   // Easy: only show N posts for infinite scroll
   const visiblePosts = posts
     .filter((p) => !(p.img === "__INVITE_PORTAL__"))
@@ -252,7 +326,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     .slice(0, feedOffset)
     .filter(p =>
       checkmateFilter
-        ? p.caption.toLowerCase().includes("checkmate")
+        ? p.caption && p.caption.toLowerCase().includes("checkmate")
         : true
     );
 
@@ -275,21 +349,11 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     if (typeof onArenaPortal === "function") onArenaPortal();
   }
 
-  // Add vertical floating "+" button for mobile
-  const [showModal, setShowModal] = useState(false);
-
-  // Modal auto-closes on post submit
-  useEffect(() => {
-    if (showModal && caption === "" && imgUrl === "") setShowModal(false);
-    // eslint-disable-next-line
-  }, [posts]);
-
   // Card content with badge for default posts
-  function CardContent({p, idx, animateDrop, cardRef}) {
+  function CardContent({ p, idx, animateDrop, cardRef }) {
     const isDefault = DEFAULT_POSTS.some(
       d => d.caption === p.caption && d.by === p.by
     );
-    // Tooltip for default post badge
     return (
       <div
         className={
@@ -340,7 +404,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
           type="button"
           tabIndex={0}
         >
-          <span style={{marginRight:2}} role="img" aria-label="heart">
+          <span style={{ marginRight: 2 }} role="img" aria-label="heart">
             {likes[idx] ? "💚" : "🤍"}
           </span>
           <EmojiBurst
@@ -354,62 +418,104 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     );
   }
 
-    // Render main social feed in a single vertical centered column with card UI, divider <hr>, and viewport centering
+  // Render main social feed in a single vertical centered column with card UI, divider <hr>, and viewport centering
   return (
     <div className="insta-feed-outer" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start" }}>
       <ConfettiBurst trigger={confetti} />
 
-      {/* Floating action button for new post, always bottom right, hidden if modal open */}
+      {/* New Floating FAB Button for post (bottom-right) */}
       <button
         className="insta-feed-fab"
         tabIndex={0}
         title="Create new post"
         aria-label="Create new post"
-        onClick={() => setShowModal(true)}
         style={{ display: showModal ? "none" : undefined }}
+        onClick={() => setShowModal(true)}
       >
-        <span className="insta-feed-fab-icon">+</span>
+        <span className="insta-feed-fab-icon" style={{ transition: "transform 0.23s" }}>+</span>
       </button>
 
-      {/* Modal overlay for new post */}
+      {/* Animated Modal popup for new FAB post */}
       {showModal && (
-        <div className="insta-feed-modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="insta-feed-modal-overlay" tabIndex={-1} onClick={() => setShowModal(false)}>
           <div
             className="insta-feed-modal"
-            tabIndex={-1}
+            tabIndex={0}
+            style={{ animation: "fadeInInstaModal 0.24s" }}
             onClick={e => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Add New Post"
           >
             <form
               className="insta-feed-form"
-              onSubmit={e => { submitPost(e); setShowModal(false); }}
+              onSubmit={handleFabSubmit}
               autoComplete="off"
               style={{
-                boxShadow: confetti
-                  ? "0 0 23px 0 var(--highlight)"
-                  : undefined,
+                boxShadow: confetti ? "0 0 23px 0 var(--highlight)" : undefined,
                 transition: "box-shadow 0.2s"
               }}
             >
-              <input
-                className={"insta-feed-input" + (checkmateFilter ? " social-feed-input-easteregg" : "")}
-                placeholder={
-                  checkmateFilter
-                    ? "🖤 'checkmate' detected! The void expands... Post anyway?"
-                    : "Write your move, share your mood (type 'chess' or 'checkmate' for a surprise)"
-                }
-                maxLength={350}
-                value={caption}
-                onChange={e => setCaption(e.target.value)}
-              />
-              <input
-                className="insta-feed-input"
-                placeholder="Paste an image URL (optional)..."
-                type="url"
-                value={imgUrl}
-                onChange={e => setImgUrl(e.target.value)}
-                style={{ marginTop: 0, marginBottom: 10 }}
-              />
-              <button className="insta-feed-submit" type="submit" tabIndex={0}>
+              <label style={{ fontWeight: 600, fontSize: "1.08em", marginBottom: 4 }}>
+                Name <span style={{ color: "var(--error)" }}>*</span>
+                <input
+                  className="insta-feed-input"
+                  style={{
+                    borderColor: fabError.name ? "var(--error)" : undefined,
+                    marginBottom: 2
+                  }}
+                  type="text"
+                  placeholder="Your name or handle (required)"
+                  autoFocus
+                  required
+                  value={fabName}
+                  onChange={e => setFabName(e.target.value)}
+                />
+                {fabError.name && <span style={{ color: "var(--error)", fontSize: '0.93em' }}>{fabError.name}</span>}
+              </label>
+              <label style={{ fontWeight: 600, fontSize: "1.08em", margin: '7px 0 2px 0' }}>
+                Caption
+                <textarea
+                  className="insta-feed-input"
+                  placeholder="Say something fun, witty, or chessy! (optional)"
+                  maxLength={350}
+                  value={fabCaption}
+                  rows={3}
+                  style={{ height: 46, resize: "vertical" }}
+                  onChange={e => setFabCaption(e.target.value)}
+                />
+              </label>
+              <label style={{ fontWeight: 600, fontSize: "1.08em", display: "block", margin: '7px 0 0 0' }}>
+                Image URL
+                <input
+                  className="insta-feed-input"
+                  placeholder="Paste an image URL (optional)"
+                  type="url"
+                  value={fabImageUrl}
+                  onChange={e => {
+                    setFabImageUrl(e.target.value); setFabImageUpload(null); setFabUploadingUrl("");
+                  }}
+                  style={{ marginTop: 0, marginBottom: 3 }}
+                  disabled={!!fabImageUpload}
+                />
+              </label>
+              <div style={{ margin: '5px 0 3px 0', fontWeight: 600, fontSize: "1.08em" }}>OR upload image
+                <input
+                  className="insta-feed-input"
+                  type="file"
+                  accept="image/*"
+                  style={{ padding: 2, marginTop: 5 }}
+                  onChange={handleFabFileChange}
+                  disabled={!!fabImageUrl}
+                />
+                {fabUploadingUrl && (
+                  <div style={{ marginTop: 7 }}>
+                    <img src={fabUploadingUrl} alt="preview" style={{ maxWidth: 175, maxHeight: 90, borderRadius: 7, boxShadow: "0 2.5px 16px -5px var(--primary)" }} />
+                  </div>
+                )}
+              </div>
+              {fabError.img && <span style={{ color: "var(--error)", fontSize: '0.97em' }}>{fabError.img}</span>}
+              <button className="insta-feed-submit" type="submit" tabIndex={0} style={{ marginTop: 10, fontSize: "1.14em" }}>
                 Post
               </button>
             </form>
@@ -483,7 +589,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
               ? (feedAnimIdx === -1 && idx === 0) ||
                 (feedAnimIdx === 0 && idx === 0)
               : false;
-          // Render each post as a "card" (white background, border, shadow, with divider below)
           return (
             <React.Fragment key={idx}>
               <div
