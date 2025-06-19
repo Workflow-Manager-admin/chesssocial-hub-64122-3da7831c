@@ -23,14 +23,23 @@ cacheable modules 1.58 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1455 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.76 MiB
-  asset bundle.js 1.74 MiB [emitted] (name: main)
-  asset main.4ee6df013882eb4b1188.hot-update.js 22.3 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.4ee6df013882eb4b1188.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.76 MiB = bundle.js 1.74 MiB main.4ee6df013882eb4b1188.hot-update.js 22.3 KiB
-cached modules 1.56 MiB [cached] 53 modules
-runtime modules 27.5 KiB 14 modules
-./src/SocialFeed.js 16.9 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 193 ms
+webpack 5.99.9 compiled successfully in 1419 ms
+Injecting EditorRootWrapper import: ../.ve/EditorRootWrapper
+assets by status 1.74 MiB [cached] 1 asset
+asset index.html 1.98 KiB [emitted]
+cached modules 1.53 MiB (javascript) 27.5 KiB (runtime) [cached] 55 modules
+javascript modules 49.9 KiB
+  modules by path ./src/*.js 37.7 KiB
+    ./src/index.js 530 bytes [built]
+    ./src/App.js 3.27 KiB [built]
+    ./src/ThemeToggle.js 1.37 KiB [built]
+    ./src/theme.js 1.76 KiB [built]
+    ./src/SocialFeed.js 16.9 KiB [built]
+    ./src/ChessArena.js 9.45 KiB [built]
+    ./src/ChessTutorLoader.js 1.48 KiB [built]
+    + 3 modules
+  modules by path ./.ve/ 12.2 KiB
+    ./.ve/EditorRootWrapper.js 2.68 KiB [built]
+    ./.ve/EditorOverlay.jsx 1.58 KiB [built]
+    ./.ve/SidePanel.js 7.93 KiB [built]
+webpack 5.99.9 compiled successfully in 214 ms
