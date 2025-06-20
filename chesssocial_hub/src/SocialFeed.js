@@ -960,7 +960,7 @@ export default function SocialFeed({ setActiveTab, onArenaPortal, notifyArenaPor
           // Special invite post
           if (p.img === "__CHESS_INVITE__") {
             return (
-              <React.Fragment key="chess-invite">
+              <div key="chess-invite">
                 <ChessInvitePost
                   glitch={portalGlitch}
                   onInvite={() => {
@@ -968,12 +968,12 @@ export default function SocialFeed({ setActiveTab, onArenaPortal, notifyArenaPor
                   }}
                 />
                 {visiblePosts.length > 1 && <hr className="insta-feed-hr-divider" />}
-              </React.Fragment>
+              </div>
             );
           }
           // Animation effect is gone
           return (
-            <React.Fragment key={idx}>
+            <div key={idx}>
               <div
                 style={{
                   display: "flex",
@@ -990,7 +990,7 @@ export default function SocialFeed({ setActiveTab, onArenaPortal, notifyArenaPor
               {idx < visiblePosts.length - 1 && (
                 <hr className="insta-feed-hr-divider" />
               )}
-            </React.Fragment>
+            </div>
           );
         })}
         {loadingMore && (
