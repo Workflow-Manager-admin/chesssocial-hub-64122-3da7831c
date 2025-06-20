@@ -1,11 +1,13 @@
-/* Basic CSS reset, no theme/dark/light logic */
 html, body, #root {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  font-family: 'Inter', Arial, sans-serif;
-  background: #fff;
+  font-family: 'Inter','SF Pro Display','Segoe UI', Arial, sans-serif;
+  background: linear-gradient(127deg, #f9fafb 67%, #edf0ff 100%);
   color: #111827;
+  letter-spacing: -0.012em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Make sure app takes full height */

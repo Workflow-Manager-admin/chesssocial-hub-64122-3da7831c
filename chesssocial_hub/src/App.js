@@ -1,6 +1,6 @@
-
 import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
+import "./apple.modern.css";
 import "./checkmates.css";
 import SocialFeed from "./SocialFeed";
 import ChessArena from "./ChessArena";
@@ -62,7 +62,7 @@ function App() {
         </div>
       </nav>
       <main>
-        <div className="checkmates-container">
+        <div className="checkmates-container apple-glass apple-fadein">
           {tab === "feed" && (
             <SocialFeed
               setActiveTab={setTab}
