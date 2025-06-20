@@ -107,22 +107,31 @@ function timeAgo(time) {
   return `${Math.floor(delta / 3600 / 24)}d ago`;
 }
 
-// Chess Arena invite special card component
-function ChessInvitePost({ onInvite, glitch }) {
+/**
+ * Chess Arena invite special card with premium metallic "shine" hover (when isChessHint=true)
+ * - Solid #C0C0C0 background
+ * - On hover: semi-transparent white diagonal shine, 0.3s ease-in
+ * - Soft silver glow, soft border
+ */
+function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
   return (
     <div
       tabIndex="0"
       className={
         "social-feed-card social-feed-invite" +
-        (glitch ? " social-feed-invite-glitch" : "")
+        (glitch ? " social-feed-invite-glitch" : "") +
+        (isChessHint ? " metallic-chess-invite" : "")
       }
       title="Enter the Chess Arena"
       onClick={onInvite}
       onKeyDown={e => ["Enter", " "].includes(e.key) && onInvite()}
       style={{
-        boxShadow:
-          "0 0 48px 8px var(--accent), 0 0 16px 2px var(--primary)",
-        border: "2.7px solid var(--accent)",
+        // Only apply these background styles if isChessHint flag is true (per subtask)
+        background: isChessHint ? "#C0C0C0" : undefined,
+        boxShadow: isChessHint
+          ? "0 0 36px 0 rgba(130,130,150,0.20), 0 0 13px 2px #C0C0C0"
+          : "0 0 48px 8px var(--accent), 0 0 16px 2px var(--primary)",
+        border: isChessHint ? "2.7px solid #e6e7ed" : "2.7px solid var(--accent)",
         minHeight: 144,
         alignItems: "center",
         display: "flex",
@@ -133,6 +142,10 @@ function ChessInvitePost({ onInvite, glitch }) {
         marginBottom: 28
       }}
     >
+      {/* metallic shine overlay: CSS only */}
+      {isChessHint && (
+        <span className="metallic-shine-anim" aria-hidden="true" />
+      )}
       <div
         style={{
           position: "absolute",

@@ -12,9 +12,9 @@ asset index.html 1.98 KiB [emitted]
 runtime modules 27.5 KiB 14 modules
 cacheable modules 1.61 MiB
   modules by path ./node_modules/ 1.51 MiB 33 modules
-  modules by path ./src/ 90.2 KiB
-    modules by path ./src/*.js 58.4 KiB 10 modules
-    modules by path ./src/*.css 31.8 KiB
+  modules by path ./src/ 91.9 KiB
+    modules by path ./src/*.js 59.5 KiB 10 modules
+    modules by path ./src/*.css 32.3 KiB
       ./src/index.css 2.23 KiB [built] [code generated]
       + 5 modules
   modules by path ./.ve/ 15.1 KiB
@@ -23,24 +23,24 @@ cacheable modules 1.61 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1556 ms
+webpack 5.99.9 compiled successfully in 1699 ms
 assets by status 1.98 KiB [cached] 1 asset
 assets by path *.js 1.82 MiB
   asset bundle.js 1.77 MiB [emitted] (name: main)
-  asset main.1b67426ccd8a712bce36.hot-update.js 47.6 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.1b67426ccd8a712bce36.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.82 MiB = bundle.js 1.77 MiB main.1b67426ccd8a712bce36.hot-update.js 47.6 KiB
+  asset main.91a151c71bb5f969d991.hot-update.js 48.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.91a151c71bb5f969d991.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.82 MiB = bundle.js 1.77 MiB main.91a151c71bb5f969d991.hot-update.js 48.3 KiB
 cached modules 1.57 MiB [cached] 53 modules
 runtime modules 27.5 KiB 14 modules
-./src/SocialFeed.js 37.8 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 228 ms
+./src/SocialFeed.js 38.5 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 249 ms
 assets by status 1.98 KiB [cached] 1 asset
 assets by path *.js 1.8 MiB
-  asset bundle.js 1.77 MiB [emitted] (name: main)
-  asset main.8d617bbe43c99d6f739f.hot-update.js 25.9 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.8d617bbe43c99d6f739f.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.8 MiB = bundle.js 1.77 MiB main.8d617bbe43c99d6f739f.hot-update.js 25.9 KiB
+  asset bundle.js 1.78 MiB [emitted] (name: main)
+  asset main.b661b3d13a86f35e68a0.hot-update.js 27.7 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.b661b3d13a86f35e68a0.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.8 MiB = bundle.js 1.78 MiB main.b661b3d13a86f35e68a0.hot-update.js 27.7 KiB
 cached modules 1.59 MiB [cached] 53 modules
 runtime modules 27.5 KiB 14 modules
-./node_modules/css-loader/dist/cjs.js!./src/checkmates.css 22.6 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 72 ms
+./node_modules/css-loader/dist/cjs.js!./src/checkmates.css 24.3 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 63 ms
