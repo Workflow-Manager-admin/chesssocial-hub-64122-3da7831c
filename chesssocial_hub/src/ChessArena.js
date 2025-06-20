@@ -132,6 +132,7 @@ export default function ChessArena() {
   }
 
   function handleMove({ sourceSquare, targetSquare }) {
+    if (!chess || typeof chess.move !== 'function') return;
     if (chess.game_over() || isBotThinking) return;
     const move = chess.move({
       from: sourceSquare,
@@ -150,29 +151,50 @@ export default function ChessArena() {
   function thinkAndMove(overrideGame) {
     setBotThinking(true);
     const game = overrideGame || chess;
-    if (!engine) return;
-    engine.postMessage("ucinewgame");
-    engine.postMessage(`position fen ${game.fen()}`);
-    engine.postMessage(`setoption name Skill Level value ${BOTS[botIdx].skill}`);
-    engine.postMessage(`go depth ${Math.max(5, BOTS[botIdx].level + 1)}`);
+    if (!engine || typeof engine.postMessage !== "function" || !game || typeof game.fen !== "function") {
+      setBotThinking(false);
+      return;
+    }
+    try {
+      engine.postMessage("ucinewgame");
+      engine.postMessage(`position fen ${game.fen()}`);
+      engine.postMessage(`setoption name Skill Level value ${BOTS[botIdx].skill}`);
+      engine.postMessage(`go depth ${Math.max(5, BOTS[botIdx].level + 1)}`);
+    } catch (err) {
+      setBotThinking(false);
+      return;
+    }
     const handler = (e) => {
-      const line = typeof e === "string" ? e : e.data;
+      let line = "";
+      try {
+        line = typeof e === "string" ? e : (e && e.data) ? e.data : "";
+      } catch (_) {}
+      if (typeof line !== "string") return;
       if (line.startsWith("bestmove")) {
         const move = line.split(" ")[1];
         if (move) {
-          const moveObj = game.move({
-            from: move.slice(0, 2),
-            to: move.slice(2, 4),
-            promotion: "q"
-          });
+          let moveObj = null;
+          try {
+            moveObj = game.move({
+              from: move.slice(0, 2),
+              to: move.slice(2, 4),
+              promotion: "q"
+            });
+          } catch (_) {}
           setFen(game.fen());
-          setMoves((ms) => [...ms, moveObj ? moveObj.san : move]);
+          setMoves((ms) => [...ms, moveObj && moveObj.san ? moveObj.san : move]);
         }
         setBotThinking(false);
-        engine.removeEventListener("message", handler);
+        try {
+          engine.removeEventListener("message", handler);
+        } catch (_) { /* Defensive: ignore if not possible */ }
       }
     };
-    engine.addEventListener("message", handler);
+    try {
+      engine.addEventListener("message", handler);
+    } catch (_) {
+      setBotThinking(false);
+    }
   }
 
   function handleBotSelect(idx) {

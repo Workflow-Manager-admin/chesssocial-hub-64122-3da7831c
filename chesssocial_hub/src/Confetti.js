@@ -4,6 +4,8 @@ import React, { useEffect } from "react";
 export default function ConfettiBurst({trigger}) {
   useEffect(() => {
     if (!trigger) return;
+    // Defensive: Check document.body exists
+    if (!document.body) return;
     // Super lightweight canvas confetti drop (fallback for most browsers)
     const canvas = document.createElement("canvas");
     canvas.className = "confetti-canvas";

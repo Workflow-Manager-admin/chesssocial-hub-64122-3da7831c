@@ -32,7 +32,17 @@ export function saveLikes(likes) {
   localStorage.setItem(LIKES_KEY, JSON.stringify(likes));
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Sanitizes a caption by trimming to 350 chars and removing vulnerable HTML tags.
+ * Prevents XSS and code injection by stripping markup.
+ */
 export function sanitizeCaption(txt) {
-  return String(txt).slice(0, 350);
+  // Replace common HTML and potentially dangerous chars to prevent injection
+  const safe = String(txt)
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/script/gi, "")
+    .slice(0, 350);
+  return safe;
 }
