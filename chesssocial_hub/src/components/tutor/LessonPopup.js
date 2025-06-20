@@ -58,18 +58,24 @@ export default function LessonPopup({
 
   // Neon animated shadow based on lesson color
   const neon = lesson.themeColor || "#4F46E5";
-  // Responsive width: 420px on desktop, 98vw on small screens
+  // Responsive width: up to 420px desktop, but always max 100vw-24px, and always vertically/horizontally centered
   const styleVars = {
     "--neon": neon,
-    "--modalWidth": "min(98vw, 420px)"
+    "--modalWidth": "min(100vw, 420px)", // fallback, overridden by CSS below
+    "--modalMaxHeight": "calc(100vh - 36px)",
   };
 
-  // Adaptive chessboard size
+  // Responsive chessboard width (leave enough space for modal padding and content)
   function getBoardWidth() {
+    const vw = typeof window !== "undefined" ? window.innerWidth : 420;
+    const vh = typeof window !== "undefined" ? window.innerHeight : 600;
+    // Modal horizontal pad is 40px (20*2), vertical: 59px (top:34+bottom:25)
     let w = 330;
-    if (window.innerWidth < 540) w = Math.max(198, window.innerWidth * 0.80);
-    else if (window.innerWidth < 720) w = 250;
-    return w;
+    if (vw < 550) w = Math.max(190, vw - 56);
+    else if (vw < 799) w = 240;
+    // Don't let chessboard height exceed modal's max usable height (subtract modal padding)
+    const modalContentHeight = Math.max(160, Math.min(w, vh - 240));
+    return Math.min(w, modalContentHeight);
   }
   const boardWidth = getBoardWidth();
 

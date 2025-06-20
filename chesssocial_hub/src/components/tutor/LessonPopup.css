@@ -3,6 +3,8 @@
   inset: 0;
   width: 100vw;
   height: 100vh;
+  min-width: 0;
+  min-height: 0;
   background: rgba(24, 19, 45, 0.33);
   backdrop-filter: blur(6.5px) saturate(1.1);
   display: flex;
@@ -10,6 +12,8 @@
   justify-content: center;
   z-index: 1111;
   animation: lessonModalFadeIn 0.28s cubic-bezier(.79,.1,.5,1.07);
+  overflow: auto; /* Ensure on tall content, allow inner scroll */
+  padding: 0;
 }
 
 @keyframes lessonModalFadeIn {
@@ -20,18 +24,23 @@
 .lesson-modal {
   position: relative;
   width: var(--modalWidth, 410px);
-  max-width: 98vw;
+  max-width: min(100vw, 430px);
+  max-height: var(--modalMaxHeight, calc(100vh - 36px));
   background: var(--cardBg, #fff);
   border-radius: 20px;
   box-shadow: 0 12px 54px -17px var(--neon, #4F46E5), 0 2px 13px 2px #0002;
-  overflow: visible;
+  overflow-y: auto;
+  overflow-x: hidden;
   outline: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 34px 20px 25px 20px;
   animation: lessonZoomPop 0.37s cubic-bezier(.4,.9,.5,1.14);
-  min-height: 420px;
+  min-height: 0;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
 }
 @keyframes lessonZoomPop {
   0% { 
@@ -44,6 +53,28 @@
     opacity: 1;
     filter: blur(0);
   }
+}
+
+/* Responsive modal sizing & containment */
+@media (max-width: 540px) {
+  .lesson-modal {
+    /* Use vertical padding and scroll for smaller screens, fill majority of viewport */
+    max-width: 98vw;
+    max-height: calc(100vh - 10vw);
+    min-width: 0;
+    padding: 7vw 3vw 12vw 3vw;
+    font-size: 95%;
+    margin: auto;
+  }
+  .lesson-modal-board {
+    min-width: 0;
+    max-width: 90vw;
+  }
+}
+
+/* Modal prevents horizontal scroll on mobile */
+body {
+  overscroll-behavior: contain; /* Prevent accidental swipe-to-refresh in modal */
 }
 
 .lesson-modal-glow {
@@ -65,7 +96,7 @@
   position: absolute;
   top: 15px;
   right: 13px;
-  z-index: 5;
+  z-index: 90;
   background: none;
   border: none;
   color: var(--neon, #4F46E5);
@@ -120,7 +151,13 @@
   border-radius: 13px;
   background: #E0E3EA;
   box-shadow: 0 4px 16px -8px var(--neon, #4F46E5)99;
-  max-width: 350px;
+  max-width: 100%;
+  min-width: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lesson-modal-tipbox {
@@ -151,6 +188,11 @@
   text-align: left;
   font-weight: 520;
   line-height: 1.5;
+  width: 100%;
+  max-width: 95vw;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 .lesson-modal-details li {
   margin-bottom: 4px;
