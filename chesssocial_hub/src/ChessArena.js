@@ -150,7 +150,7 @@ export default function ChessArena() {
     setLegalMoves([]);
 
     if (!chess || typeof chess.move !== "function") return;
-    if (typeof chess.gameOver === "function" ? chess.gameOver() : chess.game_over()) return;
+    if (typeof chess.gameOver === "function" ? chess.gameOver() : chess.gameOver()) return;
     if (isBotThinking) return;
 
     // Collect strictly legal moves as verbose objects from sourceSquare
