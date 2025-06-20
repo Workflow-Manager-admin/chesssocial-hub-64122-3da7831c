@@ -266,13 +266,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       setTimeout(() => setPortalGlitch(true), 330);
     }
   }, [feedOffset, portalGlitch]);
-  // Animate new post drop-in
-  useEffect(() => {
-    if (feedAnimIdx !== null) {
-      const t = setTimeout(() => setFeedAnimIdx(null), 700);
-      return () => clearTimeout(t);
-    }
-  }, [feedAnimIdx]);
+  // Animate new post drop-in -- NOOP (remove effect entirely, not needed)
   // Modal auto-closes on post submit (legacy behavior)
   useEffect(() => {
     if (
@@ -364,8 +358,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       saveFeed(next);
       return next;
     });
-    setFeedAnimIdx(-1);
-    setTimeout(() => setFeedAnimIdx(0), 18);
     setShowModal(false);
     setFabName("");
     setFabCaption("");
@@ -520,12 +512,10 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     const commentsToShow = comments.slice(-2);
     const cardId = `post-card-${idx}`;
 
-    // When either drop-in anim or inView, apply 'slide-in' class:
+    // Animation classes removed: render with only base card + optional monochrome
     const cardClass =
       "insta-feed-card instagram-style-card " +
-      (p.mate || checkmateFilter ? "social-feed-monochrome " : "") +
-      (animateDrop ? "social-feed-dropin " : "") +
-      (inView ? "social-feed-slidein" : "");
+      (p.mate || checkmateFilter ? "social-feed-monochrome " : "");
 
     return (
       <div
@@ -932,11 +922,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
               </React.Fragment>
             );
           }
-          const animateDrop =
-            feedAnimIdx !== null
-              ? (feedAnimIdx === -1 && idx === 0) ||
-                (feedAnimIdx === 0 && idx === 0)
-              : false;
+          // Animation effect is gone
           return (
             <React.Fragment key={idx}>
               <div
@@ -949,7 +935,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
                 <CardContent
                   p={p}
                   idx={idx}
-                  animateDrop={animateDrop}
                   cardRef={idx === visiblePosts.length - 1 ? lastPostRef : undefined}
                 />
               </div>

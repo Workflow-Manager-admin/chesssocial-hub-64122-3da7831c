@@ -542,42 +542,7 @@ body {
   background: var(--highlight);
   transform: scale(0.95);
 }
-.social-feed-dropin {
-  animation: feedcard-drop 0.83s cubic-bezier(0.18,0.68,0.66,1.19);
-}
-
-.social-feed-slidein {
-  animation: feedcard-slidein 0.97s cubic-bezier(0.17,0.55,0.44,1.11);
-  opacity: 1 !important;
-}
-
-@keyframes feedcard-slidein {
-  0% {
-    opacity: 0;
-    transform: translateY(36px) scale(0.93) skewY(2deg);
-    filter: blur(4px);
-  }
-  55% {
-    opacity: 1;
-    transform: translateY(-8px) scale(1.03) skewY(-2deg);
-    filter: blur(0px);
-  }
-  80% {
-    transform: translateY(4px) scale(1.00);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: none;
-  }
-}
-
-@keyframes feedcard-drop {
-  0% { opacity: 0; transform: translateY(-90px) scale(0.90) rotate(-5deg);}
-  40% { opacity: 1; transform: translateY(10px) scale(1.02) rotate(2deg);}
-  60% {transform: translateY(-7px) scale(0.99); }
-  100%{ opacity:1; transform: translateY(0) scale(1);}
-}
+/* Removed .social-feed-dropin and .social-feed-slidein classes and associated keyframes: no longer rendered on post card appearance */
 .social-feed-card {
   background: var(--cardBg);
   border-radius: 16px;
