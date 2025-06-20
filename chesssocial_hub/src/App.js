@@ -11,19 +11,20 @@ const TABS = [
   { key: "feed", label: "Social Feed" }
 ];
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * ChessSocialHub App: main container. Contains logic for activeTab and rendering SocialFeed and ChessArena.
+ */
 function App() {
-  // Only one tab now: 'feed'
-  const [tab, setTab] = useState(TABS[0].key);
+  // Main tab state: 'feed' or 'chess'
+  const [tab, setTab] = useState("feed");
 
   useEffect(() => {
     applyTheme(getInitialTheme());
   }, []);
 
-  // These are now unused but kept just in case SocialFeed calls onArenaPortal/notifyArenaPortal in future
-  // They will only set the existing tab (which is 'feed'), so do nothing disruptive
-  const handlePortalTab = useCallback(() => {}, []);
-  const notifyArenaPortal = () => {};
+  // Remove unused helpers; instead, define the handler for ChessInvite:
+  const handleArenaTab = useCallback(() => setTab("chess"), []);
 
   return (
     <div className="app">
@@ -34,13 +35,14 @@ function App() {
           </span>
           CheckMates
         </div>
-        <div className="checkmates-tabs" role="tablist">
+        {/* Tabs UI is hidden, but Social Feed can trigger Chess Arena */}
+        <div className="checkmates-tabs" role="tablist" style={{ display: "none" }}>
           <button
-            key={"feed"}
-            className={"checkmates-tab active"}
+            key="feed"
+            className={tab === "feed" ? "checkmates-tab active" : "checkmates-tab"}
             onClick={() => setTab("feed")}
             role="tab"
-            aria-selected={true}
+            aria-selected={tab === "feed"}
             tabIndex={0}
             style={{
               fontWeight: 700,
@@ -49,6 +51,20 @@ function App() {
           >
             Social Feed
           </button>
+          <button
+            key="chess"
+            className={tab === "chess" ? "checkmates-tab active" : "checkmates-tab"}
+            onClick={() => setTab("chess")}
+            role="tab"
+            aria-selected={tab === "chess"}
+            tabIndex={0}
+            style={{
+              fontWeight: 700,
+              fontSize: "1.07rem"
+            }}
+          >
+            Chess Arena
+          </button>
         </div>
         <span className="theme-toggle">
           <ThemeToggle />
@@ -56,11 +72,16 @@ function App() {
       </nav>
       <main>
         <div className="checkmates-container">
-          {/* Only Social Feed tab remains */}
-          <SocialFeed
-            onArenaPortal={handlePortalTab}
-            notifyArenaPortal={notifyArenaPortal}
-          />
+          {/* Conditional rendering: show feed or Chess Arena */}
+          {tab === "feed" && (
+            <SocialFeed
+              setActiveTab={setTab}
+              onArenaPortal={handleArenaTab}
+            />
+          )}
+          {tab === "chess" && (
+            <ChessArena />
+          )}
         </div>
       </main>
     </div>

@@ -134,6 +134,13 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
     zIndex: 12,
     position: "relative"
   };
+  // Temporary log for dev validation
+  const handleInvite = () => {
+    console.log("[DEBUG] Chess Arena portal handler triggered.");
+    if (typeof onInvite === "function") {
+      onInvite();
+    }
+  };
   return (
     <div
       tabIndex="0"
@@ -143,8 +150,8 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
         (isChessHint ? " metallic-chess-invite" : "")
       }
       title="Enter the Chess Arena"
-      onClick={onInvite}
-      onKeyDown={e => ["Enter", " "].includes(e.key) && onInvite()}
+      onClick={handleInvite}
+      onKeyDown={e => ["Enter", " "].includes(e.key) && handleInvite()}
       style={{
         // Retain metallic BGC, but ensure text stands out
         background: isChessHint ? "#C0C0C0" : undefined,
@@ -225,7 +232,7 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
 }
 
 // PUBLIC_INTERFACE
-export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
+export default function SocialFeed({ setActiveTab, onArenaPortal, notifyArenaPortal }) {
   // Load posts from localStorage on mount (fallback to DEFAULT_POSTS)
   const [posts, setPosts] = useState(() => {
     const loaded = loadFeed();
@@ -956,7 +963,9 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
               <React.Fragment key="chess-invite">
                 <ChessInvitePost
                   glitch={portalGlitch}
-                  onInvite={handlePortalClick}
+                  onInvite={() => {
+                    if (typeof onArenaPortal === "function") onArenaPortal();
+                  }}
                 />
                 {visiblePosts.length > 1 && <hr className="insta-feed-hr-divider" />}
               </React.Fragment>
