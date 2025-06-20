@@ -172,9 +172,21 @@ export default function ChessArena() {
     setSelectedSquare(null);
     setLegalMoves([]);
 
-    if (!chess || typeof chess.move !== "function") return;
-    if (isGameOverWrapper(chess)) return;
-    if (isBotThinking) return;
+    // Logging: Entry for move attempt
+    // N.B. This logs even for illegal move attempts.
+    // Only logs detailed steps if move proceeds below.
+    if (!chess || typeof chess.move !== "function") {
+      console.log("[SKIP] No chess instance or move method is unavailable.");
+      return;
+    }
+    if (isGameOverWrapper(chess)) {
+      console.log("[SKIP] Move rejected: Game is over.");
+      return;
+    }
+    if (isBotThinking) {
+      console.log("[SKIP] Move ignored: Bot is currently thinking.");
+      return;
+    }
 
     // Collect strictly legal moves as verbose objects from sourceSquare
     const legalMovesVerbose = chess.moves({ square: sourceSquare, verbose: true });
@@ -184,6 +196,7 @@ export default function ChessArena() {
 
     if (!legalMoveObj) {
       setMoveError("Illegal move! Only highlighted moves are allowed.");
+      console.log("[SKIP] Attempted move was not legal from selection:", { from: sourceSquare, to: targetSquare });
       return null;
     }
 
@@ -202,7 +215,7 @@ export default function ChessArena() {
         // Explicit logging for player move, with clear message & layout
         console.log("Player move registered", move.san);
 
-        // Ensuring delayed AI trigger with setTimeout in handleMove as required
+        // Wrap AI-block with detailed logs to trace all decisions
         if (
           !isBotThinking &&
           (
@@ -210,15 +223,31 @@ export default function ChessArena() {
             (chess.turn() === "w" && side === "black")
           )
         ) {
-          console.log("AI move triggered");
+          console.log("AI block entered (conditions satisfied):", {
+            botThinking: isBotThinking,
+            chessTurn: chess.turn(),
+            side
+          });
+          console.log("AI move triggered"); // Exact requirement phrase
           setBotThinking(true);
           setTimeout(() => {
             thinkAndMove();
           }, 500);
+        } else {
+          // Log skipped scenarios with reasons
+          if (isBotThinking) {
+            console.log("[AI SKIP] Did not trigger: Bot was already thinking.");
+          } else if (
+            (chess.turn() === "b" && side !== "white") ||
+            (chess.turn() === "w" && side !== "black")
+          ) {
+            console.log("[AI SKIP] AI block skipped: Not appropriate side/turn; chessTurn:", chess.turn(), "side:", side);
+          }
         }
       }
     } else {
       setMoveError("Unexpected invalid move. Try again.");
+      console.log("[ERROR] Move object falsy after chess.move(). Should be impossible if legalMoveObj is valid.");
     }
     return move;
   }
@@ -297,6 +326,7 @@ export default function ChessArena() {
     setBotThinking(true);
     const game = overrideGame || chess;
     if (!engine || typeof engine.postMessage !== "function" || !game || typeof game.fen !== "function") {
+      console.log("[SKIP] thinkAndMove aborted: Engine not ready or game/fen invalid.");
       setBotThinking(false);
       return;
     }
@@ -308,6 +338,7 @@ export default function ChessArena() {
       engine.postMessage(`setoption name Skill Level value ${BOTS[botIdx].skill}`);
       engine.postMessage(`go depth ${Math.max(5, BOTS[botIdx].level + 1)}`);
     } catch (err) {
+      console.log("[ERROR] Failed to send commands to Stockfish engine:", err);
       setBotThinking(false);
       return;
     }
@@ -327,7 +358,9 @@ export default function ChessArena() {
               to: move.slice(2, 4),
               promotion: "q"
             });
-          } catch (_) {}
+          } catch (_e) {
+            console.log("[ERROR] Exception during AI move application:", _e);
+          }
           // Log the choice in required style
           if (moveObj && moveObj.san) {
             console.log("AI chose move: " + moveObj.san);
@@ -336,6 +369,8 @@ export default function ChessArena() {
           }
           setFen(game.fen());
           setMoves((ms) => [...ms, moveObj && moveObj.san ? moveObj.san : move]);
+        } else {
+          console.log("[ERROR] AI returned bestmove line but missing move portion:", line);
         }
         setBotThinking(false);
         try {
@@ -345,7 +380,8 @@ export default function ChessArena() {
     };
     try {
       engine.addEventListener("message", handler);
-    } catch (_) {
+    } catch (e) {
+      console.log("[ERROR] Could not add Stockfish message handler:", e);
       setBotThinking(false);
     }
   }
