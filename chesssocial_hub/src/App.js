@@ -81,9 +81,10 @@ function App() {
             <ChessArena />
           )}
           {tab === "tutor" && (
-            // The loader already displays: "🧠 Loading Neural Chess Tutor..." + animated dots
+            // Enhanced modal-based Chess Tutor with lesson grid & popup
             <div style={{ display: "flex", minHeight: "50vh", alignItems: "center", justifyContent: "center" }}>
-              <ChessTutorLoader />
+              {/* Dynamic ChessTutorMode */}
+              {require("./ChessTutorMode").default()}
             </div>
           )}
         </div>
