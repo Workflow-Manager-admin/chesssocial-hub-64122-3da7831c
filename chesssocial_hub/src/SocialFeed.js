@@ -185,27 +185,27 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
       <div
         style={{
           position: "absolute",
-          top: 12,
-          left: 16,
-          background: "linear-gradient(98deg, #ffe08a 60%, #ffd700 100%)",
-          color: "#a76b00",
-          fontWeight: 900,
-          fontSize: "1.22em",
+          top: 11,
+          left: 13,
+          background: "linear-gradient(98deg, #ffe08a 68%, #ffd700 100%)",
+          color: "#a98009",
+          fontWeight: 500,
+          fontSize: "0.89em",
           borderRadius: 999,
-          padding: "7px 19px 7px 11px",
-          boxShadow: "0 3px 17px -4px #f6c760, 0 0 0 1.3px #fffbe8, 0 1.5px 7px 0 #ffc01062",
+          padding: "2.5px 10px 2.5px 7px",
+          boxShadow: "0 1.7px 8px -3px #f6c76047, 0 0 0 1px #fffbe8, 0 1px 5px 0 #ffc0102b",
           zIndex: 34,
           display: "flex",
           alignItems: "center",
-          gap: 7,
-          letterSpacing: ".03em",
+          gap: 5,
+          letterSpacing: ".01em",
           textTransform: "uppercase",
-          border: "2.5px solid #fffbe8",
-          textShadow: "0 1px 7px #fffbb822, 0 0 1px #ffe700"
+          border: "1.2px solid #fffbe8",
+          textShadow: "0 1px 3px #fffbb815"
         }}
       >
-        <span role="img" aria-label="crown" style={{marginRight:4, fontSize:"1.17em", filter: "drop-shadow(0 0 5px #ffd70088)"}}>👑</span>
-        <span style={{letterSpacing:".02em"}}>Featured</span>
+        <span role="img" aria-label="crown" style={{marginRight:2, fontSize:"1em", filter: "drop-shadow(0 0 3px #ffd70077)"}}>👑</span>
+        <span style={{letterSpacing:".01em", fontWeight: 400}}>Featured</span>
       </div>
       <div style={{ width: "100%", textAlign: "center", zIndex: 11, position: "relative" }}>
         <div style={{ fontSize: "2.2em", marginBottom: 0 }}>
