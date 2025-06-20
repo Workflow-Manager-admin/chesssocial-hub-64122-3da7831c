@@ -7,64 +7,63 @@ import ChessArena from "./ChessArena";
 import ChessTutorLoader from "./ChessTutorLoader";
 import { getInitialTheme, applyTheme } from "./theme";
 
-const TABS = [
-  { key: "feed", label: "Social Feed" }
-];
+// PUBLIC_INTERFACE
+/**
+ * Returns the visible tabs for the app.
+ */
+function getTabs() {
+  return [
+    { key: "feed", label: "Social Feed" },
+    { key: "chess", label: "Chess Arena" },
+    { key: "tutor", label: "Chess Tutor" },
+  ];
+}
 
 /**
  * PUBLIC_INTERFACE
- * ChessSocialHub App: main container. Contains logic for activeTab and rendering SocialFeed and ChessArena.
+ * ChessSocialHub App: main container. Logic for tab switching and rendering all modes (Feed, Arena, Tutor).
  */
 function App() {
-  // Main tab state: 'feed' or 'chess'
+  // tab can be: 'feed', 'chess', 'tutor'
   const [tab, setTab] = useState("feed");
 
   useEffect(() => {
     applyTheme(getInitialTheme());
   }, []);
 
-  // Remove unused helpers; instead, define the handler for ChessInvite:
+  // Handler to switch directly to arena from SocialFeed/portal post
   const handleArenaTab = useCallback(() => setTab("chess"), []);
+  
+  // Handler for switching to Tutor mode from future features (unused but ready)
+  const handleTutorTab = useCallback(() => setTab("tutor"), []);
+
+  const TABS = getTabs();
 
   return (
     <div className="app">
       <nav className="checkmates-navbar">
         <div className="checkmates-logo" tabIndex={0}>
-          <span style={{ fontSize: "1.42em" }} role="img" aria-label="chess">
-            ♟️
-          </span>
+          <span style={{ fontSize: "1.42em" }} role="img" aria-label="chess">♟️</span>
           CheckMates
         </div>
-        {/* Tabs UI is hidden, but Social Feed can trigger Chess Arena */}
-        <div className="checkmates-tabs" role="tablist" style={{ display: "none" }}>
-          <button
-            key="feed"
-            className={tab === "feed" ? "checkmates-tab active" : "checkmates-tab"}
-            onClick={() => setTab("feed")}
-            role="tab"
-            aria-selected={tab === "feed"}
-            tabIndex={0}
-            style={{
-              fontWeight: 700,
-              fontSize: "1.07rem"
-            }}
-          >
-            Social Feed
-          </button>
-          <button
-            key="chess"
-            className={tab === "chess" ? "checkmates-tab active" : "checkmates-tab"}
-            onClick={() => setTab("chess")}
-            role="tab"
-            aria-selected={tab === "chess"}
-            tabIndex={0}
-            style={{
-              fontWeight: 700,
-              fontSize: "1.07rem"
-            }}
-          >
-            Chess Arena
-          </button>
+        {/* TABS (visible, modern tab navigation) */}
+        <div className="checkmates-tabs" role="tablist">
+          {TABS.map((t) => (
+            <button
+              key={t.key}
+              className={tab === t.key ? "checkmates-tab active" : "checkmates-tab"}
+              onClick={() => setTab(t.key)}
+              role="tab"
+              aria-selected={tab === t.key}
+              tabIndex={0}
+              style={{
+                fontWeight: 700,
+                fontSize: "1.07rem"
+              }}
+            >
+              {t.label}
+            </button>
+          ))}
         </div>
         <span className="theme-toggle">
           <ThemeToggle />
@@ -72,7 +71,6 @@ function App() {
       </nav>
       <main>
         <div className="checkmates-container">
-          {/* Conditional rendering: show feed or Chess Arena */}
           {tab === "feed" && (
             <SocialFeed
               setActiveTab={setTab}
@@ -81,6 +79,12 @@ function App() {
           )}
           {tab === "chess" && (
             <ChessArena />
+          )}
+          {tab === "tutor" && (
+            // The loader already displays: "🧠 Loading Neural Chess Tutor..." + animated dots
+            <div style={{ display: "flex", minHeight: "50vh", alignItems: "center", justifyContent: "center" }}>
+              <ChessTutorLoader />
+            </div>
           )}
         </div>
       </main>
