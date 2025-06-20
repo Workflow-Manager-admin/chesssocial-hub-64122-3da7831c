@@ -26,7 +26,8 @@ const THEME_COLORS = {
     "--primary": "#4F46E5",
     "--secondary": "#1A1832",
     "--accent": "#F59E0B",
-    "--text": "#F9FAFB",
+    // Update the main text color for dark mode to a lighter blue for better readability
+    "--text": "#818CF8", // Light Indigo-Blue
     "--cardBg": "#232136",
     "--highlight": "#10B981",
     "--error": "#EF4444",
