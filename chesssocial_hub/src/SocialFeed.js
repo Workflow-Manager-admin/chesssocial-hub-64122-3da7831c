@@ -181,26 +181,31 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
       {isChessHint && (
         <span className="metallic-shine-anim" aria-hidden="true" />
       )}
+      {/* Increased prominence for the Featured pill */}
       <div
         style={{
           position: "absolute",
           top: 12,
           left: 16,
-          background: "rgba(255,245,205,0.92)",
-          color: "#db880a",
-          fontWeight: "bold",
-          fontSize: "1.02em",
-          borderRadius: 8,
-          padding: "3px 10px 3px 7px",
-          boxShadow: "0 2px 8px -3px #f6c760",
-          zIndex: 20,
+          background: "linear-gradient(98deg, #ffe08a 60%, #ffd700 100%)",
+          color: "#a76b00",
+          fontWeight: 900,
+          fontSize: "1.22em",
+          borderRadius: 999,
+          padding: "7px 19px 7px 11px",
+          boxShadow: "0 3px 17px -4px #f6c760, 0 0 0 1.3px #fffbe8, 0 1.5px 7px 0 #ffc01062",
+          zIndex: 34,
           display: "flex",
           alignItems: "center",
-          gap: 6
+          gap: 7,
+          letterSpacing: ".03em",
+          textTransform: "uppercase",
+          border: "2.5px solid #fffbe8",
+          textShadow: "0 1px 7px #fffbb822, 0 0 1px #ffe700"
         }}
       >
-        <span role="img" aria-label="crown" style={{marginRight:2}}>👑</span>
-        <span>Featured</span>
+        <span role="img" aria-label="crown" style={{marginRight:4, fontSize:"1.17em", filter: "drop-shadow(0 0 5px #ffd70088)"}}>👑</span>
+        <span style={{letterSpacing:".02em"}}>Featured</span>
       </div>
       <div style={{ width: "100%", textAlign: "center", zIndex: 11, position: "relative" }}>
         <div style={{ fontSize: "2.2em", marginBottom: 0 }}>
@@ -210,9 +215,8 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
           Enter the Chess Arena!
         </span>
         <div style={arenaSubtextStyle}>
-          <span role="img" aria-label="sparkles">✨</span>
-          {" "}Step up your game. Challenge minds, not just pawns!{" "}
-          <span role="img" aria-label="sparkles">✨</span>
+          {/* Sparkle emojis removed for clarity as per requirements */}
+          Step up your game. Challenge minds, not just pawns!
         </div>
       </div>
     </div>
