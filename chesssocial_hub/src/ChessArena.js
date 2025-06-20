@@ -69,6 +69,11 @@ export default function ChessArena() {
   const [isBotThinking, setBotThinking] = useState(false);
   const [arenaWelcome, setArenaWelcome] = useState(false);
 
+  // Highlighting logic additions
+  const [selectedSquare, setSelectedSquare] = useState(null);
+  const [legalMoves, setLegalMoves] = useState([]);
+  const [moveError, setMoveError] = useState("");
+
   // Load Stockfish.js dynamically via CDN on first mount
   useEffect(() => {
     let isMounted = true;
@@ -121,6 +126,9 @@ export default function ChessArena() {
     setChess(game);
     setFen("start");
     setMoves([]);
+    setSelectedSquare(null);
+    setLegalMoves([]);
+    setMoveError("");
     setTimeout(() => {
       if (
         (side === "black" && !game.game_over) ||
@@ -131,9 +139,24 @@ export default function ChessArena() {
     }, 180);
   }
 
+  // Validate move using chess.js: only allow legal moves
   function handleMove({ sourceSquare, targetSquare }) {
+    setMoveError("");
+    setSelectedSquare(null);
+    setLegalMoves([]);
+
     if (!chess || typeof chess.move !== 'function') return;
     if (chess.game_over || isBotThinking) return;
+
+    // Check if this move is legal
+    const possibles = chess.moves({ square: sourceSquare, verbose: true });
+    const isLegal = possibles.find(mv => mv.to === targetSquare);
+
+    if (!isLegal) {
+      setMoveError("Illegal move! Try a highlighted square.");
+      return null;
+    }
+    // Defensive: clone game state to avoid side-effects
     const move = chess.move({
       from: sourceSquare,
       to: targetSquare,
@@ -142,9 +165,66 @@ export default function ChessArena() {
     if (move) {
       setFen(chess.fen());
       setMoves((ms) => [...ms, move.san]);
+      setMoveError("");
     }
     // Bot will respond in effect above
     return move;
+  }
+
+  // Board square click handler:
+  // Highlights legal moves, supports click-to-move logic in addition to drag-and-drop
+  function handleSquareClick(square) {
+    setMoveError(""); // Reset on new click
+    if (isBotThinking || chess.game_over) return;
+
+    if (selectedSquare === square) {
+      // Deselect
+      setSelectedSquare(null);
+      setLegalMoves([]);
+      return;
+    }
+    // If already have a selected piece, and click a different square:
+    if (selectedSquare && selectedSquare !== square) {
+      const possibles = chess.moves({ square: selectedSquare, verbose: true });
+      const canMove = possibles.some(mv => mv.to === square);
+      if (canMove) {
+        // Try moving
+        const wasMove = handleMove({
+          sourceSquare: selectedSquare,
+          targetSquare: square
+        });
+        if (!wasMove) setMoveError("Illegal move! Try a highlighted square.");
+        setSelectedSquare(null);
+        setLegalMoves([]);
+      } else {
+        // Clicked a different piece (start new selection)
+        const newPossibles = chess.moves({ square, verbose: true });
+        if (newPossibles.length > 0 && chess.get(square) && chess.get(square).color === chess.turn()) {
+          setSelectedSquare(square);
+          setLegalMoves(newPossibles.map(m => m.to));
+        } else {
+          setSelectedSquare(null);
+          setLegalMoves([]);
+          setMoveError("");
+        }
+      }
+      return;
+    }
+    // Click a piece to show moves (only if it's your turn & your piece)
+    const movesArr = chess.moves({ square, verbose: true });
+    if (
+      movesArr.length > 0 &&
+      chess.get(square) &&
+      chess.get(square).color === chess.turn()
+    ) {
+      setSelectedSquare(square);
+      setLegalMoves(movesArr.map(m => m.to));
+      setMoveError("");
+    } else {
+      setSelectedSquare(null);
+      setLegalMoves([]);
+      setMoveError("");
+    }
   }
 
   // Send position to Stockfish, receive best move, play as bot
@@ -207,22 +287,60 @@ export default function ChessArena() {
   }
 
   function renderBoard() {
+    // Highlight squares for legal moves from selected piece
+    const highlightStyles = {};
+    if (selectedSquare && legalMoves.length) {
+      // Highlight selected
+      highlightStyles[selectedSquare] = {
+        background:
+          "radial-gradient(circle, var(--highlight) 48%, rgba(16,185,129,0.25) 79%)"
+      };
+      // Highlight destination squares
+      for (let sq of legalMoves) {
+        highlightStyles[sq] = {
+          background:
+            "radial-gradient(circle, var(--accent) 52%, rgba(245,158,11,0.14) 90%)",
+          boxShadow: "0 0 8px 1.5px var(--accent)"
+        };
+      }
+    }
     return (
-      <Chessboard
-        key={side}
-        id="checkmates-board"
-        position={fen}
-        onDrop={handleMove}
-        orientation={side}
-        width={358}
-        boardStyle={{
-          borderRadius: 12,
-          boxShadow: "0 7px 40px -18px var(--dropGlow), 0 0 0 1.7px var(--primary)",
-          background: "var(--boardBg)"
-        }}
-        squareStyles={{}}
-        sparePieces={false}
-      />
+      <>
+        <Chessboard
+          key={side}
+          id="checkmates-board"
+          position={fen}
+          onDrop={handleMove}
+          orientation={side}
+          width={358}
+          boardStyle={{
+            borderRadius: 12,
+            boxShadow: "0 7px 40px -18px var(--dropGlow), 0 0 0 1.7px var(--primary)",
+            background: "var(--boardBg)"
+          }}
+          squareStyles={highlightStyles}
+          sparePieces={false}
+          onSquareClick={handleSquareClick}
+        />
+        {moveError && (
+          <div
+            style={{
+              margin: "10px 0 6px 0",
+              color: "var(--error)",
+              fontWeight: 700,
+              fontSize: "1.07em",
+              background: "#f9eaea",
+              borderRadius: "8px",
+              padding: "6px 0",
+              textAlign: "center"
+            }}
+            role="alert"
+            aria-live="polite"
+          >
+            {moveError}
+          </div>
+        )}
+      </>
     );
   }
 
