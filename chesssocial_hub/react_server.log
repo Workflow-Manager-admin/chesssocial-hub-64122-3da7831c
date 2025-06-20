@@ -23,14 +23,4 @@ cacheable modules 1.62 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1519 ms
-assets by status 1.98 KiB [cached] 1 asset
-assets by path *.js 1.8 MiB
-  asset bundle.js 1.78 MiB [emitted] (name: main)
-  asset main.7ed11439797ba24e3355.hot-update.js 20.2 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.7ed11439797ba24e3355.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.8 MiB = bundle.js 1.78 MiB main.7ed11439797ba24e3355.hot-update.js 20.2 KiB
-cached modules 1.6 MiB [cached] 53 modules
-runtime modules 27.5 KiB 14 modules
-./src/ChessArena.js 15.5 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 181 ms
+webpack 5.99.9 compiled successfully in 1645 ms
