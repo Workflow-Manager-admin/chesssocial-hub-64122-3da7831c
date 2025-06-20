@@ -114,7 +114,7 @@ export default function ChessArena() {
 
   // After every legal human move in bot mode, schedule AI response
   useEffect(() => {
-    if (!engine || chess.game_over) return;
+    if (!engine || chess.gameOver()) return;
     // Only trigger the bot if:
     // 1. isBotGame is true
     // 2. It's the bot's turn to move (after human's move)
@@ -167,7 +167,7 @@ export default function ChessArena() {
     setLegalMoves([]);
 
     if (!chess || typeof chess.move !== "function") return;
-    if (chess.game_over || isBotThinking) return;
+    if (chess.gameOver() || isBotThinking) return;
 
     // Collect strictly legal moves as verbose objects from sourceSquare
     const legalMovesVerbose = chess.moves({ square: sourceSquare, verbose: true });
@@ -208,7 +208,7 @@ export default function ChessArena() {
    */
   function handleSquareClick(square) {
     setMoveError(""); // Reset on new click
-    if (isBotThinking || chess.game_over) return;
+    if (isBotThinking || chess.gameOver()) return;
 
     if (selectedSquare === square) {
       setSelectedSquare(null);
