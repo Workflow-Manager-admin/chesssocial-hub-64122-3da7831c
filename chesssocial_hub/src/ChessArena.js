@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-
+import GameLauncher from "./gameLauncher";
 /**
  * Minimal chess.js - assume loaded via npm or CDN
  * Updated to use named import since chess.js no longer exports default.
@@ -62,6 +62,10 @@ function BotPersona({ bot }) {
 export default function ChessArena() {
   // Persist Chess object across renders to avoid recreation
   const chessRef = useRef(null);
+
+  // ----------- "Other Games 🎲" GAME LAUNCHER MODAL STATE -----------
+  const [showGameLauncher, setShowGameLauncher] = useState(false);
+
   if (!chessRef.current) chessRef.current = new Chess();
 
   const [fen, setFen] = useState("start");
@@ -512,85 +516,120 @@ export default function ChessArena() {
   }
 
   return (
-    <div className="chess-arena-main">
-      <div className="chess-arena-boardcol">
-        {arenaWelcome && (
-          <div
-            className="chess-arena-welcome"
+    <>
+      <div className="chess-arena-main">
+        {/* BOARD COL + Other Games btn */}
+        <div className="chess-arena-boardcol">
+          {/* Glowing Other Games 🎲 button, place above/persistent near board */}
+          <button
+            className="chess-arena-btn"
             style={{
-              color: "var(--primary)",
-              fontWeight: 700,
-              fontSize: "1.33rem",
-              marginBottom: 16
+              background: "linear-gradient(96deg, var(--accent,#F59E0B) 28%, var(--highlight,#10B981) 88%)",
+              color: "#fff",
+              boxShadow: "0 0 17px 0 var(--accent,#F59E0B), 0 1.5px 10px -2px var(--primary,#4F46E5)",
+              fontSize: "1.17rem",
+              fontWeight: 800,
+              marginBottom: 13,
+              marginTop: 2,
+              animation: "arenaGlowPulse 2s infinite alternate",
+              letterSpacing: ".03em",
+              position: "relative",
+              zIndex: 110
             }}
+            onClick={() => setShowGameLauncher(true)}
+            tabIndex={0}
+            aria-label="Show Other Games"
           >
-            Welcome to the Arena. Pick your opponent.
-          </div>
-        )}
-        {renderBoard()}
-        <div className="chess-arena-controls">
-          <button
-            className="chess-arena-btn"
-            onClick={handleRestart}
-            disabled={isBotThinking}
-          >
-            Restart
+            <span role="img" aria-label="games" style={{marginRight:8,fontSize:"1.24em"}}>🎲</span>
+            Other Games
           </button>
-          <button
-            className="chess-arena-btn"
-            onClick={() => setSide(side === "white" ? "black" : "white")}
-            disabled={isBotThinking}
-          >
-            Play as {side === "white" ? "Black" : "White"}
-          </button>
+          {!showGameLauncher && (
+            <>
+              {arenaWelcome && (
+                <div
+                  className="chess-arena-welcome"
+                  style={{
+                    color: "var(--primary)",
+                    fontWeight: 700,
+                    fontSize: "1.33rem",
+                    marginBottom: 16
+                  }}
+                >
+                  Welcome to the Arena. Pick your opponent.
+                </div>
+              )}
+              {renderBoard()}
+              <div className="chess-arena-controls">
+                <button
+                  className="chess-arena-btn"
+                  onClick={handleRestart}
+                  disabled={isBotThinking}
+                >
+                  Restart
+                </button>
+                <button
+                  className="chess-arena-btn"
+                  onClick={() => setSide(side === "white" ? "black" : "white")}
+                  disabled={isBotThinking}
+                >
+                  Play as {side === "white" ? "Black" : "White"}
+                </button>
+              </div>
+              <div className="chess-arena-movelog">
+                {moves.length === 0
+                  ? <span style={{ opacity: 0.48 }}>Move log appears here...</span>
+                  : moves.map((m, i) => (
+                    <span key={i} style={{ marginRight: 7 }}>
+                      {i % 2 ? "" : `${Math.floor(i / 2) + 1}. `}
+                      {m}
+                    </span>
+                  ))}
+              </div>
+            </>
+          )}
         </div>
-        <div className="chess-arena-movelog">
-          {moves.length === 0
-            ? <span style={{ opacity: 0.48 }}>Move log appears here...</span>
-            : moves.map((m, i) => (
-              <span key={i} style={{ marginRight: 7 }}>
-                {i % 2 ? "" : `${Math.floor(i / 2) + 1}. `}
-                {m}
-              </span>
-            ))}
-        </div>
-      </div>
-      <div className="chess-arena-sidebar">
-        <div
-          style={{
-            fontWeight: 700,
-            fontSize: "1.15rem",
-            marginBottom: 3,
-            color: "var(--accent)"
-          }}
-        >
-          Stockfish Bots
-        </div>
-        <div className="chess-arena-botlist">
-          {BOTS.map((bot, i) => (
-            <button
-              key={bot.name}
-              className={
-                "chess-arena-bot-btn" + (i === botIdx ? " selected" : "")
-              }
-              onClick={() => handleBotSelect(i)}
-              tabIndex={0}
+        {/* Sidebar: Hide while in Other Games modal */}
+        {!showGameLauncher && (
+          <div className="chess-arena-sidebar">
+            <div
               style={{
-                filter: i === botIdx ? "drop-shadow(0 0 8px var(--highlight)) saturate(1.16)" : undefined
+                fontWeight: 700,
+                fontSize: "1.15rem",
+                marginBottom: 3,
+                color: "var(--accent)"
               }}
             >
-              {bot.name}
-            </button>
-          ))}
-        </div>
-        <BotPersona bot={BOTS[botIdx]} />
-        <div className="chess-arena-sidebio">
-          Tip: Bots vary in skill and style. Mittens is not recommended for the faint of heart!<br />
-          <span style={{ color: "var(--error)", fontWeight: "bold" }}>
-            All games are local — try beating your record!
-          </span>
-        </div>
+              Stockfish Bots
+            </div>
+            <div className="chess-arena-botlist">
+              {BOTS.map((bot, i) => (
+                <button
+                  key={bot.name}
+                  className={
+                    "chess-arena-bot-btn" + (i === botIdx ? " selected" : "")
+                  }
+                  onClick={() => handleBotSelect(i)}
+                  tabIndex={0}
+                  style={{
+                    filter: i === botIdx ? "drop-shadow(0 0 8px var(--highlight)) saturate(1.16)" : undefined
+                  }}
+                >
+                  {bot.name}
+                </button>
+              ))}
+            </div>
+            <BotPersona bot={BOTS[botIdx]} />
+            <div className="chess-arena-sidebio">
+              Tip: Bots vary in skill and style. Mittens is not recommended for the faint of heart!<br />
+              <span style={{ color: "var(--error)", fontWeight: "bold" }}>
+                All games are local — try beating your record!
+              </span>
+            </div>
+          </div>
+        )}
       </div>
-    </div>
+      {/* Modal for Games (on top, disables ChessArena UI while open) */}
+      <GameLauncher open={showGameLauncher} onClose={() => setShowGameLauncher(false)} />
+    </>
   );
 }
