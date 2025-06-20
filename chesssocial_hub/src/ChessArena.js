@@ -312,21 +312,29 @@ export default function ChessArena() {
   }
 
   function renderBoard() {
-    // Highlight squares for legal moves from selected piece
+    // Use chess.js to fetch legal moves for highlighting, whenever selectedSquare is set.
     const highlightStyles = {};
-    if (selectedSquare && legalMoves.length) {
-      // Highlight selected
-      highlightStyles[selectedSquare] = {
-        background:
-          "radial-gradient(circle, var(--highlight) 48%, rgba(16,185,129,0.25) 79%)"
-      };
-      // Highlight destination squares
-      for (let sq of legalMoves) {
-        highlightStyles[sq] = {
-          background:
-            "radial-gradient(circle, var(--accent) 52%, rgba(245,158,11,0.14) 90%)",
-          boxShadow: "0 0 8px 1.5px var(--accent)"
+    if (selectedSquare) {
+      // Get all legal verbose moves from the selectedSquare directly from chess.js every render
+      let legalMovesVerbose = chess && typeof chess.moves === "function"
+        ? chess.moves({ square: selectedSquare, verbose: true })
+        : [];
+
+      // Distill destination squares from verbose info
+      const destSquares = legalMovesVerbose.map((m) => m.to);
+
+      if (destSquares.length > 0) {
+        // Highlight selected piece's square
+        highlightStyles[selectedSquare] = {
+          background: "radial-gradient(circle, var(--highlight) 48%, rgba(16,185,129,0.25) 79%)",
         };
+        // Highlight each legal destination with a gold accent
+        for (let sq of destSquares) {
+          highlightStyles[sq] = {
+            background: "radial-gradient(circle, var(--accent) 52%, rgba(245,158,11,0.14) 90%)",
+            boxShadow: "0 0 8px 1.5px var(--accent)",
+          };
+        }
       }
     }
     return (
@@ -341,7 +349,7 @@ export default function ChessArena() {
           boardStyle={{
             borderRadius: 12,
             boxShadow: "0 7px 40px -18px var(--dropGlow), 0 0 0 1.7px var(--primary)",
-            background: "var(--boardBg)"
+            background: "var(--boardBg)",
           }}
           squareStyles={highlightStyles}
           sparePieces={false}
@@ -357,7 +365,7 @@ export default function ChessArena() {
               background: "#f9eaea",
               borderRadius: "8px",
               padding: "6px 0",
-              textAlign: "center"
+              textAlign: "center",
             }}
             role="alert"
             aria-live="polite"
