@@ -816,7 +816,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
           flexDirection: "column",
           alignItems: "center",
           width: "100%",
-          maxWidth: 478,
+          maxWidth: 535, // allow more horizontal room so card scale feels correct
           margin: "0 auto",
           justifyContent: "flex-start",
           minHeight: "75vh"
