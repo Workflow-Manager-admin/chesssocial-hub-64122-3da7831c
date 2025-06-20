@@ -165,14 +165,17 @@ body {
 
 .insta-feed-img {
   width: 100%;
-  aspect-ratio: 1.6/1;
-  object-fit: cover;
+  /* Remove forced aspect ratio for height flexibility */
+  /* aspect-ratio: 1.6/1; */
+  object-fit: contain;
   border-radius: 14px;
   background: var(--boardBg);
   margin-bottom: 5px;
   user-select: none;
-  min-height: 137px;
   max-height: 234px;
+  min-height: 120px;
+  display: block;
+  /* This ensures whole image is shown, fully visible in card */
 }
 .insta-feed-caption {
   font-size: 1.09rem;
@@ -482,9 +485,13 @@ body {
     max-width: 99vw;
   }
   .insta-feed-img {
-    min-height: 97px;
-    max-height: 40vw;
+    min-height: 63px;
+    max-height: 44vw;
     border-radius: 10px;
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+    display: block;
   }
   .insta-feed-badge,
   .insta-feed-like-btn { left: 7vw !important; }
@@ -554,12 +561,15 @@ body {
 }
 .social-feed-img {
   border-radius: 12px;
-  object-fit: cover;
-  height: 144px;
-  width: 100%;
+  object-fit: contain;
   background: var(--boardBg);
   margin-bottom: 5px;
   user-select: none;
+  width: 100%;
+  max-height: 205px;
+  min-height: 90px;
+  display: block;
+  height: auto;
 }
 .social-feed-card-caption {
   font-size: 1.04rem;
