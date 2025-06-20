@@ -118,6 +118,29 @@ export default function ChessArena() {
     // This effect can be used for sync or future UI updates (if needed).
   }, [engine, fen, botIdx, side]);
 
+  // Return true if the current chess instance is game over, supporting both game_over and gameOver for compatibility.
+  function isGameOverWrapper(chessInstance) {
+    if (chessInstance && typeof chessInstance.game_over === "function") {
+      return chessInstance.game_over();
+    }
+    if (chessInstance && typeof chessInstance.gameOver === "function") {
+      return chessInstance.gameOver();
+    }
+    // Fallback: try to check manually (checkmate, draw, stalemate, etc.)
+    try {
+      if (
+        chessInstance.in_checkmate?.() ||
+        chessInstance.in_stalemate?.() ||
+        chessInstance.in_draw?.() ||
+        chessInstance.insufficient_material?.() ||
+        chessInstance.in_threefold_repetition?.()
+      ) {
+        return true;
+      }
+    } catch {}
+    return false;
+  }
+
   function resetGame() {
     const game = new Chess();
     setChess(game);
@@ -128,7 +151,7 @@ export default function ChessArena() {
     setMoveError("");
     setTimeout(() => {
       if (
-        (side === "black" && !game.gameOver()) ||
+        (side === "black" && !isGameOverWrapper(game)) ||
         (side === "white" && botIdx === 3) // Mittens starts as black
       ) {
         thinkAndMove(game);
@@ -150,7 +173,7 @@ export default function ChessArena() {
     setLegalMoves([]);
 
     if (!chess || typeof chess.move !== "function") return;
-    if (typeof chess.gameOver === "function" ? chess.gameOver() : chess.gameOver()) return;
+    if (isGameOverWrapper(chess)) return;
     if (isBotThinking) return;
 
     // Collect strictly legal moves as verbose objects from sourceSquare
@@ -207,7 +230,7 @@ export default function ChessArena() {
    */
   function handleSquareClick(square) {
     setMoveError(""); // Reset on new click
-    if (isBotThinking || chess.gameOver()) return;
+    if (isBotThinking || isGameOverWrapper(chess)) return;
 
     if (selectedSquare === square) {
       setSelectedSquare(null);

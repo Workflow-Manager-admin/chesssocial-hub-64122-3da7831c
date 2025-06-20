@@ -23,18 +23,36 @@ cacheable modules 1.62 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1526 ms
+webpack 5.99.9 compiled successfully in 1579 ms
 assets by status 613 bytes [cached] 1 asset
-assets by path *.js 1.8 MiB
+assets by path *.js 1.81 MiB
   asset bundle.js 1.78 MiB [emitted] (name: main)
-  asset main.7cbadb8ca38e5f1a116c.hot-update.js 21.3 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.7cbadb8ca38e5f1a116c.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.8 MiB = bundle.js 1.78 MiB main.7cbadb8ca38e5f1a116c.hot-update.js 21.3 KiB
+  asset main.5d2e4b20ebffca89a194.hot-update.js 22 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.5d2e4b20ebffca89a194.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.81 MiB = bundle.js 1.78 MiB main.5d2e4b20ebffca89a194.hot-update.js 22 KiB
 cached modules 1.6 MiB [cached] 53 modules
 runtime modules 27.5 KiB 14 modules
-./src/ChessArena.js 16.6 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 150 ms
-assets by status 1.78 MiB [cached] 2 assets
-cached modules 1.6 MiB (javascript) 27.5 KiB (runtime) [cached] 67 modules
-./src/ChessArena.js 16.6 KiB [built]
-webpack 5.99.9 compiled successfully in 94 ms
+./src/ChessArena.js 17.3 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 163 ms
+assets by status 613 bytes [cached] 1 asset
+assets by path *.js 1.81 MiB
+  asset bundle.js 1.78 MiB [emitted] (name: main)
+  asset main.eb1a4e852cb34ff8d289.hot-update.js 22 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.eb1a4e852cb34ff8d289.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.81 MiB = bundle.js 1.78 MiB main.eb1a4e852cb34ff8d289.hot-update.js 22 KiB
+cached modules 1.6 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./src/ChessArena.js 17.3 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 91 ms
+<i> [webpack-dev-middleware] wait until bundle finished: /main.eb1a4e852cb34ff8d289.hot-update.json
+<i> [webpack-dev-middleware] wait until bundle finished: /main.eb1a4e852cb34ff8d289.hot-update.js
+assets by status 613 bytes [cached] 1 asset
+assets by path *.js 1.81 MiB
+  asset bundle.js 1.78 MiB [emitted] (name: main)
+  asset main.1fc8535b6ac7ed2cef5d.hot-update.js 22 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.1fc8535b6ac7ed2cef5d.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.81 MiB = bundle.js 1.78 MiB main.1fc8535b6ac7ed2cef5d.hot-update.js 22 KiB
+cached modules 1.6 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./src/ChessArena.js 17.3 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 85 ms
