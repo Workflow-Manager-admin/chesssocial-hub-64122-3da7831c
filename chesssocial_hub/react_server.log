@@ -23,4 +23,34 @@ cacheable modules 1.62 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1645 ms
+webpack 5.99.9 compiled successfully in 1503 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.8 MiB
+  asset bundle.js 1.78 MiB [emitted] (name: main)
+  asset main.31f76f4df7b016c2bfad.hot-update.js 20.8 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.31f76f4df7b016c2bfad.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.8 MiB = bundle.js 1.78 MiB main.31f76f4df7b016c2bfad.hot-update.js 20.8 KiB
+cached modules 1.6 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./src/ChessArena.js 16.1 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 177 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.8 MiB
+  asset bundle.js 1.78 MiB [emitted] (name: main)
+  asset main.4b4095859c1a94cebdbe.hot-update.js 20.9 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.4b4095859c1a94cebdbe.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.8 MiB = bundle.js 1.78 MiB main.4b4095859c1a94cebdbe.hot-update.js 20.9 KiB
+cached modules 1.6 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./src/ChessArena.js 16.2 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 94 ms
+assets by status 1.98 KiB [cached] 1 asset
+assets by path *.js 1.8 MiB
+  asset bundle.js 1.78 MiB [emitted] (name: main)
+  asset main.64786117a7f1002a2919.hot-update.js 21.3 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.64786117a7f1002a2919.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.8 MiB = bundle.js 1.78 MiB main.64786117a7f1002a2919.hot-update.js 21.3 KiB
+cached modules 1.6 MiB [cached] 53 modules
+runtime modules 27.5 KiB 14 modules
+./src/ChessArena.js 16.6 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 94 ms

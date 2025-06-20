@@ -109,14 +109,29 @@ export default function ChessArena() {
     // eslint-disable-next-line
   }, [botIdx, side]);
 
-  // Bot moves after player
+  // Bot-mode detection helper: play vs bot if BOTS[botIdx] exists, i.e., always true in this mode.
+  const isBotGame = true; // since currently only bot-vs-human exists.
+
+  // After every legal human move in bot mode, schedule AI response
   useEffect(() => {
     if (!engine || chess.game_over) return;
+    // Only trigger the bot if:
+    // 1. isBotGame is true
+    // 2. It's the bot's turn to move (after human's move)
+    // 3. Bot is not already thinking
+    // Bot is always opposite to `side`
     if (
-      (chess.turn() === "b" && side === "white") ||
-      (chess.turn() === "w" && side === "black")
+      isBotGame &&
+      !isBotThinking &&
+      (
+        (chess.turn() === "b" && side === "white") ||
+        (chess.turn() === "w" && side === "black")
+      )
     ) {
-      thinkAndMove();
+      console.log("AI move triggered"); // (4) log trigger
+      setTimeout(() => {
+        thinkAndMove();
+      }, 615); // ~0.6s adds 'human' AI feel
     }
     // eslint-disable-next-line
   }, [engine, fen, botIdx, side]);
@@ -143,6 +158,8 @@ export default function ChessArena() {
   /**
    * Validates and executes a chess move, ensuring the move appears in the list of strictly legal moves
    * using chess.js's move validation; if not legal, does not update board state and displays a message.
+   * 
+   * On a legal (player) move in bot mode: logs 'Player move registered' and lets the bot respond after a delay via effect.
    */
   function handleMove({ sourceSquare, targetSquare }) {
     setMoveError("");
@@ -159,7 +176,6 @@ export default function ChessArena() {
     const legalMoveObj = legalMovesVerbose.find((mv) => mv.to === targetSquare);
 
     if (!legalMoveObj) {
-      // If the move is not in the legal moves list, leave board state unchanged and show error
       setMoveError("Illegal move! Only highlighted moves are allowed.");
       return null;
     }
@@ -175,11 +191,13 @@ export default function ChessArena() {
       setFen(chess.fen());
       setMoves((ms) => [...ms, move.san]);
       setMoveError("");
+      if (isBotGame) {
+        console.log("Player move registered"); // (1) log after every legal player move
+      }
     } else {
-      // Defensive: If chess.js still returns null (shouldn't happen), display error
       setMoveError("Unexpected invalid move. Try again.");
     }
-    // Bot will respond in useEffect above
+    // Bot response is handled by (updated) useEffect above for bot turn
     return move;
   }
 
@@ -252,7 +270,7 @@ export default function ChessArena() {
     }
   }
 
-  // Send position to Stockfish, receive best move, play as bot
+  // Send position to Stockfish, receive best move, play as bot (with logging and forced fen update)
   function thinkAndMove(overrideGame) {
     setBotThinking(true);
     const game = overrideGame || chess;
@@ -260,6 +278,8 @@ export default function ChessArena() {
       setBotThinking(false);
       return;
     }
+    console.log("AI thinking..."); // (2) log when AI starts thinking
+
     try {
       engine.postMessage("ucinewgame");
       engine.postMessage(`position fen ${game.fen()}`);
@@ -286,7 +306,13 @@ export default function ChessArena() {
               promotion: "q"
             });
           } catch (_) {}
-          setFen(game.fen());
+          // Log the choice
+          if (moveObj && moveObj.san) {
+            console.log("AI chose move: " + moveObj.san); // (3) log actual move in SAN
+          } else {
+            console.log("AI chose move: " + String(move)); // fallback
+          }
+          setFen(game.fen()); // Always update board state after AI move
           setMoves((ms) => [...ms, moveObj && moveObj.san ? moveObj.san : move]);
         }
         setBotThinking(false);
