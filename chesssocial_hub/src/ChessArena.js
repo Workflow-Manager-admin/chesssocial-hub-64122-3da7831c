@@ -146,7 +146,7 @@ export default function ChessArena() {
     setMoveError("");
     setTimeout(() => {
       if (
-        (side === "black" && !game.game_over) ||
+        (side === "black" && !game.gameOver()) ||
         (side === "white" && botIdx === 3) // Mittens starts as black
       ) {
         thinkAndMove(game);
