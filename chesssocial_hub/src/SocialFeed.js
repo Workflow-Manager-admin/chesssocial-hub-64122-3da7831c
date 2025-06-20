@@ -423,6 +423,40 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     // Animation state for wiggle/checkmark on successful comment
     const [commentSuccess, setCommentSuccess] = useState(false);
 
+    // === Slide-in Animation on Viewport ===
+    const [inView, setInView] = useState(false);
+    const localRef = useRef(null);
+    // Use external cardRef if provided (last element), else our local ref
+    const mergedRef = (el) => {
+      localRef.current = el;
+      if (typeof cardRef === "function") cardRef(el);
+      else if (cardRef && typeof cardRef === "object") cardRef.current = el;
+    };
+    useEffect(() => {
+      const node = localRef.current;
+      if (!node) return;
+      let observer;
+      // Use intersection observer if available
+      if ("IntersectionObserver" in window) {
+        observer = new window.IntersectionObserver(
+          ([entry]) => {
+            if (entry.isIntersecting) {
+              setInView(true);
+              observer.disconnect();
+            }
+          },
+          { threshold: 0.12 }
+        );
+        observer.observe(node);
+      } else {
+        // Fallback: just show immediately
+        setInView(true);
+      }
+      return () => {
+        if (observer) observer.disconnect();
+      };
+    }, []); // only first mount
+
     function handleCommentSubmit(e) {
       e.preventDefault();
       const text = commentInput.trim();
@@ -473,14 +507,17 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     const commentsToShow = comments.slice(-2);
     const cardId = `post-card-${idx}`;
 
+    // When either drop-in anim or inView, apply 'slide-in' class:
+    const cardClass =
+      "insta-feed-card instagram-style-card " +
+      (p.mate || checkmateFilter ? "social-feed-monochrome " : "") +
+      (animateDrop ? "social-feed-dropin " : "") +
+      (inView ? "social-feed-slidein" : "");
+
     return (
       <div
-        className={
-          "insta-feed-card instagram-style-card " +
-          (p.mate || checkmateFilter ? "social-feed-monochrome " : "") +
-          (animateDrop ? "social-feed-dropin " : "")
-        }
-        ref={cardRef}
+        className={cardClass}
+        ref={mergedRef}
         style={{
           margin: "0 auto",
           marginBottom: 24,
