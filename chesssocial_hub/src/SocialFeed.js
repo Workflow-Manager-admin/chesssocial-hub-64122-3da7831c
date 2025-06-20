@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { loadLikes, saveLikes, sanitizeCaption } from "./utils";
+import { loadLikes, saveLikes, sanitizeCaption, loadFeed, saveFeed } from "./utils";
 import EmojiBurst from "./EmojiBurst";
 import ConfettiBurst from "./Confetti";
-import { fetchPosts, addPost, subscribeToPosts } from "./supabasePosts";
 
 // Meme post images and default posts as before
 const MEME_URLS = [
@@ -156,9 +155,26 @@ function ChessInvitePost({ onInvite, glitch }) {
   );
 }
 
+// PUBLIC_INTERFACE
 export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
-  // Posts: fetched/shared via Supabase (not localStorage)
-  const [posts, setPosts] = useState([...DEFAULT_POSTS]);
+  // Load posts from localStorage on mount (fallback to DEFAULT_POSTS)
+  const [posts, setPosts] = useState(() => {
+    const loaded = loadFeed();
+    if (Array.isArray(loaded) && loaded.length > 0) {
+      // defensive: ensure comment/id
+      return loaded.map((p, i) => ({
+        ...p,
+        id: p.id || `loc-${i}-${Date.now()}`,
+        comments: Array.isArray(p.comments) ? p.comments : [],
+      }));
+    }
+    // Defensive: add missing structure for comments/ids to default
+    return DEFAULT_POSTS.map((p, i) => ({
+      ...p,
+      id: `def-${i}`,
+      comments: [],
+    }));
+  });
   const [likes, setLikes] = useState(() => loadLikes());
   const [caption, setCaption] = useState("");
   const [imgUrl, setImgUrl] = useState("");
@@ -180,67 +196,18 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   const [fabUploadingUrl, setFabUploadingUrl] = useState("");
   const [fabError, setFabError] = useState({});
 
-  // Fetch posts from Supabase on mount, set up real-time subscription to changes
+  // Save posts to localStorage on updates
   useEffect(() => {
-    let ignore = false;
-    let sub;
-    const initFeed = async () => {
-      try {
-        // Get latest posts (with fallback to DEFAULT_POSTS if table is empty)
-        const cloudPosts = await fetchPosts({ limit: 40 });
-        if (!ignore && cloudPosts?.length > 0) {
-          setPosts(cloudPosts);
-          setFeedOffset(7); // reset offset on full reload
-        }
-      } catch (_) {
-        // fallback: leave DEFAULT_POSTS
-      }
-    };
-    initFeed();
+    saveFeed(posts);
+  }, [posts]);
 
-    // Subscribe to real-time post inserts from Supabase
-    sub = subscribeToPosts({
-      onInsert: (newPost) => {
-        setPosts((prev) => {
-          // Prevent duplicate posts (if manually inserted or our own quickly appears)
-          if (prev.some((p) => p.time === newPost.time && p.img === newPost.img && p.caption === newPost.caption && p.by === newPost.by)) {
-            return prev;
-          }
-          return [newPost, ...prev];
-        });
-        setFeedAnimIdx(-1);
-        setTimeout(() => setFeedAnimIdx(0), 18);
-      }
-    });
-
-    return () => {
-      ignore = true;
-      try {
-        // Unsubscribe if channel exists
-        if (sub && typeof sub.unsubscribe === "function") {
-          sub.unsubscribe();
-        }
-      } catch (_) {}
-    };
-  }, []);
-
-  // Infinite scroll - trigger next posts as user scrolls
+  // Persist likes to localStorage only
   useEffect(() => {
-    function onScroll() {
-      if (
-        window.innerHeight + window.scrollY >
-        (document.body.offsetHeight - 220)
-      ) {
-        loadMorePosts();
-      }
-    }
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-    // eslint-disable-next-line
-  }, [feedOffset, posts, checkmateFilter]);
+    saveLikes(likes);
+  }, [likes]);
 
+  // "chess" in post confetti + filter
   useEffect(() => {
-    // "chess" in post confetti + filter
     if (
       caption.toLowerCase().includes("chess") &&
       confetti === false
@@ -269,11 +236,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       return () => clearTimeout(t);
     }
   }, [feedAnimIdx]);
-  // Persist likes to localStorage only
-  useEffect(() => {
-    saveLikes(likes);
-  }, [likes]);
-
   // Modal auto-closes on post submit (legacy behavior)
   useEffect(() => {
     if (
@@ -289,33 +251,31 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   }, [posts]);
 
   // Submit new post (desktop form)
-  async function submitPost(e) {
+  function submitPost(e) {
     e.preventDefault();
     if (!caption.trim()) return;
     const egg = caption.toLowerCase().includes("chess");
     const mate = caption.toLowerCase().includes("checkmate");
     const newPost = {
+      id: `post-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
       img: imgUrl ||
         "https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&w=500",
       caption: sanitizeCaption(caption),
       by: "You",
       time: Date.now(),
+      comments: [],
       egg,
       mate,
     };
-    // Add to Supabase (persists for all users, triggers real-time)
-    try {
-      await addPost(newPost);
-      setCaption("");
-      setImgUrl("");
-      if (egg) setConfetti(true);
-      setTimeout(() => setConfetti(false), 1533);
-    } catch (err) {
-      // fallback: still display locally for demo (not persistent)
-      setPosts((prev) => [newPost, ...prev]);
-      setCaption("");
-      setImgUrl("");
-    }
+    setPosts((prev) => {
+      const next = [newPost, ...prev];
+      saveFeed(next);
+      return next;
+    });
+    setCaption("");
+    setImgUrl("");
+    if (egg) setConfetti(true);
+    setTimeout(() => setConfetti(false), 1533);
   }
 
   // New FAB modal handlers
@@ -337,7 +297,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     if (fabImageUrl && fabImageUpload) err.img = "Choose either Image URL or upload a file, not both.";
     return err;
   }
-  async function handleFabSubmit(e) {
+  function handleFabSubmit(e) {
     e.preventDefault();
     const err = validateFab();
     if (Object.keys(err).length > 0) {
@@ -353,17 +313,20 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       imageToUse = "https://images.pexels.com/photos/1329296/pexels-photo-1329296.jpeg?auto=compress&w=500";
     }
     const newPost = {
+      id: `post-${Date.now()}-${Math.random().toString(36).slice(2,8)}`,
       img: imageToUse,
       caption: fabCaption ? sanitizeCaption(fabCaption) : "",
       by: fabName.trim(),
-      time: Date.now()
+      time: Date.now(),
+      comments: [],
+      egg: fabCaption?.toLowerCase().includes("chess") || false,
+      mate: fabCaption?.toLowerCase().includes("checkmate") || false,
     };
-    try {
-      await addPost(newPost);
-    } catch (err) {
-      // fallback (local only)
-      setPosts((prev) => [newPost, ...prev]);
-    }
+    setPosts((prev) => {
+      const next = [newPost, ...prev];
+      saveFeed(next);
+      return next;
+    });
     setFeedAnimIdx(-1);
     setTimeout(() => setFeedAnimIdx(0), 18);
     setShowModal(false);
@@ -387,12 +350,17 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     );
 
   function handleLike(idx) {
-    setLikes((old) => ({ ...old, [idx]: !old[idx] }));
+    setLikes((old) => {
+      const next = { ...old, [idx]: !old[idx] };
+      saveLikes(next);
+      return next;
+    });
+    // Save posts array for structural consistency
+    saveFeed(posts);
     setEmojiBurstIdx(idx);
     setTimeout(() => setEmojiBurstIdx(-1), 620);
   }
 
-  // Infinite scroll offset changes based ONLY on how many posts are loaded; doesn't fetch more from supabase, since we read upfront
   function loadMorePosts() {
     if (!loadingMore && feedOffset < posts.length) {
       setLoadingMore(true);
@@ -408,11 +376,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   }
 
   // PUBLIC_INTERFACE
-  /**
-   * Instagram-Style Post Card: 
-   * Avatar, Username, Time, Image, Interactive Like & Comment bar, Truncatable Caption, 1-2 Comments Preview, Input for new comment.
-   * Fully responsive, well styled.
-   */
   function CardContent({ p, idx, animateDrop, cardRef }) {
     const isDefault = DEFAULT_POSTS.some(
       d => d.caption === p.caption && d.by === p.by
@@ -426,10 +389,9 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       ? p.caption
       : (p.caption ? (p.caption.slice(0, CAPTION_LIMIT) + "…") : "");
 
-    // Comments section (local only for now)
+    // Comments section (persisted to posts state)
     const [comments, setComments] = useState(() => {
-      // On first render only, optionally fetch from Supabase here
-      return p.comments || [];
+      return Array.isArray(p.comments) ? p.comments : [];
     });
     const [commentInput, setCommentInput] = useState("");
     const commentInputRef = useRef(null);
@@ -438,15 +400,25 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       e.preventDefault();
       const text = commentInput.trim();
       if (!text) return;
-      // Optionally push to Supabase here, append locally for immediate UX
       const newComment = {
         by: "You",
         text,
-        time: Date.now()
+        time: Date.now(),
       };
-      setComments(prev => [...prev, newComment]);
+      setComments(prev => {
+        const next = [...prev, newComment];
+        setPosts((allPosts) => {
+          const modded = allPosts.map((postObj, postIdx) =>
+            idx === postIdx
+              ? { ...postObj, comments: [...(Array.isArray(postObj.comments) ? postObj.comments : []), newComment] }
+              : postObj
+          );
+          saveFeed(modded);
+          return modded;
+        });
+        return next;
+      });
       setCommentInput("");
-      // TODO: Supabase persistence ("comments" table or post relation, if enabled)
     }
 
     // Avatar: use first letter of username or emoji fallback
@@ -466,14 +438,9 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       </div>
     );
 
-    // Like button/Comments (interactive)
-    const likeCount = likes[idx] ? 1 : 0; // For demo: each user can only toggle their like
+    const likeCount = likes[idx] ? 1 : 0;
     const commentCount = comments.length;
-
-    // Comment preview (up to 2 most recent)
     const commentsToShow = comments.slice(-2);
-
-    // Accessibility IDs
     const cardId = `post-card-${idx}`;
 
     return (
@@ -577,7 +544,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
             aria-label="Like count"
             tabIndex={-1}
           >{likeCount}</span>
-          {/* Comment icon/count placeholder (for now only local) */}
+          {/* Comment icon/count */}
           <span style={{ marginLeft: 16, display: "flex", alignItems: "center", color: "#aab" }}>
             <span role="img" aria-label="comment" style={{ fontSize: "1.24em", marginRight: 2 }}>💬</span>
             <span
@@ -647,7 +614,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
             ))
           )}
         </div>
-        {/* Add Comment field (demo only, local) */}
+        {/* Add Comment field (local, persisted in post) */}
         <form
           className="post-card-comment-form"
           style={{
@@ -702,6 +669,21 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
       </div>
     );
   }
+
+  // Infinite scroll - trigger next posts as user scrolls
+  useEffect(() => {
+    function onScroll() {
+      if (
+        window.innerHeight + window.scrollY >
+        (document.body.offsetHeight - 220)
+      ) {
+        loadMorePosts();
+      }
+    }
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+    // eslint-disable-next-line
+  }, [feedOffset, posts, checkmateFilter]);
 
   // Render main social feed in a single vertical centered column with card UI, divider <hr>, and viewport centering
   return (
@@ -816,7 +798,7 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
           flexDirection: "column",
           alignItems: "center",
           width: "100%",
-          maxWidth: 535, // allow more horizontal room so card scale feels correct
+          maxWidth: 535,
           margin: "0 auto",
           justifyContent: "flex-start",
           minHeight: "75vh"
@@ -835,7 +817,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
               </React.Fragment>
             );
           }
-          // Animation drop-in for new post
           const animateDrop =
             feedAnimIdx !== null
               ? (feedAnimIdx === -1 && idx === 0) ||
