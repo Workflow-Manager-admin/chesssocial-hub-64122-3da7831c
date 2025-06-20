@@ -114,7 +114,7 @@ export default function ChessArena() {
 
   // After every legal human move in bot mode, schedule AI response with 500ms delay.
   useEffect(() => {
-    if (!engine || chess.gameOver()) return;
+    if (!engine || typeof chess.gameOver !== "function" ? chess.game_over() : chess.gameOver()) return;
     // Only trigger the bot if:
     // 1. isBotGame is true
     // 2. It's the bot's turn to move (after human's move)
@@ -128,10 +128,10 @@ export default function ChessArena() {
         (chess.turn() === "w" && side === "black")
       )
     ) {
-      console.log("AI move triggered"); // log trigger before AI move
+      console.log("AI move triggered");
       setTimeout(() => {
         thinkAndMove();
-      }, 500); // 500ms: user-friendly, snappier than 615ms
+      }, 500);
     }
     // eslint-disable-next-line
   }, [engine, fen, botIdx, side]);
@@ -194,7 +194,7 @@ export default function ChessArena() {
       setMoves((ms) => [...ms, move.san]);
       setMoveError("");
       if (isBotGame) {
-        console.log("Player move registered", move); // log after every legal player move
+        console.log("Player move registered", move.san); // log after every legal player move
         // AI handled by useEffect; no immediate call here to preserve delay/timing.
       }
     } else {
@@ -280,7 +280,7 @@ export default function ChessArena() {
       setBotThinking(false);
       return;
     }
-    console.log("[AI] thinking..."); // clearer log
+    console.log("AI thinking..."); // On AI think start
 
     try {
       engine.postMessage("ucinewgame");
@@ -308,13 +308,13 @@ export default function ChessArena() {
               promotion: "q"
             });
           } catch (_) {}
-          // Log the choice
+          // Log the choice in required style
           if (moveObj && moveObj.san) {
-            console.log("[AI] chose move: " + moveObj.san); // log actual move in SAN
+            console.log("AI chose move: " + moveObj.san);
           } else {
-            console.log("[AI] chose move: " + String(move)); // fallback
+            console.log("AI chose move: " + String(move));
           }
-          setFen(game.fen()); // Always update board state after AI move
+          setFen(game.fen());
           setMoves((ms) => [...ms, moveObj && moveObj.san ? moveObj.san : move]);
         }
         setBotThinking(false);
