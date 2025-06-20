@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
-import "./apple.modern.css";
-import "./checkmates.css";
 import SocialFeed from "./SocialFeed";
 import ChessArena from "./ChessArena";
 import ChessTutorLoader from "./ChessTutorLoader";
