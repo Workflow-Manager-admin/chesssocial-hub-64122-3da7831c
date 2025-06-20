@@ -71,21 +71,29 @@ export default function ChessArena() {
 
   // Load Stockfish.js dynamically via CDN on first mount
   useEffect(() => {
+    let isMounted = true;
+    function onStockfishLoaded() {
+      if (isMounted) setEngine(loadStockfish());
+    }
+    // Only add script if not present
     if (!window.Stockfish) {
       const tag = document.createElement("script");
       tag.src = "https://cdn.jsdelivr.net/npm/stockfish/stockfish.min.js";
       tag.async = true;
-      tag.onload = () => {
-        setEngine(loadStockfish());
-      };
+      tag.onload = onStockfishLoaded;
       document.head.appendChild(tag);
     } else {
-      setEngine(loadStockfish());
+      onStockfishLoaded();
     }
     setArenaWelcome(true);
     return () => {
-      if (window._stockfishEngine && window._stockfishEngine.postMessage)
-        window._stockfishEngine.postMessage("quit");
+      isMounted = false;
+      try {
+        if (window._stockfishEngine && typeof window._stockfishEngine.postMessage === "function")
+          window._stockfishEngine.postMessage("quit");
+      } catch (e) {
+        // Stockfish may already be cleaned up
+      }
     };
     // eslint-disable-next-line
   }, []);
