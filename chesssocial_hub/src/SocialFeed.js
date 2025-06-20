@@ -3,6 +3,30 @@ import { loadLikes, saveLikes, sanitizeCaption, loadFeed, saveFeed } from "./uti
 import EmojiBurst from "./EmojiBurst";
 import ConfettiBurst from "./Confetti";
 
+// PUBLIC_INTERFACE
+/**
+ * Triggers download of a JSON file with the provided data and filename.
+ * Defensive: Handles all browsers and stringifies properly. Used for posts export.
+ */
+function downloadJSON(data, filename) {
+  try {
+    const json = JSON.stringify(data, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(() => {
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }, 100);
+  } catch (e) {
+    alert("Error exporting posts: " + (e.message || e));
+  }
+}
+
 // Meme post images and default posts as before
 const MEME_URLS = [
   "https://i.imgflip.com/30b1gx.jpg",   // Distracted boyfriend
@@ -689,6 +713,34 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
   return (
     <div className="insta-feed-outer" style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "flex-start" }}>
       <ConfettiBurst trigger={confetti} />
+
+      {/* Export Posts Button (top toolbar, accessible, visually styled) */}
+      <div
+        style={{
+          width: "100%",
+          maxWidth: 535,
+          marginBottom: 13,
+          display: "flex",
+          justifyContent: "flex-end",
+          alignItems: "center",
+        }}
+      >
+        <button
+          className="social-feed-button"
+          onClick={() => downloadJSON(posts, "posts-export.json")}
+          style={{
+            fontWeight: 600,
+            fontSize: "1.04rem",
+            marginRight: 0,
+            letterSpacing: ".01em"
+          }}
+          aria-label="Export posts as JSON"
+          tabIndex={0}
+        >
+          <span role="img" aria-label="download" style={{ marginRight: 7 }}>📤</span>
+          Export
+        </button>
+      </div>
 
       {/* New Floating FAB Button for post (bottom-right) */}
       <button
