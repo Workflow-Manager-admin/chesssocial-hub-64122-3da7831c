@@ -106,7 +106,7 @@ export default function ChessArena() {
 
   // Bot moves after player
   useEffect(() => {
-    if (!engine || chess.game_over()) return;
+    if (!engine || chess.game_over) return;
     if (
       (chess.turn() === "b" && side === "white") ||
       (chess.turn() === "w" && side === "black")
@@ -123,7 +123,7 @@ export default function ChessArena() {
     setMoves([]);
     setTimeout(() => {
       if (
-        (side === "black" && !game.game_over()) ||
+        (side === "black" && !game.game_over) ||
         (side === "white" && botIdx === 3) // Mittens starts as black
       ) {
         thinkAndMove(game);
@@ -133,7 +133,7 @@ export default function ChessArena() {
 
   function handleMove({ sourceSquare, targetSquare }) {
     if (!chess || typeof chess.move !== 'function') return;
-    if (chess.game_over() || isBotThinking) return;
+    if (chess.game_over || isBotThinking) return;
     const move = chess.move({
       from: sourceSquare,
       to: targetSquare,
