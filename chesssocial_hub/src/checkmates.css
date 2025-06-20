@@ -664,7 +664,8 @@ body {
   border: 2.7px solid #e6e7ed;
   /* increase stacking for shine overlay */
   position: relative;
-  /* overflow: hidden is NOT set -- we want shine to softly reach edges, but not disrupt children */
+  /* Ensure all metallic shine overlay (and content) is strictly clipped to card's rounded corners: */
+  overflow: hidden;
 }
 
 .metallic-chess-invite .metallic-shine-anim {
@@ -674,6 +675,8 @@ body {
   width: 100%; height: 100%;
   z-index: 9;
   /* Overlay via pseudo-element for shine effect */
+  overflow: hidden;
+  border-radius: 16px;
 }
 
 .metallic-chess-invite .metallic-shine-anim::before {
@@ -694,7 +697,10 @@ body {
   transform: skew(-22deg) translateY(0);
   opacity: 0;
   transition: opacity 0.09s, transform 0.3s cubic-bezier(0.43,0.65,0.53,1.12);
-  border-radius: 14px;
+  border-radius: 16px;
+  /* Prevent shine from exceeding card edge even if animated or scaled */
+  overflow: hidden;
+  pointer-events: none;
 }
 
 /* On hover: animate the shine swiping to top right and fade */
