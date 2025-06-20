@@ -60,7 +60,10 @@ function BotPersona({ bot }) {
 
 // PUBLIC_INTERFACE
 export default function ChessArena() {
-  const [chess, setChess] = useState(() => new Chess());
+  // Persist Chess object across renders to avoid recreation
+  const chessRef = useRef(null);
+  if (!chessRef.current) chessRef.current = new Chess();
+
   const [fen, setFen] = useState("start");
   const [moves, setMoves] = useState([]);
   const [side, setSide] = useState("white");
@@ -110,7 +113,9 @@ export default function ChessArena() {
   }, [botIdx, side]);
 
   // Bot-mode detection helper: play vs bot if BOTS[botIdx] exists, i.e., always true in this mode.
-  const isBotGame = true; // since currently only bot-vs-human exists.
+  const isBotGame = true; // Human vs Bot only for now.
+  // vsBot: Used for AI block gating -- toggle to false to simulate vs human or multiplayer mode
+  const [vsBot] = useState(true);
 
   // After every legal human move in bot mode, schedule AI response with 500ms delay.
   useEffect(() => {
@@ -142,19 +147,19 @@ export default function ChessArena() {
   }
 
   function resetGame() {
-    const game = new Chess();
-    setChess(game);
+    chessRef.current = new Chess();
     setFen("start");
     setMoves([]);
     setSelectedSquare(null);
     setLegalMoves([]);
     setMoveError("");
     setTimeout(() => {
+      // When restarting, handle bot's first move if needed (bots starting as black, etc.)
       if (
-        (side === "black" && !isGameOverWrapper(game)) ||
-        (side === "white" && botIdx === 3) // Mittens starts as black
+        (side === "black" && !isGameOverWrapper(chessRef.current)) ||
+        (side === "white" && botIdx === 3)
       ) {
-        thinkAndMove(game);
+        thinkAndMove(chessRef.current);
       }
     }, 180);
   }
@@ -166,6 +171,7 @@ export default function ChessArena() {
    * 
    * On a legal (player) move in bot mode: logs 'Player move registered' and lets the bot respond after a delay via effect.
    * Always calls setFen after every move.
+   * Refactored so chess = chessRef.current, and vsBot/isBotGame logic now gates AI.
    */
   function handleMove({ sourceSquare, targetSquare }) {
     setMoveError("");
@@ -175,6 +181,7 @@ export default function ChessArena() {
     // Logging: Entry for move attempt
     // N.B. This logs even for illegal move attempts.
     // Only logs detailed steps if move proceeds below.
+    const chess = chessRef.current;
     if (!chess || typeof chess.move !== "function") {
       console.log("[SKIP] No chess instance or move method is unavailable.");
       return;
@@ -211,11 +218,13 @@ export default function ChessArena() {
       setFen(chess.fen());
       setMoves((ms) => [...ms, move.san]);
       setMoveError("");
-      if (isBotGame) {
+      // Key change: Both isBotGame and vsBot must be true for AI to move
+      if (isBotGame && vsBot) {
         // Explicit logging for player move, with clear message & layout
         console.log("Player move registered", move.san);
 
-        // Wrap AI-block with detailed logs to trace all decisions
+        // AI-block: Only fire if not thinking, and it is the bot's turn after this move
+        // Structure matches pseudocode, add all required logs
         if (
           !isBotThinking &&
           (
@@ -228,7 +237,7 @@ export default function ChessArena() {
             chessTurn: chess.turn(),
             side
           });
-          console.log("AI move triggered"); // Exact requirement phrase
+          console.log("AI move triggered");
           setBotThinking(true);
           setTimeout(() => {
             thinkAndMove();
@@ -259,6 +268,7 @@ export default function ChessArena() {
    */
   function handleSquareClick(square) {
     setMoveError(""); // Reset on new click
+    const chess = chessRef.current;
     if (isBotThinking || isGameOverWrapper(chess)) return;
 
     if (selectedSquare === square) {
@@ -324,14 +334,13 @@ export default function ChessArena() {
   // Send position to Stockfish, receive best move, play as bot (with logging and forced fen update)
   function thinkAndMove(overrideGame) {
     setBotThinking(true);
-    const game = overrideGame || chess;
+    const game = overrideGame || chessRef.current;
     if (!engine || typeof engine.postMessage !== "function" || !game || typeof game.fen !== "function") {
       console.log("[SKIP] thinkAndMove aborted: Engine not ready or game/fen invalid.");
       setBotThinking(false);
       return;
     }
-    console.log("AI thinking..."); // On AI think start
-
+    console.log("AI thinking...");
     try {
       engine.postMessage("ucinewgame");
       engine.postMessage(`position fen ${game.fen()}`);
@@ -398,6 +407,7 @@ export default function ChessArena() {
   function renderBoard() {
     // Highlighting logic: show all legal moves for the selected piece using squareStyles
     const highlightStyles = {};
+    const chess = chessRef.current;
 
     if (selectedSquare) {
       // Get all legal moves from the current position for the selected square
