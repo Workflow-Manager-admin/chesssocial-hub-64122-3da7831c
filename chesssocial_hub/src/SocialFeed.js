@@ -407,15 +407,79 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     if (typeof onArenaPortal === "function") onArenaPortal();
   }
 
-  // Card content with badge for default posts
+  // PUBLIC_INTERFACE
+  /**
+   * Instagram-Style Post Card: 
+   * Avatar, Username, Time, Image, Interactive Like & Comment bar, Truncatable Caption, 1-2 Comments Preview, Input for new comment.
+   * Fully responsive, well styled.
+   */
   function CardContent({ p, idx, animateDrop, cardRef }) {
     const isDefault = DEFAULT_POSTS.some(
       d => d.caption === p.caption && d.by === p.by
     );
+
+    // Truncation for captions
+    const [showFullCaption, setShowFullCaption] = useState(false);
+    const CAPTION_LIMIT = 120;
+    const isTruncated = p.caption && p.caption.length > CAPTION_LIMIT;
+    const displayCaption = showFullCaption || !isTruncated
+      ? p.caption
+      : (p.caption ? (p.caption.slice(0, CAPTION_LIMIT) + "…") : "");
+
+    // Comments section (local only for now)
+    const [comments, setComments] = useState(() => {
+      // On first render only, optionally fetch from Supabase here
+      return p.comments || [];
+    });
+    const [commentInput, setCommentInput] = useState("");
+    const commentInputRef = useRef(null);
+
+    function handleCommentSubmit(e) {
+      e.preventDefault();
+      const text = commentInput.trim();
+      if (!text) return;
+      // Optionally push to Supabase here, append locally for immediate UX
+      const newComment = {
+        by: "You",
+        text,
+        time: Date.now()
+      };
+      setComments(prev => [...prev, newComment]);
+      setCommentInput("");
+      // TODO: Supabase persistence ("comments" table or post relation, if enabled)
+    }
+
+    // Avatar: use first letter of username or emoji fallback
+    const avatar = (
+      <div
+        style={{
+          background: 'linear-gradient(130deg, #ece9f7 60%, #f7d689 100%)',
+          color: '#916909',
+          fontWeight: 900,
+          width: 36, height: 36, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: '1.22rem', marginRight: 13, border: '2px solid #f7e2bc', boxShadow: '0 1px 4.4px -1px #efd99b'
+        }}
+        aria-label={p.by.slice(0,1)}
+      >
+        {p.by.match(/[a-z0-9]/i) ? p.by.slice(0,1).toUpperCase() : "👤"}
+      </div>
+    );
+
+    // Like button/Comments (interactive)
+    const likeCount = likes[idx] ? 1 : 0; // For demo: each user can only toggle their like
+    const commentCount = comments.length;
+
+    // Comment preview (up to 2 most recent)
+    const commentsToShow = comments.slice(-2);
+
+    // Accessibility IDs
+    const cardId = `post-card-${idx}`;
+
     return (
       <div
         className={
-          "insta-feed-card " +
+          "insta-feed-card instagram-style-card " +
           (p.mate || checkmateFilter ? "social-feed-monochrome " : "") +
           (animateDrop ? "social-feed-dropin " : "")
         }
@@ -423,53 +487,216 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
         style={{
           margin: "0 auto",
           marginBottom: 24,
-          maxWidth: 430,
+          maxWidth: 600,
+          minWidth: 0,
+          width: "100%",
+          padding: 0,
+          overflow: "visible",
+          position: "relative",
         }}
+        tabIndex={0}
+        aria-labelledby={cardId+"-header"}
+        role="region"
       >
-        {/* Badge */}
-        {isDefault && (
-          <div
-            className="insta-feed-badge"
-            tabIndex={0}
-            title="Default viral meme post (examples only)"
-          >
-            <span role="img" aria-label="badge">🥈</span>
-            <span className="insta-feed-badge-tip">Meme Example</span>
+        {/* Header: avatar, name, time */}
+        <div className="post-card-header" id={cardId+"-header"} style={{
+          display: "flex", alignItems: "center", gap: 0,
+          padding: "17px 19px 10px 19px"
+        }}>
+          {/* Badge for meme default posts */}
+          {isDefault && (
+            <div className="insta-feed-badge" tabIndex={0}
+                 title="Default viral meme post (examples only)"
+                 style={{ position: "static", marginRight: 10 }}>
+              <span role="img" aria-label="badge">🥈</span>
+              <span className="insta-feed-badge-tip">Meme Example</span>
+            </div>
+          )}
+          {avatar}
+          <div style={{ flex: "1 1 auto", minWidth: 0 }}>
+            <span style={{
+              fontWeight: 700,
+              fontSize: "1.09rem",
+              color: "var(--primary)",
+              letterSpacing: "-0.015em"
+            }}>{p.by}</span>
+            <span style={{
+              fontWeight: 400,
+              color: "#aab", opacity: 0.77,
+              marginLeft: 10, fontSize: "0.97rem"
+            }}>{timeAgo(p.time)}</span>
           </div>
-        )}
-        <img
-          className="insta-feed-img"
-          src={p.img}
-          alt={p.caption}
-          style={{ userSelect: "none", pointerEvents: "none" }}
-          draggable={false}
-        />
-        <div className="insta-feed-caption">{p.caption}</div>
-        <div className="insta-feed-meta">
-          {p.by} &middot; {timeAgo(p.time)}
         </div>
-        <button
-          className={
-            "insta-feed-like-btn" +
-            (likes[idx] ? " liked" : "")
-          }
-          aria-label={
-            likes[idx]
-              ? "Unlike post"
-              : "Like post"
-          }
-          onClick={() => handleLike(idx)}
-          type="button"
-          tabIndex={0}
-        >
-          <span style={{ marginRight: 2 }} role="img" aria-label="heart">
-            {likes[idx] ? "💚" : "🤍"}
-          </span>
-          <EmojiBurst
-            emoji="💖"
-            show={emojiBurstIdx === idx}
+        {/* Main Image */}
+        <div className="post-card-img-container"
+             style={{
+                width: "100%", padding: "0 0", display: "flex",
+                alignItems: "center", justifyContent: "center",
+                background: "var(--boardBg)", borderRadius: "0"
+              }}>
+          <img
+            className="insta-feed-img instagram-style-img"
+            src={p.img}
+            alt={p.caption?.slice(0,80) || ""}
+            style={{
+              borderRadius: 0, width: "100%",
+              maxHeight: "370px", minHeight: 110,
+              aspectRatio: "1/1", objectFit: "cover",
+              background: "var(--boardBg)"
+            }}
+            draggable={false}
           />
-        </button>
+        </div>
+        {/* Actions row: likes, comment icon */}
+        <div className="post-card-actions" style={{
+          display: "flex", alignItems: "center", gap: "18px",
+          padding: "7px 19px 0 19px"
+        }}>
+          <button
+            className={
+              "insta-feed-like-btn post-card-like-btn" +
+              (likes[idx] ? " liked" : "")
+            }
+            aria-label={likes[idx] ? "Unlike post" : "Like post"}
+            onClick={() => handleLike(idx)}
+            type="button"
+            tabIndex={0}
+            style={{ position: "relative", top: 0, right: 0, marginRight: "3px" }}
+          >
+            <span style={{ marginRight: 2, fontSize: "1.5em" }} role="img" aria-label="heart">
+              {likes[idx] ? "💚" : "🤍"}
+            </span>
+            <EmojiBurst
+              emoji="💖"
+              show={emojiBurstIdx === idx}
+            />
+          </button>
+          <span style={{
+            fontWeight: 600, color: "var(--highlight)", width: 28, minWidth: 28
+          }}
+            aria-label="Like count"
+            tabIndex={-1}
+          >{likeCount}</span>
+          {/* Comment icon/count placeholder (for now only local) */}
+          <span style={{ marginLeft: 16, display: "flex", alignItems: "center", color: "#aab" }}>
+            <span role="img" aria-label="comment" style={{ fontSize: "1.24em", marginRight: 2 }}>💬</span>
+            <span
+              style={{ fontWeight: 600 }}
+              aria-label="Comments count"
+              tabIndex={-1}
+            >{commentCount}</span>
+          </span>
+        </div>
+
+        {/* Caption (truncatable, "more" link if long) */}
+        <div className="post-card-caption" style={{
+          fontSize: "1.10rem",
+          color: "var(--text)",
+          padding: "10px 19px 2px 19px",
+          fontWeight: 500,
+          marginTop: "0.30em",
+          marginBottom: "0.12em",
+          lineHeight: 1.42,
+          whiteSpace: "pre-line",
+          wordBreak: "break-word"
+        }}>
+          {displayCaption}
+          {isTruncated && !showFullCaption && (
+            <button
+              type="button"
+              style={{
+                background: "none", border: "none", color: "var(--primary)", fontWeight: 700,
+                cursor: "pointer", padding: 0, fontSize: "1.08em", marginLeft: 2
+              }}
+              tabIndex={0}
+              aria-label="See more"
+              onClick={() => setShowFullCaption(true)}
+            >more</button>
+          )}
+        </div>
+
+        {/* Comment(s) preview */}
+        <div className="post-card-comments-preview" style={{
+          padding: "2px 19px 0 19px",
+          marginBottom: 1, marginTop: 4
+        }}>
+          {commentsToShow.length === 0 ? (
+            <span style={{
+              color: "#aaa", opacity: 0.51, fontSize: "0.98em", fontStyle: "italic"
+            }}>No comments yet</span>
+          ) : (
+            commentsToShow.map((c, i) => (
+              <div key={i} style={{
+                fontSize: "0.98em",
+                color: "var(--text-secondary)",
+                marginBottom: "1.5px",
+                display: "flex",
+                alignItems: "baseline",
+                gap: 8
+              }}>
+                <span style={{
+                  fontWeight: 500, marginRight: 5, color: "var(--primary)", fontSize: "1em"
+                }}>{c.by}:</span>
+                <span style={{ opacity: 0.92, flex: 1, wordBreak: "break-word" }}>{c.text}</span>
+                <span style={{
+                  marginLeft: 9, fontSize: "0.89em", color: "#bbb"
+                }}>
+                  {c.time ? timeAgo(c.time) : ""}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
+        {/* Add Comment field (demo only, local) */}
+        <form
+          className="post-card-comment-form"
+          style={{
+            display: "flex",
+            gap: 7,
+            alignItems: "center",
+            padding: "5px 19px 13px 19px"
+          }}
+          autoComplete="off"
+          onSubmit={handleCommentSubmit}
+        >
+          <input
+            ref={commentInputRef}
+            type="text"
+            value={commentInput}
+            onChange={e => setCommentInput(e.target.value)}
+            maxLength={120}
+            className="social-feed-input"
+            aria-label="Add a comment"
+            placeholder="Add a comment..."
+            style={{
+              flex: "1 1 auto",
+              borderRadius: 13,
+              border: "1px solid #e3daef",
+              fontSize: "1.02em",
+              background: "#fcfcffe6",
+              padding: "7.5px 12px",
+              outline: 0,
+              color: "var(--text)",
+              minWidth: "0"
+            }}
+          />
+          <button
+            type="submit"
+            style={{
+              fontWeight: 700,
+              color: "var(--accent)",
+              background: "none",
+              border: "none",
+              fontSize: "1.02em",
+              cursor: commentInput.trim() ? "pointer" : "default",
+              opacity: commentInput.trim() ? 1 : 0.44,
+              padding: "0 3px"
+            }}
+            disabled={!commentInput.trim()}
+            tabIndex={0}
+            aria-label="Post comment"
+          >Post</button>
+        </form>
         {/* Divider */}
         <div className="insta-feed-divider" />
       </div>
