@@ -581,39 +581,6 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
         </div>
       )}
 
-      {/* Desktop post entry bar, hidden if modal open or on mobile */}
-      <form
-        className={"insta-feed-form-bar" + (checkmateFilter ? " social-feed-form-easteregg" : "")}
-        onSubmit={submitPost}
-        autoComplete="off"
-        style={{
-          display: showModal ? "none" : undefined
-        }}
-      >
-        <input
-          className={"insta-feed-input" + (checkmateFilter ? " social-feed-input-easteregg" : "")}
-          placeholder={
-            checkmateFilter
-              ? "🖤 'checkmate' detected! The void expands... Post anyway?"
-              : "Write your move, share your mood (type 'chess' or 'checkmate' for a surprise)"
-          }
-          maxLength={350}
-          value={caption}
-          onChange={e => setCaption(e.target.value)}
-        />
-        <input
-          className="insta-feed-input"
-          placeholder="Paste an image URL (optional)..."
-          type="url"
-          value={imgUrl}
-          onChange={e => setImgUrl(e.target.value)}
-          style={{ marginTop: 0, marginBottom: 10 }}
-        />
-        <button className="insta-feed-submit" type="submit" tabIndex={0}>
-          Post
-        </button>
-      </form>
-
       {/* Feed: vertical, centered card layout with <hr> dividers and responsive styling */}
       <div
         className="insta-feed-col"
