@@ -2,11 +2,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./App.css";
 import "./checkmates.css";
-import ThemeToggle from "./ThemeToggle";
 import SocialFeed from "./SocialFeed";
 import ChessArena from "./ChessArena";
 import ChessTutorLoader from "./ChessTutorLoader";
-import { getInitialTheme, applyTheme } from "./theme";
 
 // PUBLIC_INTERFACE
 /**
@@ -27,10 +25,6 @@ function getTabs() {
 function App() {
   // tab can be: 'feed', 'chess', 'tutor'
   const [tab, setTab] = useState("feed");
-
-  useEffect(() => {
-    applyTheme(getInitialTheme());
-  }, []);
 
   // Handler to switch directly to arena from SocialFeed/portal post
   const handleArenaTab = useCallback(() => setTab("chess"), []);
@@ -66,9 +60,6 @@ function App() {
             </button>
           ))}
         </div>
-        <span className="theme-toggle">
-          <ThemeToggle />
-        </span>
       </nav>
       <main>
         <div className="checkmates-container">

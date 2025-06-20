@@ -24,4 +24,94 @@ cacheable modules 1.7 MiB
     modules by path ./.ve/*.js 10.6 KiB 2 modules
     modules by path ./.ve/*.css 2.93 KiB 2 modules
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1728 ms
+webpack 5.99.9 compiled successfully in 1698 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.88 MiB [emitted]
+  asset bundle.js 1.87 MiB [emitted] (name: main)
+  asset main.60cbe9eb32f7fba94b40.hot-update.js 7.33 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.60cbe9eb32f7fba94b40.hot-update.json 50 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.88 MiB = bundle.js 1.87 MiB main.60cbe9eb32f7fba94b40.hot-update.js 7.33 KiB
+cached modules 1.69 MiB [cached] 63 modules
+runtime modules 30.8 KiB 16 modules
+./src/App.js 3.64 KiB [code generated]
+
+ERROR in ./src/App.js 4:0-40
+Module not found: Error: Can't resolve './ThemeToggle' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+resolve './ThemeToggle' in '/home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src'
+  using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src)
+    Field 'browser' doesn't contain a valid alias configuration
+    using description file: /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/package.json (relative path: ./src/ThemeToggle)
+      no extension
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/ThemeToggle doesn't exist
+      .js
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/ThemeToggle.js doesn't exist
+      .jsx
+        Field 'browser' doesn't contain a valid alias configuration
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/ThemeToggle.jsx doesn't exist
+      as directory
+        /home/kavia/workspace/code-generation/chesssocial-hub-64122-3da7831c/chesssocial_hub/src/ThemeToggle doesn't exist
+ @ ./src/index.js 5:0-24 11:32-35
+
+webpack 5.99.9 compiled with 1 error in 42 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.88 MiB [emitted]
+  asset bundle.js 1.87 MiB [emitted] (name: main)
+  asset main.6ada4934df7adeef344f.hot-update.js 6.87 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.6ada4934df7adeef344f.hot-update.json 44 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.88 MiB = bundle.js 1.87 MiB main.6ada4934df7adeef344f.hot-update.js 6.87 KiB
+cached modules 1.69 MiB [cached] 62 modules
+runtime modules 30.8 KiB 16 modules
+./src/App.js 3.55 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 43 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.88 MiB [emitted]
+  asset bundle.js 1.87 MiB [emitted] (name: main)
+  asset main.034198f70056718170c0.hot-update.js 6.76 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.034198f70056718170c0.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.88 MiB = bundle.js 1.87 MiB main.034198f70056718170c0.hot-update.js 6.76 KiB
+cached modules 1.69 MiB [cached] 62 modules
+runtime modules 30.8 KiB 16 modules
+./src/App.js 3.48 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 41 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.88 MiB [emitted]
+  asset bundle.js 1.87 MiB [emitted] (name: main)
+  asset main.1713ec1c78738f821f9c.hot-update.js 6.43 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.1713ec1c78738f821f9c.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.88 MiB = bundle.js 1.87 MiB main.1713ec1c78738f821f9c.hot-update.js 6.43 KiB
+cached modules 1.69 MiB [cached] 62 modules
+runtime modules 30.8 KiB 16 modules
+./src/App.js 3.26 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 50 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.87 MiB [emitted]
+  asset bundle.js 1.86 MiB [emitted] (name: main)
+  asset main.045098918da5a2dd53a6.hot-update.js 4.25 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.045098918da5a2dd53a6.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.87 MiB = bundle.js 1.86 MiB main.045098918da5a2dd53a6.hot-update.js 4.25 KiB
+cached modules 1.69 MiB [cached] 62 modules
+runtime modules 30.8 KiB 16 modules
+./node_modules/css-loader/dist/cjs.js!./src/App.css 1.82 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 46 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.87 MiB [emitted]
+  asset bundle.js 1.86 MiB [emitted] (name: main)
+  asset main.81c97cb09f9b1a4b48da.hot-update.js 3.38 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.81c97cb09f9b1a4b48da.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.87 MiB = bundle.js 1.86 MiB main.81c97cb09f9b1a4b48da.hot-update.js 3.38 KiB
+cached modules 1.69 MiB [cached] 62 modules
+runtime modules 30.8 KiB 16 modules
+./node_modules/css-loader/dist/cjs.js!./src/index.css 1000 bytes [built] [code generated]
+webpack 5.99.9 compiled successfully in 45 ms
+assets by status 25.5 KiB [cached] 3 assets
+assets by status 1.84 MiB [emitted]
+  asset bundle.js 1.84 MiB [emitted] (name: main)
+  asset main.3daf508b545ba5630e46.hot-update.js 3.66 KiB [emitted] [immutable] [hmr] (name: main)
+  asset main.3daf508b545ba5630e46.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.84 MiB = bundle.js 1.84 MiB main.3daf508b545ba5630e46.hot-update.js 3.66 KiB
+cached modules 1.67 MiB [cached] 62 modules
+runtime modules 30.8 KiB 16 modules
+./node_modules/css-loader/dist/cjs.js!./src/checkmates.css 1.23 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 40 ms
