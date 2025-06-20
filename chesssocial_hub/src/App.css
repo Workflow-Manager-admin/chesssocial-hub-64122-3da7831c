@@ -15,7 +15,7 @@
 /* Root Variables and Global Resets */
 /* ================================ */
 :root {
-  /* Brand/system palette */
+  /* Brand/system palette (light mode) */
   --primary: #4F46E5;
   --accent: #F59E0B;
   --highlight: #10B981;
@@ -65,6 +65,40 @@
   /* Misc */
   --like: #10B981;
   --err-bg: #fcf2f5;
+}
+
+/* Dark mode overrides */
+[data-theme="dark"] {
+  --primary: #c7bfff;
+  --accent: #fbbf24;
+  --highlight: #34d399;
+  --error: #fb7185;
+  --background: #161827;
+  --card-bg: #23243a;
+  --surface: #181826;
+  --shadow: 0 3px 18px -5px rgba(32,34,72,0.18);
+
+  --text: #f3f3f9;
+  --text-secondary: #bfc6d8;
+  --text-muted: #9696a7;
+  --text-contrast: #232236;
+  --border: #262a38;
+  --input-bg: #212442;
+
+  --focus: 2.1px solid #c7bfff;
+  --focus-faint: 0 0 0 2.2px #4F46E555;
+
+  --board-bg: #212244;
+  --board-dark: #251e41;
+  --board-light: #292a3b;
+
+  --modal-bg: #26263e;
+  --modal-bg-fade: rgba(16, 12, 35, 0.56);
+  --modal-shadow: 0 12px 44px -11px rgba(80,70,180,0.19);
+  --like: #34d399;
+  --err-bg: #511d2b;
+
+  color-scheme: dark;
 }
 
 /* Global Reset and System Font */
@@ -122,15 +156,14 @@ img { max-width: 100%; vertical-align: middle; border: none; }
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: rgba(255,255,255,0.76);
+  background: var(--card-bg);
   border-bottom: 1.5px solid var(--border);
-  box-shadow: 0 9px 34px -27px var(--primary), 0 0.7px 8px -4px var(--border);
+  box-shadow: none;
   position: sticky;
   top: 0;
   z-index: 50;
   padding: 0.93em 1.6em 0.93em 1.05em;
-  backdrop-filter: blur(19px);
-  -webkit-backdrop-filter: blur(19px);
+  /* No blur, no background effects */
   transition: background var(--trans);
 }
 .checkmates-logo {
@@ -148,41 +181,71 @@ img { max-width: 100%; vertical-align: middle; border: none; }
 .checkmates-logo:active { color: var(--accent); }
 
 /* Tabs */
-.checkmates-tabs { display: flex; gap: 0.91em; align-items: center; }
+.checkmates-tabs {
+  display: flex;
+  gap: 0.91em;
+  align-items: center;
+}
+
 .checkmates-tab {
-  background: #fff;
-  border: 1.1px solid transparent;
-  padding: 0.41em 1.1em;
-  border-radius: var(--radius-pill);
+  background: none;
+  border: none;
+  padding: 0.41em 1.1em 0.22em 1.1em;
+  border-radius: 0;
   font-family: inherit;
   font-weight: 700;
   font-size: 1.05em;
   letter-spacing: 0.005em;
   color: var(--primary);
   cursor: pointer;
-  transition:
-    background var(--trans-fast),
-    color var(--trans-fast),
-    transform var(--trans-fast),
-    border-color var(--trans-fast);
-  margin: 0 1.1px;
+  margin: 0 0.7px;
   outline: none;
+  position: relative;
+  transition:
+    color var(--trans-fast),
+    transform var(--trans-fast);
+  box-shadow: none;
 }
+
+.checkmates-tab-underline {
+  display: block;
+  height: 2.8px;
+  width: 100%;
+  background: var(--primary);
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  border-radius: 2.5px 2.5px 0 0;
+  opacity: 0;
+  transform: scaleX(0.62);
+  transition: 
+    opacity 0.19s cubic-bezier(.44,.12,.62,1.06),
+    transform 0.23s cubic-bezier(.52,.34,.47,1.07),
+    background 0.23s;
+  pointer-events: none;
+}
+
+.checkmates-tab.active .checkmates-tab-underline,
+.checkmates-tab[aria-selected="true"] .checkmates-tab-underline {
+  opacity: 1;
+  background: var(--primary);
+  transform: scaleX(1);
+}
+
 .checkmates-tab:hover,
 .checkmates-tab:focus-visible {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-  transform: translateY(-1px) scale(1.07);
+  color: var(--accent);
+  outline: none;
 }
+
 .checkmates-tab.active,
 .checkmates-tab[aria-selected="true"] {
-  background: var(--accent);
-  color: #fff;
-  font-weight: 750;
-  border-color: var(--accent);
-  transform: scale(1.11) translateY(-2.3px);
-  box-shadow: 0 4.5px 18px -8px var(--accent);
+  color: var(--primary);
+  font-weight: 800;
+  background: none;
+  box-shadow: none;
+  border: none;
+  outline: none;
   z-index: 1;
 }
 

@@ -3,6 +3,7 @@ import "./App.css";
 import SocialFeed from "./SocialFeed";
 import ChessArena from "./ChessArena";
 import ChessTutorLoader from "./ChessTutorLoader";
+import ThemeToggle from "./ThemeToggle";
 
 // PUBLIC_INTERFACE
 /**
@@ -39,7 +40,6 @@ function App() {
           <span style={{ fontSize: "1.42em" }} role="img" aria-label="chess">♟️</span>
           CheckMates
         </div>
-        {/* TABS (visible, modern tab navigation) */}
         <div className="checkmates-tabs" role="tablist">
           {TABS.map((t) => (
             <button
@@ -55,9 +55,11 @@ function App() {
               }}
             >
               {t.label}
+              <span className="checkmates-tab-underline" aria-hidden="true"></span>
             </button>
           ))}
         </div>
+        <ThemeToggle />
       </nav>
       <main>
         <div className="checkmates-container apple-glass apple-fadein">
