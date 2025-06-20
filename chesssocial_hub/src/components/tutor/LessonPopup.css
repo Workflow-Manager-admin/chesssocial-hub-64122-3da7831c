@@ -1,361 +1,87 @@
-.lesson-modal-backdrop {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  min-width: 0;
-  min-height: 0;
-  background: rgba(24, 19, 45, 0.33);
-  backdrop-filter: blur(6.5px) saturate(1.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1111;
-  animation: lessonModalFadeIn 0.28s cubic-bezier(.79,.1,.5,1.07);
-  overflow: auto; /* Ensure on tall content, allow inner scroll */
-  padding: 0;
-}
-
-@keyframes lessonModalFadeIn {
-  from { opacity: 0; transform: scale(0.91);}
-  to   { opacity: 1; transform: scale(1);}
-}
-
-.lesson-modal {
+.lesson-popup {
+  background: rgba(255,255,255,0.99);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px 0 rgba(60,59,85,0.13), 0 7px 24px rgba(79,70,229,0.13);
+  color: #232236;
+  padding: 2.6em 2.3em 2.1em 2.4em;
+  border: 1.5px solid #e8eaf5;
+  min-width: 260px;
+  max-width: 97vw;
+  z-index: 24;
   position: relative;
-  width: var(--modalWidth, 410px);
-  max-width: min(100vw, 430px);
-  max-height: var(--modalMaxHeight, calc(100vh - 36px));
-  background: var(--cardBg, #fff);
-  border-radius: 20px;
-  box-shadow: 0 12px 54px -17px var(--neon, #4F46E5), 0 2px 13px 2px #0002;
-  overflow-y: auto;
-  overflow-x: hidden;
-  outline: none;
+  animation: pop-fadein 0.2s cubic-bezier(.46,1.15,.58,1);
+  transition: box-shadow 0.17s, border-color 0.18s;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+}
+
+@keyframes pop-fadein {
+  0% { opacity: 0; transform: scale(.91);}
+  100% { opacity: 1; transform: scale(1);}
+}
+
+.lesson-popup-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 34px 20px 25px 20px;
-  animation: lessonZoomPop 0.37s cubic-bezier(.4,.9,.5,1.14);
-  min-height: 0;
-  min-width: 0;
-  box-sizing: border-box;
-  margin: 0;
-}
-@keyframes lessonZoomPop {
-  0% { 
-    transform: scale(0.85);
-    opacity: 0.56;
-    filter: blur(0.7px);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-    filter: blur(0);
-  }
+  margin-bottom: 1.11em;
+  font-size: 1.19em;
+  font-weight: 700;
+  gap: 0.7em;
+  color: #232236;
+  letter-spacing: -.01em;
 }
 
-/* Responsive modal sizing & containment */
-@media (max-width: 540px) {
-  .lesson-modal {
-    /* Use vertical padding and scroll for smaller screens, fill majority of viewport */
-    max-width: 98vw;
-    max-height: calc(100vh - 10vw);
-    min-width: 0;
-    padding: 7vw 3vw 12vw 3vw;
-    font-size: 95%;
-    margin: auto;
-  }
-  .lesson-modal-board {
-    min-width: 0;
-    max-width: 90vw;
-  }
-}
-
-/* Modal prevents horizontal scroll on mobile */
-body {
-  overscroll-behavior: contain; /* Prevent accidental swipe-to-refresh in modal */
-}
-
-.lesson-modal-glow {
-  position: absolute;
-  inset: 0;
-  border-radius: 22px;
-  pointer-events: none;
-  border: 2.5px solid var(--neon, #4F46E5);
-  z-index: 0;
-  animation: lessonGlowPulse 1600ms infinite alternate;
-}
-@keyframes lessonGlowPulse {
-  0% { box-shadow: 0 0 30px 3px var(--neon, #4F46E5)55, 0 0 10px var(--neon, #4F46E5)33;}
-  100% { box-shadow: 0 0 44px 8px var(--neon, #4F46E5)99, 0 0 13px 2px var(--neon, #4F46E5)bb;}
-}
-
-/* Close (X) Button */
-.lesson-modal-close {
-  position: absolute;
-  top: 15px;
-  right: 13px;
-  z-index: 90;
+.lesson-popup-close {
+  margin-left: auto;
   background: none;
   border: none;
-  color: var(--neon, #4F46E5);
-  font-size: 1.64rem;
-  font-weight: 900;
+  color: #bbbfc1;
   cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 1px 6px -2px var(--neon, #4F46E5)77;
-  width: 34px;
-  height: 34px;
+  font-size: 1.3em;
+  border-radius: 100px;
+  transition: background 0.11s, color 0.13s;
+  padding: 0.1em 0.17em;
+}
+.lesson-popup-close:hover,
+.lesson-popup-close:focus {
+  background: rgba(85,91,144,0.08);
+  color: #4f46e5;
+}
+
+.lesson-popup-content {
+  font-size: 1.07em;
+  line-height: 1.74;
+  color: #424357;
+  padding-bottom: 0.38em;
+}
+
+.lesson-popup-actions {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.14s, box-shadow 0.18s, color 0.19s;
-  outline: none;
-}
-.lesson-modal-close:active {
-  background: var(--neon, #4F46E5)22;
-  color: var(--accent, #F59E0B);
-}
-/* Neon Glow and check on title */
-.lesson-modal-title {
-  font-size: 2.1rem;
-  font-weight: 800;
-  margin-bottom: 6px;
-  letter-spacing: -0.01em;
-  text-align: center;
-  position: relative;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
-.lesson-modal-check {
-  font-size: 1.22em;
-  color: var(--highlight, #10B981);
-  margin-left: 4px;
-  filter: drop-shadow(0 0 8px var(--highlight, #10B981)55);
+  justify-content: flex-end;
+  gap: 1.41em;
+  margin-top: 1.4em;
+  padding-top: 0.8em;
+  border-top: 1.3px solid #eaecef;
 }
 
-.lesson-modal-desc {
-  color: var(--text, #222);
-  opacity: 0.93;
-  font-weight: 550;
-  font-size: 1.11em;
-  text-align: center;
-  margin-bottom: 7px;
-}
-
-.lesson-modal-board {
-  margin: 0 auto 8px auto;
-  border-radius: 13px;
-  background: #E0E3EA;
-  box-shadow: 0 4px 16px -8px var(--neon, #4F46E5)99;
-  max-width: 100%;
-  min-width: 0;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.lesson-modal-tipbox {
-  margin: 13px 0 7px 0;
-  color: var(--highlight, #10B981);
-  background: rgba(16,185,129,0.10);
-  border-left: 4.7px solid var(--highlight, #10B981);
-  padding: 11px 15px 11px 16px;
-  border-radius: 9px;
-  font-weight: 600;
-  font-size: 1.06em;
-  word-break: break-word;
-  display: flex;
-  align-items: flex-start;
-  gap: 5px;
-  box-shadow: 0 2px 12px -7px var(--highlight, #10B981)33;
-}
-.lesson-modal-tipicon {
-  font-size: 1.22em;
-  margin-right: 6px;
-}
-
-.lesson-modal-details {
-  margin: 10px 0 14px 0;
-  padding: 0 0 0 16px;
-  color: var(--primary, #4F46E5);
-  font-size: 1.02em;
-  text-align: left;
-  font-weight: 520;
-  line-height: 1.5;
-  width: 100%;
-  max-width: 95vw;
-  box-sizing: border-box;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-.lesson-modal-details li {
-  margin-bottom: 4px;
-  padding-left: 0;
-}
-
-/* Quiz section */
-.lesson-modal-quizbox {
-  margin: 12px 0 0 0;
-  background: #f4f4fb;
-  border-radius: 11px;
-  box-shadow: 0 1px 11px -6px var(--neon, #4F46E5)30;
-  padding: 14px 15px 13px 15px;
-  color: var(--text, #1A1A1A);
-  font-size: 1.09em;
-  width: 100%;
-  max-width: 315px;
-  min-width: 0;
-}
-.lesson-modal-quizq {
-  font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--primary, #4F46E5);
-}
-.lesson-modal-quizopts {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-.lesson-modal-quizopt {
-  background: #eef0ff;
-  border: 1.5px solid var(--neon, #4F46E5)60;
-  border-radius: 7px;
-  font-size: 1.01em;
-  font-weight: 700;
-  color: var(--primary, #4F46E5);
-  transition: background 0.15s, border-color 0.15s;
-  cursor: not-allowed;
-  padding: 8px 11px;
-  margin-bottom: 0;
-  outline: none;
-  pointer-events: none;
-}
-
-.lesson-modal-quiznote {
-  margin-top: 8px;
-  color: #aaa;
-  font-size: .97em;
-  font-style: italic;
-  text-align: left;
-}
-
-/* Mark as complete button */
-.lesson-modal-done {
-  width: 96%;
-  max-width: 318px;
-  background: var(--highlight, #10B981);
+.lesson-popup-actions button {
+  background: linear-gradient(95deg, #635dfa 54%, #f59e0b 116%);
   color: #fff;
-  border-radius: 9px;
   font-weight: 700;
-  font-size: 1.15em;
+  font-size: 1.07em;
   border: none;
-  margin: 18px 0 0 0;
-  padding: 13px 0;
-  letter-spacing: 0.01em;
-  box-shadow: 0 1px 13px -3px var(--highlight, #10B981)cc;
-  transition: background 0.16s, box-shadow 0.2s, color 0.12s;
+  border-radius: 99px;
+  padding: 0.47em 1.35em;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(80,74,229,0.12);
+  transition: background 0.14s, box-shadow 0.14s, transform 0.11s;
 }
-.lesson-modal-done:active {
-  background: var(--primary, #4F46E5);
-  color: var(--accent, #F59E0B);
-  transform: scale(0.98);
-}
-.lesson-modal-done.done,
-.lesson-modal-done:disabled {
-  background: #c7fac4;
-  color: #15b605;
-  opacity: 0.85;
-  cursor: default;
-}
-
-/* BUTTON RIPPLE EFFECT */
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-  opacity: 0.40;
-  transform: scale(0);
-  animation: ripple 0.54s linear;
-  background: rgba(16,185,129,0.23);
-  z-index: 99;
-}
-@keyframes ripple {
-  to {
-    opacity: 0;
-    transform: scale(2.3);
-  }
-}
-
-/* Responsive adjustments */
-@media (max-width: 540px) {
-  .lesson-modal {
-    padding: 11vw 4vw 12vw 4vw;
-    min-width: 0;
-    max-width: 98vw;
-    font-size: 89%;
-  }
-  .lesson-modal-title { font-size: 1.27rem; }
-  .lesson-modal-board { min-width: 0; }
-  .lesson-modal-details { font-size: 0.97em; }
-  .lesson-modal-quizbox { min-width: 0; font-size: 0.98em;}
-}
-
-/* Card grid and hover scaling—for LessonHub UI */
-.lessons-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 28px 24px;
-  width: 100%;
-  justify-content: center;
-  margin: 0 auto 20px auto;
-  max-width: 780px;
-}
-.lesson-card {
-  background: var(--cardBg, #FFF);
-  border-radius: 17px;
-  flex: 1 1 200px;
-  min-width: 185px;
-  max-width: 240px;
-  min-height: 185px;
-  box-shadow: 0 7px 22px -11px var(--neon, #4F46E5)33, 0 1.5px 5px -1.4px #F59E0B99;
-  border: 2.2px solid #e0e9ff;
-  color: var(--primary, #4F46E5);
-  cursor: pointer;
-  transition: transform 0.16s, box-shadow 0.20s, border 0.17s;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 23px 13px 16px 13px;
-  position: relative;
-  overflow: hidden;
-  user-select: none;
-}
-.lesson-card:hover, .lesson-card:focus-visible {
-  transform: scale(1.045);
-  box-shadow: 0 0 38px -6px var(--neon, #4F46E5), 0 0 13px 3px #F59E0Bcc;
-  border: 2.8px solid var(--neon, #4F46E5)bb;
-  outline: none;
-}
-
-/* Lesson card badge/check when completed */
-.lesson-card.check-done::after {
-  content: "✔";
-  position: absolute;
-  top: 11px;
-  right: 14px;
-  font-size: 1.4em;
-  color: var(--highlight, #10B981);
-  font-weight: 900;
-  text-shadow: 0 1px 7px var(--highlight, #10B981)44;
-  z-index: 5;
+.lesson-popup-actions button:hover,
+.lesson-popup-actions button:focus {
+  background: linear-gradient(
+    98deg,
+    #4f46e5 63%,
+    #f59e0b 143%
+  );
+  box-shadow: 0 10px 26px rgba(79,70,229,0.14);
+  transform: translateY(-1.5px) scale(1.0375);
 }
