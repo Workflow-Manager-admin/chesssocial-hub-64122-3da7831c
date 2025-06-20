@@ -600,8 +600,16 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
             tabIndex={0}
             style={{ position: "relative", top: 0, right: 0, marginRight: "3px" }}
           >
-            <span style={{ marginRight: 2, fontSize: "1.5em" }} role="img" aria-label="heart">
-              {likes[idx] ? "💚" : "🤍"}
+            <span style={{ 
+              marginRight: 2, 
+              fontSize: "1.5em", 
+              color: likes[idx] ? "#EF4444" : undefined, 
+              textShadow: likes[idx] 
+                ? "0 0 8px #ef444466, 0 0 1px #ef4444"
+                : undefined,
+              transition: "color 0.22s, text-shadow 0.18s"
+            }} role="img" aria-label="heart">
+              {likes[idx] ? "❤️" : "🤍"}
             </span>
             <EmojiBurst
               emoji="💖"
