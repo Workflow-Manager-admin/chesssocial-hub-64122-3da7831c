@@ -139,7 +139,7 @@ export default function ChessArena() {
     }, 180);
   }
 
-  // Validate move using chess.js: only allow legal moves
+  // Validate move using chess.js: only allow legal moves before calling chess.move
   function handleMove({ sourceSquare, targetSquare }) {
     setMoveError("");
     setSelectedSquare(null);
@@ -148,24 +148,31 @@ export default function ChessArena() {
     if (!chess || typeof chess.move !== 'function') return;
     if (chess.game_over || isBotThinking) return;
 
-    // Check if this move is legal
-    const possibles = chess.moves({ square: sourceSquare, verbose: true });
-    const isLegal = possibles.find(mv => mv.to === targetSquare);
+    // Use chess.moves with verbose to check for valid moves from this square
+    const possibleMoves = chess.moves({ square: sourceSquare, verbose: true });
+    const legalMoveObj = possibleMoves.find(
+      (mv) => mv.to === targetSquare
+    );
 
-    if (!isLegal) {
+    if (!legalMoveObj) {
+      // If move is not legal, do not update state or call move
       setMoveError("Illegal move! Try a highlighted square.");
       return null;
     }
-    // Defensive: clone game state to avoid side-effects
+
+    // Only now update the chess game state, because move is legal
     const move = chess.move({
       from: sourceSquare,
       to: targetSquare,
-      promotion: "q"
+      promotion: legalMoveObj.promotion || "q",
     });
     if (move) {
       setFen(chess.fen());
       setMoves((ms) => [...ms, move.san]);
       setMoveError("");
+    } else {
+      // Defensive: Should not happen if pre-checked; show fallback error
+      setMoveError("Invalid move. Try again.");
     }
     // Bot will respond in effect above
     return move;
@@ -178,39 +185,46 @@ export default function ChessArena() {
     if (isBotThinking || chess.game_over) return;
 
     if (selectedSquare === square) {
-      // Deselect
+      // Deselect if user clicks the same square again
       setSelectedSquare(null);
       setLegalMoves([]);
       return;
     }
-    // If already have a selected piece, and click a different square:
+
+    // If already have a selected piece and click a different square:
     if (selectedSquare && selectedSquare !== square) {
-      const possibles = chess.moves({ square: selectedSquare, verbose: true });
-      const canMove = possibles.some(mv => mv.to === square);
-      if (canMove) {
-        // Try moving
+      const possibleMoves = chess.moves({ square: selectedSquare, verbose: true });
+      const isLegal = possibleMoves.find(mv => mv.to === square);
+      if (isLegal) {
+        // Only call handleMove if valid move is found in chess.moves
         const wasMove = handleMove({
           sourceSquare: selectedSquare,
-          targetSquare: square
+          targetSquare: square,
         });
+        // If for any reason not a legal move, keep highlighting and show error
         if (!wasMove) setMoveError("Illegal move! Try a highlighted square.");
         setSelectedSquare(null);
         setLegalMoves([]);
       } else {
-        // Clicked a different piece (start new selection)
+        // Clicked a different square which is not a legal destination: try to start new selection if square holds your piece
         const newPossibles = chess.moves({ square, verbose: true });
-        if (newPossibles.length > 0 && chess.get(square) && chess.get(square).color === chess.turn()) {
+        if (
+          newPossibles.length > 0 &&
+          chess.get(square) &&
+          chess.get(square).color === chess.turn()
+        ) {
           setSelectedSquare(square);
-          setLegalMoves(newPossibles.map(m => m.to));
+          setLegalMoves(newPossibles.map((m) => m.to));
         } else {
           setSelectedSquare(null);
           setLegalMoves([]);
-          setMoveError("");
+          setMoveError(""); // no error for selecting empty or opponent's piece
         }
       }
       return;
     }
-    // Click a piece to show moves (only if it's your turn & your piece)
+
+    // Click a piece to show moves (only if it's your turn and your piece)
     const movesArr = chess.moves({ square, verbose: true });
     if (
       movesArr.length > 0 &&
@@ -218,7 +232,7 @@ export default function ChessArena() {
       chess.get(square).color === chess.turn()
     ) {
       setSelectedSquare(square);
-      setLegalMoves(movesArr.map(m => m.to));
+      setLegalMoves(movesArr.map((m) => m.to));
       setMoveError("");
     } else {
       setSelectedSquare(null);
