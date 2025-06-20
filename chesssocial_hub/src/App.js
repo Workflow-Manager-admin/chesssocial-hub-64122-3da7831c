@@ -8,54 +8,47 @@ import ChessTutorLoader from "./ChessTutorLoader";
 import { getInitialTheme, applyTheme } from "./theme";
 
 const TABS = [
-  { key: "feed", label: "Social Feed" },
-  { key: "arena", label: "Chess Arena" },
-  { key: "tutor", label: "Tutor" }
+  { key: "feed", label: "Social Feed" }
 ];
 
 // PUBLIC_INTERFACE
 function App() {
+  // Only one tab now: 'feed'
   const [tab, setTab] = useState(TABS[0].key);
-  // Focus-based/sticky nav, persistent theme preference
+
   useEffect(() => {
     applyTheme(getInitialTheme());
   }, []);
-  // Portal tab triggers
-  const handlePortalTab = useCallback(() => setTab("arena"), []);
-  const [arenaPortalNotified, setArenaPortalNotified] = useState(false);
 
-  // Easter egg: auto-focus arena after clicking portal invite
-  function notifyArenaPortal() {
-    setArenaPortalNotified(true);
-    setTimeout(() => setArenaPortalNotified(false), 2200);
-  }
+  // These are now unused but kept just in case SocialFeed calls onArenaPortal/notifyArenaPortal in future
+  // They will only set the existing tab (which is 'feed'), so do nothing disruptive
+  const handlePortalTab = useCallback(() => {}, []);
+  const notifyArenaPortal = () => {};
 
   return (
     <div className="app">
       <nav className="checkmates-navbar">
         <div className="checkmates-logo" tabIndex={0}>
-          <span style={{fontSize:"1.42em"}} role="img" aria-label="chess">
+          <span style={{ fontSize: "1.42em" }} role="img" aria-label="chess">
             ♟️
           </span>
           CheckMates
         </div>
         <div className="checkmates-tabs" role="tablist">
-          {TABS.map((t) => (
-            <button
-              key={t.key}
-              className={"checkmates-tab" + (tab === t.key ? " active" : "")}
-              onClick={() => setTab(t.key)}
-              role="tab"
-              aria-selected={tab === t.key}
-              tabIndex={0}
-              style={{
-                fontWeight: tab === t.key ? 700 : 500,
-                fontSize: "1.07rem"
-              }}
-            >
-              {t.label}
-            </button>
-          ))}
+          <button
+            key={"feed"}
+            className={"checkmates-tab active"}
+            onClick={() => setTab("feed")}
+            role="tab"
+            aria-selected={true}
+            tabIndex={0}
+            style={{
+              fontWeight: 700,
+              fontSize: "1.07rem"
+            }}
+          >
+            Social Feed
+          </button>
         </div>
         <span className="theme-toggle">
           <ThemeToggle />
@@ -63,16 +56,11 @@ function App() {
       </nav>
       <main>
         <div className="checkmates-container">
-          {/* Tab content */}
-          {tab === "feed" && (
-            <SocialFeed onArenaPortal={handlePortalTab} notifyArenaPortal={notifyArenaPortal} />
-          )}
-          {tab === "arena" && (
-            <ChessArena key={arenaPortalNotified ? "arena-notified" : "arena"} />
-          )}
-          {tab === "tutor" && (
-            <ChessTutorLoader />
-          )}
+          {/* Only Social Feed tab remains */}
+          <SocialFeed
+            onArenaPortal={handlePortalTab}
+            notifyArenaPortal={notifyArenaPortal}
+          />
         </div>
       </main>
     </div>
