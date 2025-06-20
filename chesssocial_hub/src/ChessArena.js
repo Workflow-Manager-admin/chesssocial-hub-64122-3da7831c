@@ -312,31 +312,35 @@ export default function ChessArena() {
   }
 
   function renderBoard() {
-    // Use chess.js to fetch legal moves for highlighting, whenever selectedSquare is set.
+    // Highlighting logic: show all legal moves for the selected piece using squareStyles
     const highlightStyles = {};
+
     if (selectedSquare) {
-      // Get all legal verbose moves from the selectedSquare directly from chess.js every render
+      // Get all legal moves from the current position for the selected square
       let legalMovesVerbose = chess && typeof chess.moves === "function"
         ? chess.moves({ square: selectedSquare, verbose: true })
         : [];
-
-      // Distill destination squares from verbose info
       const destSquares = legalMovesVerbose.map((m) => m.to);
 
       if (destSquares.length > 0) {
-        // Highlight selected piece's square
+        // Highlight the selected square with a prominent green glow
         highlightStyles[selectedSquare] = {
-          background: "radial-gradient(circle, var(--highlight) 48%, rgba(16,185,129,0.25) 79%)",
+          background:
+            "radial-gradient(circle, var(--highlight) 56%, rgba(16,185,129,0.13) 97%)",
         };
-        // Highlight each legal destination with a gold accent
+        // Highlight legal destination squares with a strong amber glow
         for (let sq of destSquares) {
           highlightStyles[sq] = {
-            background: "radial-gradient(circle, var(--accent) 52%, rgba(245,158,11,0.14) 90%)",
-            boxShadow: "0 0 8px 1.5px var(--accent)",
+            background:
+              "radial-gradient(circle, var(--accent) 68%, rgba(245,158,11,0.23) 100%)",
+            boxShadow: "0 0 13px 3.5px var(--accent)",
+            border: "2.5px solid var(--accent)",
+            zIndex: 1,
           };
         }
       }
     }
+
     return (
       <>
         <Chessboard
