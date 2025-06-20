@@ -696,9 +696,46 @@ body {
   opacity: 0.92;
   animation: feed-loadanim 2.2s infinite alternate;
 }
-@keyframes feed-loadanim {
-  0% {opacity: 0.4;}
-  100%{opacity: 0.92;}
+
+/* --- Comment submit wiggle animation --- */
+.comment-input-animate-success {
+  animation: successWiggle 0.64s cubic-bezier(0.22, 0.42, 0.27, 1.18);
+  border-color: var(--highlight) !important;
+  background: #edfff6 !important;
+}
+
+@keyframes successWiggle {
+  0% { transform: translateX(0);}
+  13% { transform: translateX(-6px);}
+  26% { transform: translateX(7px);}
+  39% { transform: translateX(-4px);}
+  49% { transform: translateX(4px);}
+  59% { transform: translateX(-2px);}
+  100% { transform: translateX(0);}
+}
+
+.comment-input-checkmark {
+  position: absolute;
+  right: 9px;
+  top: 53%;
+  transform: translateY(-50%);
+  color: var(--highlight);
+  background: #e4faee;
+  border-radius: 50%;
+  padding: 2.5px 4px;
+  font-size: 1.12em;
+  font-weight: bold;
+  opacity: 0.92;
+  z-index: 9;
+  pointer-events: none;
+  animation: checkmarkFade 0.7s linear;
+}
+
+@keyframes checkmarkFade {
+  0% { opacity: 0; transform: scale(0.8) translateY(-50%);}
+  38% { opacity: 1; transform: scale(1.18) translateY(-50%);}
+  65% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1.1) translateY(-80%);}
 }
 
 /* --------------------------------------------- */

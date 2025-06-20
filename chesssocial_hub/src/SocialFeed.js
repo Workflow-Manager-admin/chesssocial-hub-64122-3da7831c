@@ -420,6 +420,9 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
     const [commentInput, setCommentInput] = useState("");
     const commentInputRef = useRef(null);
 
+    // Animation state for wiggle/checkmark on successful comment
+    const [commentSuccess, setCommentSuccess] = useState(false);
+
     function handleCommentSubmit(e) {
       e.preventDefault();
       const text = commentInput.trim();
@@ -443,6 +446,9 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
         return next;
       });
       setCommentInput("");
+      setCommentSuccess(true);
+      // Reset success indicator after animation
+      setTimeout(() => setCommentSuccess(false), 850);
     }
 
     // Avatar: use first letter of username or emoji fallback
@@ -645,7 +651,8 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
             display: "flex",
             gap: 7,
             alignItems: "center",
-            padding: "5px 19px 13px 19px"
+            padding: "5px 19px 13px 19px",
+            position: "relative"
           }}
           autoComplete="off"
           onSubmit={handleCommentSubmit}
@@ -656,7 +663,9 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
             value={commentInput}
             onChange={e => setCommentInput(e.target.value)}
             maxLength={120}
-            className="social-feed-input"
+            className={
+              "social-feed-input" + (commentSuccess ? " comment-input-animate-success" : "")
+            }
             aria-label="Add a comment"
             placeholder="Add a comment..."
             style={{
@@ -687,6 +696,10 @@ export default function SocialFeed({ onArenaPortal, notifyArenaPortal }) {
             tabIndex={0}
             aria-label="Post comment"
           >Post</button>
+          {/* Success checkmark icon */}
+          {commentSuccess && (
+            <span className="comment-input-checkmark" aria-live="polite" role="status">✔️</span>
+          )}
         </form>
         {/* Divider */}
         <div className="insta-feed-divider" />
