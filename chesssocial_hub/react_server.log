@@ -13,7 +13,7 @@ runtime modules 27.5 KiB 14 modules
 cacheable modules 1.63 MiB
   modules by path ./node_modules/ 1.51 MiB 33 modules
   modules by path ./src/ 106 KiB
-    modules by path ./src/*.js 72.2 KiB 10 modules
+    modules by path ./src/*.js 72.6 KiB 10 modules
     modules by path ./src/*.css 33.5 KiB
       ./src/index.css 2.23 KiB [built] [code generated]
       + 5 modules
@@ -23,14 +23,14 @@ cacheable modules 1.63 MiB
       ./.ve/EditorOverlay.css 2.25 KiB [built] [code generated]
       ./node_modules/css-loader/dist/cjs.js!./.ve/EditorOverlay.css 697 bytes [built] [code generated]
     ./.ve/EditorOverlay.jsx 1.58 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 1545 ms
+webpack 5.99.9 compiled successfully in 2092 ms
 assets by status 613 bytes [cached] 1 asset
-assets by path *.js 1.8 MiB
-  asset bundle.js 1.79 MiB [emitted] (name: main)
-  asset main.7ea65b18a66a3f09a7e4.hot-update.js 7.37 KiB [emitted] [immutable] [hmr] (name: main)
-asset main.7ea65b18a66a3f09a7e4.hot-update.json 28 bytes [emitted] [immutable] [hmr]
-Entrypoint main 1.8 MiB = bundle.js 1.79 MiB main.7ea65b18a66a3f09a7e4.hot-update.js 7.37 KiB
+assets by path *.js 1.81 MiB
+  asset bundle.js 1.8 MiB [emitted] (name: main)
+  asset main.7e87a0c4ef5f1c555db1.hot-update.js 13.6 KiB [emitted] [immutable] [hmr] (name: main)
+asset main.7e87a0c4ef5f1c555db1.hot-update.json 28 bytes [emitted] [immutable] [hmr]
+Entrypoint main 1.81 MiB = bundle.js 1.8 MiB main.7e87a0c4ef5f1c555db1.hot-update.js 13.6 KiB
 cached modules 1.62 MiB [cached] 53 modules
 runtime modules 27.5 KiB 14 modules
-./src/App.js 3.72 KiB [built] [code generated]
-webpack 5.99.9 compiled successfully in 117 ms
+./src/ChessTutorLoader.js 9.63 KiB [built] [code generated]
+webpack 5.99.9 compiled successfully in 133 ms
