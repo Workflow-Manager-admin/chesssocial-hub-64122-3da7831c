@@ -1,64 +1,36 @@
-  /* index.css - apple.com-inspired resets and utilities */
+/* ChessSocial Hub - Minimal, Modern Global Styles */
 
-  html, body, #root {
-    height: 100%;
-    overscroll-behavior-y: none;
-  }
+html, body {
+  height: 100%;
+  background: var(--color-background, #F9FAFB);
+  font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+  color: var(--color-text, #111827);
+  letter-spacing: 0;
+  font-weight: 400;
+}
 
-  /* GLOBAL FOCUS STYLES (Understated yet precise) */
-  :focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(79,70,229,0.24), 0 0 0 7px #f9fafc;
-    transition: box-shadow 0.16s;
-  }
+#root {
+  min-height: 100vh;
+  background: none;
+}
 
-  /* Tap highlight for touchscreens */
-  body, button, a, input, textarea, select {
-    -webkit-tap-highlight-color: rgba(79,70,229,0.15);
-  }
+:focus-visible {
+  outline: 2.5px solid var(--color-primary, #4F46E5);
+  outline-offset: 2px;
+}
 
-  .row { display: flex; flex-direction: row; }
-  .col { display: flex; flex-direction: column; }
+a, .clean-link {
+  color: var(--color-primary, #4F46E5);
+  text-decoration: none;
+  transition: color 0.14s;
+}
+a:hover, .clean-link:hover {
+  color: var(--color-accent, #F59E0B);
+}
 
-  .fadein {
-    animation: fadein 0.7s cubic-bezier(.44,.13,.81,1.07);
-  }
-  @keyframes fadein {
-    0% { opacity: 0; transform: translateY(16px) }
-    100% { opacity: 1; transform: none }
-  }
-
-  /* Subtle text selection color */
-  ::selection {
-    background: #e0e7ff;
-    color: #111827;
-  }
-
-  /* Card grid utils */
-  .card-grid {
-    display: grid;
-    gap: 2rem;
-    grid-template-columns: repeat(auto-fit,minmax(330px,1fr));
-  }
-
-  /* For soft fades on portal popups/easter eggs */
-  @keyframes swirl-fade {
-    0% { filter: grayscale(0.32) blur(0.0px);}
-    40% { filter: grayscale(0.85) blur(3.0px);}
-    65% { filter: grayscale(1.0) blur(2.5px);}
-    100% { filter: grayscale(0.42) blur(0.0px);}
-  }
-
-  /* Utility - quietly hide overflow scrollbars on Apple style */
-  ::-webkit-scrollbar {
-    background: transparent;
-    width: 0.6em;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: rgba(193, 193, 255, 0.12);
-    border-radius: 0.5em;
-    transition: background 0.13s;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: rgba(140, 143, 228, 0.18);
-  }
+/* Remove default button/input artifacts for harmony */
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  box-shadow: none;
+}
