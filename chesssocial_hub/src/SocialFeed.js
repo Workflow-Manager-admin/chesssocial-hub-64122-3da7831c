@@ -114,6 +114,26 @@ function timeAgo(time) {
  * - Soft silver glow, soft border
  */
 function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
+  // Styling for enhanced contrast: dark, nearly black text + semi-transparent overlay on metallic invite
+  const arenaTextStyle = {
+    color: "#121217", // very dark text for high contrast
+    textShadow: "0 1px 6px rgba(180,180,180,0.13)",
+    fontWeight: 800,
+    fontSize: "1.25em",
+    letterSpacing: "0.01em",
+    zIndex: 12,
+    position: "relative"
+  };
+  const arenaSubtextStyle = {
+    marginTop: 12,
+    fontSize: "1.07em",
+    fontWeight: 500,
+    opacity: 0.98,
+    padding: 1,
+    color: "#2d2c2c",
+    zIndex: 12,
+    position: "relative"
+  };
   return (
     <div
       tabIndex="0"
@@ -126,7 +146,7 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
       onClick={onInvite}
       onKeyDown={e => ["Enter", " "].includes(e.key) && onInvite()}
       style={{
-        // Only apply these background styles if isChessHint flag is true (per subtask)
+        // Retain metallic BGC, but ensure text stands out
         background: isChessHint ? "#C0C0C0" : undefined,
         boxShadow: isChessHint
           ? "0 0 36px 0 rgba(130,130,150,0.20), 0 0 13px 2px #C0C0C0"
@@ -142,6 +162,21 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
         marginBottom: 28
       }}
     >
+      {/* semi-transparent overlay for improved text readability */}
+      {isChessHint && (
+        <span
+          style={{
+            position: "absolute",
+            inset: 0,
+            borderRadius: 16,
+            zIndex: 6,
+            pointerEvents: "none",
+            background:
+              "linear-gradient(123deg,rgba(255,255,255,0.32) 0%,rgba(230,230,230,0.17) 100%)"
+          }}
+          aria-hidden="true"
+        />
+      )}
       {/* metallic shine overlay: CSS only */}
       {isChessHint && (
         <span className="metallic-shine-anim" aria-hidden="true" />
@@ -158,7 +193,7 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
           borderRadius: 8,
           padding: "3px 10px 3px 7px",
           boxShadow: "0 2px 8px -3px #f6c760",
-          zIndex: 10,
+          zIndex: 20,
           display: "flex",
           alignItems: "center",
           gap: 6
@@ -167,22 +202,14 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
         <span role="img" aria-label="crown" style={{marginRight:2}}>👑</span>
         <span>Featured</span>
       </div>
-      <div style={{ width: "100%", textAlign: "center" }}>
+      <div style={{ width: "100%", textAlign: "center", zIndex: 11, position: "relative" }}>
         <div style={{ fontSize: "2.2em", marginBottom: 0 }}>
           <span role="img" aria-label="portal">🌀</span>
         </div>
-        <span style={{ fontWeight: "800", fontSize: "1.25em", letterSpacing: "0.01em" }}>
+        <span style={arenaTextStyle}>
           Enter the Chess Arena!
         </span>
-        <div
-          style={{
-            marginTop: 12,
-            fontSize: "1.07em",
-            fontWeight: 500,
-            opacity: 0.96,
-            padding: 1
-          }}
-        >
+        <div style={arenaSubtextStyle}>
           <span role="img" aria-label="sparkles">✨</span>
           {" "}Step up your game. Challenge minds, not just pawns!{" "}
           <span role="img" aria-label="sparkles">✨</span>
