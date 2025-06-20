@@ -220,11 +220,33 @@ export default function ChessArena() {
       setMoveError("");
       // Key change: Both isBotGame and vsBot must be true for AI to move
       if (isBotGame && vsBot) {
+        // DETAILED DIAGNOSTIC LOGGING:
+        console.log(
+          "[DEBUG] After player move (handleMove):",
+          {
+            isBotGame,
+            vsBot,
+            chessRef_current: chessRef.current,
+            fen: chess.fen(),
+            side,
+            botIdx,
+            isBotThinking,
+            legalMoves: (() => {
+              try {
+                return chess.moves({ verbose: true });
+              } catch {
+                return [];
+              }
+            })(),
+          }
+        );
         // Explicit logging for player move, with clear message & layout
         console.log("Player move registered", move.san);
 
-        // AI-block: Only fire if not thinking, and it is the bot's turn after this move
-        // Structure matches pseudocode, add all required logs
+        // Additional guards for FEN, move stacks, turn, and remember async nature:
+        console.log("[DEBUG] Next turn belongs to:", chess.turn(), "Intended bot side:", (side === "white" ? "black" : "white"));
+
+        // Confirm AI block reachability and diagnostics on gating
         if (
           !isBotThinking &&
           (
@@ -232,25 +254,39 @@ export default function ChessArena() {
             (chess.turn() === "w" && side === "black")
           )
         ) {
-          console.log("AI block entered (conditions satisfied):", {
+          console.log("[AI BLOCK] Conditions met. Entering AI logic with state:", {
             botThinking: isBotThinking,
             chessTurn: chess.turn(),
-            side
+            expectedAISide: (side === "white" ? "black" : "white"),
+            side,
+            fen: chess.fen(),
+            legalMoves: chess.moves && typeof chess.moves === "function" ? chess.moves({ verbose: true }) : []
           });
-          console.log("AI move triggered");
+          // SETTIMEOUT LOG
+          console.log("[AI BLOCK] setTimeout scheduled for thinkAndMove (500ms)");
+
           setBotThinking(true);
+
           setTimeout(() => {
+            console.log("[AI BLOCK] setTimeout fired: Executing thinkAndMove now");
             thinkAndMove();
           }, 500);
         } else {
           // Log skipped scenarios with reasons
           if (isBotThinking) {
-            console.log("[AI SKIP] Did not trigger: Bot was already thinking.");
+            console.log("[AI SKIP] Did not trigger: Bot was already thinking.", {
+              isBotThinking,
+            });
           } else if (
             (chess.turn() === "b" && side !== "white") ||
             (chess.turn() === "w" && side !== "black")
           ) {
-            console.log("[AI SKIP] AI block skipped: Not appropriate side/turn; chessTurn:", chess.turn(), "side:", side);
+            console.log("[AI SKIP] AI block skipped: Not appropriate side/turn;", {
+              chessTurn: chess.turn(),
+              side,
+              fen: chess.fen(),
+              legalMoves: chess.moves && typeof chess.moves === "function" ? chess.moves({ verbose: true }) : [],
+            });
           }
         }
       }
