@@ -114,26 +114,8 @@ export default function ChessArena() {
 
   // After every legal human move in bot mode, schedule AI response with 500ms delay.
   useEffect(() => {
-    if (!engine || typeof chess.gameOver !== "function" ? chess.game_over() : chess.gameOver()) return;
-    // Only trigger the bot if:
-    // 1. isBotGame is true
-    // 2. It's the bot's turn to move (after human's move)
-    // 3. Bot is not already thinking
-    // Bot is always opposite to `side`
-    if (
-      isBotGame &&
-      !isBotThinking &&
-      (
-        (chess.turn() === "b" && side === "white") ||
-        (chess.turn() === "w" && side === "black")
-      )
-    ) {
-      console.log("AI move triggered");
-      setTimeout(() => {
-        thinkAndMove();
-      }, 500);
-    }
-    // eslint-disable-next-line
+    // No longer triggers bot move directly here, it's handled in handleMove/setTimeout.
+    // This effect can be used for sync or future UI updates (if needed).
   }, [engine, fen, botIdx, side]);
 
   function resetGame() {
@@ -194,8 +176,23 @@ export default function ChessArena() {
       setMoves((ms) => [...ms, move.san]);
       setMoveError("");
       if (isBotGame) {
-        console.log("Player move registered", move.san); // log after every legal player move
-        // AI handled by useEffect; no immediate call here to preserve delay/timing.
+        // Explicit logging for player move, with clear message & layout
+        console.log("Player move registered", move.san);
+
+        // Ensuring delayed AI trigger with setTimeout in handleMove as required
+        if (
+          !isBotThinking &&
+          (
+            (chess.turn() === "b" && side === "white") ||
+            (chess.turn() === "w" && side === "black")
+          )
+        ) {
+          console.log("AI move triggered");
+          setBotThinking(true);
+          setTimeout(() => {
+            thinkAndMove();
+          }, 500);
+        }
       }
     } else {
       setMoveError("Unexpected invalid move. Try again.");
