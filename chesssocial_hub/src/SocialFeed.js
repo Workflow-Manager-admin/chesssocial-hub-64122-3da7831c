@@ -187,21 +187,22 @@ function ChessInvitePost({ onInvite, glitch, isChessHint = true }) {
           position: "absolute",
           top: 11,
           left: 13,
-          background: "linear-gradient(98deg, #ffe08a 68%, #ffd700 100%)",
-          color: "#a98009",
+          // New: Slightly darker than #C0C0C0 for subtle contrast
+          background: "linear-gradient(98deg, #b4b6bb 88%, #bfc2c9 100%)",
+          color: "#6d690a",
           fontWeight: 500,
           fontSize: "0.89em",
           borderRadius: 999,
           padding: "2.5px 10px 2.5px 7px",
-          boxShadow: "0 1.7px 8px -3px #f6c76047, 0 0 0 1px #fffbe8, 0 1px 5px 0 #ffc0102b",
+          boxShadow: "0 1.7px 8px -3px #bfc2c99b, 0 0 0 1px #f3f2ee, 0 1px 5px 0 #9ea4b933",
           zIndex: 34,
           display: "flex",
           alignItems: "center",
           gap: 5,
           letterSpacing: ".01em",
           textTransform: "uppercase",
-          border: "1.2px solid #fffbe8",
-          textShadow: "0 1px 3px #fffbb815"
+          border: "1.2px solid #ececf2",
+          textShadow: "0 1px 3px #fbfbfb10"
         }}
       >
         <span role="img" aria-label="crown" style={{marginRight:2, fontSize:"1em", filter: "drop-shadow(0 0 3px #ffd70077)"}}>👑</span>
