@@ -1,75 +1,85 @@
-  /* Chess Arena Launcher Styles — Apple.com card/modal inspired */
+.other-games-panel {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
 
-  .launcher-container {
-    background: rgba(255,255,255,0.98);
-    border-radius: 20px;
-    box-shadow: 0 16px 64px rgba(79,70,229,0.12), 0 3.2px 12px rgba(40,40,62,0.06);
-    margin: 2.2em auto;
-    padding: 2.3em 2.1em 1.5em 2.1em;
-    max-width: 480px;
-    border: 1.5px solid #eaecfa;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    transition: box-shadow 0.15s cubic-bezier(.36,.13,.77,1.08);
-  }
+/* Apple-like, minimal section header for groups */
+.games-group-header {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--main-text, #111827);
+  border-left: 3.5px solid var(--primary, #4f46e5);
+  padding-left: 9px;
+  margin: 0 0 7px 0;
+  opacity: 0.77;
+  background: transparent;
+  /* Reduce visual prominence, but aid scanability */
+}
 
-  .launcher-header {
-    font-size: 1.25em;
-    font-weight: 700;
-    color: #232236;
-    margin-bottom: 1em;
-    letter-spacing: -0.01em;
-  }
+.other-games-group {
+  margin-bottom: 6px;
+}
 
-  .launcher-bot-list {
-    list-style: none;
-    margin: 0; padding: 0 0 0.3em 0;
-  }
+.games-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  row-gap: 6px;
+}
 
-  .launcher-bot {
-    margin-bottom: 0.88em;
-    border-radius: 13px;
-    background: linear-gradient(102deg, #f9fafb 93%,#e0e7ff 103%);
-    padding: 0.95em 1.28em 0.95em 1.22em;
-    color: #565873;
-    font-size: 1.08em;
-    letter-spacing: 0.01em;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border: 1px solid #ebeefd;
-    box-shadow: 0 2px 11px 0 rgba(120,111,235,0.045);
-    transition: box-shadow 0.17s, background 0.16s, color 0.10s, border-color 0.15s;
-    position: relative;
-  }
-  .launcher-bot.selected,
-  .launcher-bot:hover,
-  .launcher-bot:focus {
-    background: linear-gradient(90deg, #726FFC 25%, #4f46e5 88%);
-    color: #fff;
-    box-shadow: 0 10px 36px rgba(79,70,229,0.19);
-    font-weight: 670;
-    border-color: #b4bbea;
-    z-index: 1;
-  }
-  .launcher-bot.selected:after,
-  .launcher-bot:hover:after,
-  .launcher-bot:focus:after {
-    content: '';
-    display: block;
-    position: absolute;
-    left: 8%;
-    right: 8%;
-    bottom: 6.8px;
-    height: 3.5px;
-    border-radius: 3px 3px 4px 4px;
-    background: linear-gradient(90deg,#f59e0b,#4f46e5 90%);
-    opacity: 0.66;
-  }
+.game-item {
+  background: var(--card-background, #fff);
+  color: var(--main-text, #111827);
+  border-radius: 8px;
+  padding: 8px 20px;
+  margin: 0;
+  font-size: 1em;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  box-shadow: 0 1px 2px 0 rgba(60,60,60,0.04);
+  transition: box-shadow 0.12s, background 0.12s;
+  line-height: 1.5;
+  min-width: 120px;
+  text-align: center;
+  flex: 1 1 160px;
+  max-width: 210px;
+}
+.game-item:focus,
+.game-item:hover {
+  box-shadow: 0 2px 6px 0 rgba(0,0,0,0.09);
+  background: var(--secondary, #f9fafb);
+  outline: 2.2px solid var(--primary, #4f46e5);
+}
 
-  .launcher-btn-row {
-    display: flex;
-    justify-content: flex-end;
-    gap: 1.41em;
-    margin-top: 1.28em;
+@media (pointer: coarse) {
+  .game-item:focus {
+    outline-width: 3px;
   }
+}
+
+/* Responsive for Apple-style minimal panel */
+@media (max-width: 780px) {
+  .games-list {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+@media (max-width: 520px) {
+  .other-games-panel {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+  .games-group-header {
+    font-size: 0.99rem;
+    padding-left: 7px;
+  }
+  .game-item {
+    padding: 8px 10px;
+    font-size: 0.95em;
+    min-width: 88px;
+  }
+}
